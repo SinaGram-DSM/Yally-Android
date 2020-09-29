@@ -67,6 +67,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
+        android:background="@drawable/button_gradient"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
         android:text="@string/login" />
 
     <TextView
