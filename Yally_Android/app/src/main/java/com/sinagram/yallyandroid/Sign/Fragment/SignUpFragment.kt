@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
@@ -28,5 +29,12 @@ class SignUpFragment : Fragment() {
             signinup_do_sign_button.text = getString(R.string.sign_in)
             signinup_forgot_textView.visibility = View.GONE
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        requireActivity().findViewById<TextView>(R.id.sign_title_textView).text =
+            getString(R.string.sign_in)
     }
 }
