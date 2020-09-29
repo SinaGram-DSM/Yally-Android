@@ -11,4 +11,5 @@
     <color name="back_key_color">#007AFF</color>
     <color name="gradient_start">#4776E6</color>
     <color name="gradient_end">#8E54E9</color>
+    <color name="confirmBox">#1AAF86EF</color>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -27,6 +28,19 @@
         android:textAlignment="center"
         android:textColor="@color/gray"
         android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="31dp"
+        android:background="@color/confirmBox"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:letterSpacing="0.6"
+        android:textSize="40sp"
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/signinup_do_sign_button2"
