@@ -18,22 +18,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/sign_navigation_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:background="#0000"
+                android:contentDescription="@string/ImageDescription"
+                android:onClick="backPress"
                 android:src="@drawable/ic_arrow_back_blue_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/ImageDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/sign_navigation_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:onClick="backPress"
                 android:text="@string/back"
                 android:textColor="@color/back_key_color"
                 android:textSize="17sp"
