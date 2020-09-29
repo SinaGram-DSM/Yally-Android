@@ -26,14 +26,15 @@
                 android:src="@drawable/ic_arrow_back_blue_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/ImageDescription" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="뒤로"
+                android:text="@string/back"
                 android:textColor="#007AFF"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="로그인"
+                android:text="@string/login"
                 android:textColor="#000000"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
