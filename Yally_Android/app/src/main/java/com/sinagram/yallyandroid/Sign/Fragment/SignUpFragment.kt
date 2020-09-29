@@ -1,12 +1,11 @@
 package com.sinagram.yallyandroid.Sign.Fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
