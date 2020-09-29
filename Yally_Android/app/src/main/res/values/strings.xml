@@ -3,4 +3,9 @@
     <string name="ImageDescription">No image found</string>
     <string name="back">뒤로</string>
     <string name="login">로그인</string>
+    <string name="welcome_back">돌아오신 것을 환영해요!</string>
+    <string name="welcome_first_visit">새로 오신 것을 환영해요!</string>
+    <string name="start_login">소통을 시작하려면 이메일로 로그인해주세요</string>
+    <string name="start_sign_up">소통을 시작하려면 이메일로 가입해주세요</string>
+    <string name="forgot_password">비밀번호를 잊으셨나요?</string>
 </resources>

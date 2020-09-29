@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="돌아오신 것을 환영해요!"
+        android:text="@string/welcome_back"
         android:textAlignment="center"
-        android:textColor="#707070"
+        android:textColor="@color/gray"
         android:textSize="22sp" />
 
     <TextView
@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="11dp"
-        android:text="소통을 시작하려면 이메일로 로그인해주세요"
+        android:text="@string/start_login"
         android:textAlignment="center"
-        android:textColor="#707070"
+        android:textColor="@color/gray"
         android:textSize="16sp" />
 
     <EditText
@@ -36,7 +36,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:textColor="#707070"
+        android:textColor="@color/gray"
         android:textSize="15sp" />
 
     <EditText
@@ -57,7 +57,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textColor="#707070"
+        android:textColor="@color/gray"
         android:textSize="15sp"
         android:visibility="gone" />
 
@@ -68,9 +68,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:background="@drawable/button_gradient"
-        android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:text="@string/login" />
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -78,8 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:text="비밀번호를 잊으셨나요?"
+        android:text="@string/forgot_password"
         android:textAlignment="center"
-        android:textColor="#707070"
+        android:textColor="@color/gray"
         android:textSize="15sp" />
 </LinearLayout>
