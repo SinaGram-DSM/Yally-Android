@@ -8,7 +8,7 @@
     android:paddingEnd="57dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/signinup_title_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -18,7 +18,7 @@
         android:textSize="22sp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/signinup_subtitle_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -29,40 +29,46 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/signinup_email_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
         android:ems="10"
+        android:hint="@string/email"
+        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         android:textColor="@color/gray"
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/signinup_password_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
         android:ems="10"
+        android:hint="@string/password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/signinup_name_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
         android:ems="10"
+        android:hint="@string/nickname"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textColor="@color/gray"
         android:textSize="15sp"
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signinup_do_sign_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -73,7 +79,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/signinup_forgot_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
