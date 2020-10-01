@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,18 +31,27 @@
         android:textColor="@color/gray"
         android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+    <com.chaos.view.PinView
+        android:id="@+id/firstPinView"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
-        android:background="@color/confirmBox"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:letterSpacing="0.6"
+        android:cursorVisible="true"
+        android:inputType="text"
+        android:itemBackground="@color/confirmBox"
         android:textSize="40sp"
-        tools:ignore="LabelFor" />
+        android:textStyle="bold"
+        app:cursorWidth="2dp"
+        app:hideLineWhenFilled="true"
+        app:itemCount="6"
+        app:itemHeight="80dp"
+        app:itemRadius="4dp"
+        app:itemSpacing="4dp"
+        app:itemWidth="46dp"
+        app:lineColor="#1A707070"
+        app:lineWidth="1dp"
+        app:viewType="rectangle" />
 
     <Button
         android:id="@+id/signinup_do_sign_button2"

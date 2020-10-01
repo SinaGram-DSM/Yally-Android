@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.SignActivity
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class SignUpFragment : Fragment() {
@@ -27,6 +28,9 @@ class SignUpFragment : Fragment() {
             signinup_name_editText.visibility = View.VISIBLE
             signinup_do_sign_button.text = getString(R.string.sign_in)
             signinup_forgot_textView.visibility = View.GONE
+            signinup_do_sign_button.setOnClickListener {
+                (activity as SignActivity).replaceFragment(AuthenticationFragment())
+            }
         }
     }
 
