@@ -38,6 +38,7 @@
                 android:layout_marginStart="8dp"
                 android:onClick="backPress"
                 android:text="@string/back"
+                android:fontFamily="@font/notosanskr_regular"
                 android:textColor="@color/back_key_color"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
