@@ -6,9 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.SignActivity
+import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
 
 class LoginFragment : Fragment() {
+    private val viewModel: LoginViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
