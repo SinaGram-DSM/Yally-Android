@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Sign.data
+package com.sinagram.yallyandroid.Sign.Data
 
 data class TokenResponse(
     val acessToken: String,

@@ -1,6 +1,6 @@
 package com.sinagram.yallyandroid.Network
 
-import com.sinagram.yallyandroid.Sign.data.TokenResponse
+import com.sinagram.yallyandroid.Sign.Data.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
