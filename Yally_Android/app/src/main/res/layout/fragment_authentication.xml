@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,7 +9,6 @@
     android:paddingEnd="57dp">
 
     <TextView
-        android:id="@+id/signinup_title_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -21,7 +19,6 @@
         android:textSize="22sp" />
 
     <TextView
-        android:id="@+id/signinup_subtitle_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,7 +29,7 @@
         android:textSize="16sp" />
 
     <com.chaos.view.PinView
-        android:id="@+id/firstPinView"
+        android:id="@+id/authentication_authCode_pinView"
         style="@style/PinWidget.PinView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,7 +51,7 @@
         app:viewType="rectangle" />
 
     <Button
-        android:id="@+id/signinup_do_sign_button2"
+        android:id="@+id/authentication_doSign_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

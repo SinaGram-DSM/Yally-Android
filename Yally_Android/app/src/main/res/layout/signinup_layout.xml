@@ -72,7 +72,7 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/signinup_do_sign_button"
+        android:id="@+id/signinup_doSign_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
