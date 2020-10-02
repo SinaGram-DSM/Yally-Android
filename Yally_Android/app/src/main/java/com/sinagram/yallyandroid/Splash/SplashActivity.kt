@@ -12,11 +12,15 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         splash_login_button.setOnClickListener {
-            val intent = Intent(this,)
+            val intent = Intent(this,HomeActivity.class)
+            intent.putExtra("splash","splash_login")
+            startActivity(intent)
         }
 
         splash_signUp_button.setOnClickListener {
-            val intent = Intent(this,)
+            val intent = Intent(this,HomeActivity.class)
+            intent.putExtra("splash","splash_signUp")
+            startActivity(intent)
         }
     }
 }
