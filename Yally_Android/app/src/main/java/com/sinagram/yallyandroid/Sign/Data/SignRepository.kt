@@ -25,4 +25,8 @@ class SignRepository : BaseRepository() {
         sharedPreferences.accessToken = tokenResponse.acessToken
         sharedPreferences.refreshToken = tokenResponse.refreshToken
     }
+
+    fun putLoginInfo(isLogin: Boolean) {
+        sharedPreferences.isLogin = isLogin
+    }
 }

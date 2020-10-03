@@ -10,6 +10,7 @@ import com.sinagram.yallyandroid.Sign.Data.TokenResponse
 import kotlinx.coroutines.launch
 
 class LoginViewModel : BaseViewModel() {
+    private val repository = SignRepository()
     val loginSuccessLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkLoginInfo(email: String, password: String) {
@@ -31,20 +32,24 @@ class LoginViewModel : BaseViewModel() {
 
     private fun sendLoginInfo(body: HashMap<String, String>) {
         viewModelScope.launch {
-            val repository = SignRepository()
             when (val result = repository.doLogin(body)) {
                 is Result.Success -> {
-                    if (result.code == 200) {
-                        loginSuccessLiveData.postValue(true)
-                        repository.putToken(result.data)
-                    } else {
-                        errorMessageLiveData.postValue("가입되지 않은 정보입니다.")
-                    }
+                    loginSuccess(result)
                 }
                 is Result.Error -> {
                     Log.e("LoginViewModel", result.exception)
                 }
             }
+        }
+    }
+
+    private fun loginSuccess(result: Result.Success<TokenResponse>) {
+        if (result.code == 200) {
+            loginSuccessLiveData.postValue(true)
+            repository.putToken(result.data)
+            repository.putLoginInfo(true)
+        } else {
+            errorMessageLiveData.postValue("가입되지 않은 정보입니다.")
         }
     }
 }
