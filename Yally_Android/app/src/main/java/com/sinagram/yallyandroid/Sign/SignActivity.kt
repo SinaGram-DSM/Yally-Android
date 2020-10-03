@@ -26,6 +26,10 @@ class SignActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+    fun moveToMain() {
+
+    }
+
     fun backPress(view: View) {
         onBackPressed()
     }

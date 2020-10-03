@@ -1,13 +1,17 @@
 package com.sinagram.yallyandroid.Sign.ViewModel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sinagram.yallyandroid.Base.BaseViewModel
 import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Sign.Data.SignRepository
+import com.sinagram.yallyandroid.Sign.Data.TokenResponse
 import kotlinx.coroutines.launch
 
 class LoginViewModel : BaseViewModel() {
+    val loginSuccessLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
     fun checkLoginInfo(email: String, password: String) {
         when {
             email.length > 30 -> {
@@ -29,10 +33,10 @@ class LoginViewModel : BaseViewModel() {
         viewModelScope.launch {
             when (val result = SignRepository().doLogin(body)) {
                 is Result.Success -> {
-                    if (result.code != 200) {
-                        errorMessageLiveData.postValue("가입되지 않은 정보입니다.")
+                    if (result.code == 200) {
+                        loginSuccessLiveData.postValue(true)
                     } else {
-
+                        errorMessageLiveData.postValue("가입되지 않은 정보입니다.")
                     }
                 }
                 is Result.Error -> {

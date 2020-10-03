@@ -26,9 +26,9 @@ class SignUpFragment : Fragment() {
             signinup_title_textView.text = getString(R.string.welcome_first_visit)
             signinup_subtitle_textView.text = getString(R.string.start_sign_up)
             signinup_name_editText.visibility = View.VISIBLE
-            signinup_do_sign_button.text = getString(R.string.sign_in)
+            signinup_doSign_button.text = getString(R.string.sign_in)
             signinup_forgot_textView.visibility = View.GONE
-            signinup_do_sign_button.setOnClickListener {
+            signinup_doSign_button.setOnClickListener {
                 (activity as SignActivity).replaceFragment(AuthenticationFragment())
             }
         }

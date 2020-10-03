@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
@@ -36,8 +38,18 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val signActivity = activity as SignActivity
 
-        requireActivity().findViewById<TextView>(R.id.sign_title_textView).text =
+        signActivity.findViewById<TextView>(R.id.sign_title_textView).text =
             getString(R.string.login)
+
+        loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        })
+
+        loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
+            signActivity.moveToMain()
+            signActivity.finish()
+        })
     }
 }
