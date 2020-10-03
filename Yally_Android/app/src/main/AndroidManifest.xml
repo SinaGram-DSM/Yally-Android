@@ -11,11 +11,10 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".Home.HomeActivity"></activity>
         <activity
             android:name=".Sign.SignActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity android:name=".Splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
