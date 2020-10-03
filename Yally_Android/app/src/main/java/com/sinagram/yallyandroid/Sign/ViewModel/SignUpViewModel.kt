@@ -31,7 +31,7 @@ class SignUpViewModel: BaseViewModel() {
         viewModelScope.launch {
             when (val result = repository.doSignUp(body)) {
                 is Result.Success -> {
-                    signUpSuccess(result)
+                    createUserSuccess(result)
                 }
                 is Result.Error -> {
                     Log.e("SignUpViewModel", result.exception)
@@ -40,11 +40,53 @@ class SignUpViewModel: BaseViewModel() {
         }
     }
 
-    private fun signUpSuccess(result: Result.Success<Void>) {
+    private fun getAuthCode(body: HashMap<String, String>) {
+        viewModelScope.launch {
+            when (val result = repository.sendAuthCode(body)) {
+                is Result.Success -> {
+                    getAuthCodeSuccess(result)
+                }
+                is Result.Error -> {
+                    Log.e("SignUpViewModel", result.exception)
+                }
+            }
+        }
+    }
+
+    private fun checkAuthCode(body: HashMap<String, String>) {
+        viewModelScope.launch {
+            when (val result = repository.confirmAuthCode(body)) {
+                is Result.Success -> {
+                    checkAuthCodeSuccess(result)
+                }
+                is Result.Error -> {
+                    Log.e("SignUpViewModel", result.exception)
+                }
+            }
+        }
+    }
+
+    private fun createUserSuccess(result: Result.Success<Void>) {
         if (result.code == 201) {
             signUpSuccessLiveData.postValue(true)
         } else {
             errorMessageLiveData.postValue("현재 가입된 사용자 정보와 중복됩니다.")
+        }
+    }
+
+    private fun getAuthCodeSuccess(result: Result.Success<Void>) {
+        if (result.code == 200) {
+            signUpSuccessLiveData.postValue(true)
+        } else {
+            errorMessageLiveData.postValue("현재 가입된 사용자의 이메일과 중복됩니다.")
+        }
+    }
+
+    private fun checkAuthCodeSuccess(result: Result.Success<Void>) {
+        if (result.code == 200) {
+            signUpSuccessLiveData.postValue(true)
+        } else {
+            errorMessageLiveData.postValue("인증코드가 잘못되었습니다.\n다시 한 번 더 확인해 주시길 바랍니다.")
         }
     }
 }

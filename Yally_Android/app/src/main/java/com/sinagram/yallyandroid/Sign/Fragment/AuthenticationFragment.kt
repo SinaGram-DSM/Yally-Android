@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
 
 class AuthenticationFragment : Fragment() {
+    private val signUpViewModel: SignUpViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

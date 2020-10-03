@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.SignActivity
+import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class SignUpFragment : Fragment() {
+    private val signUpViewModel: SignUpViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +34,13 @@ class SignUpFragment : Fragment() {
             signinup_doSign_button.text = getString(R.string.sign_in)
             signinup_forgot_textView.visibility = View.GONE
             signinup_doSign_button.setOnClickListener {
-                (activity as SignActivity).replaceFragment(AuthenticationFragment())
+                val email = signinup_email_editText.text.toString()
+                val password = signinup_password_editText.text.toString()
+                val nickname = signinup_name_editText.text.toString()
+
+                val signUpRequest = SignUpRequest(email, password, nickname, 0)
+
+                signUpViewModel.checkSignUpInfo(signUpRequest)
             }
         }
     }
@@ -39,5 +50,9 @@ class SignUpFragment : Fragment() {
 
         requireActivity().findViewById<TextView>(R.id.sign_title_textView).text =
             getString(R.string.sign_in)
+    }
+
+    fun moveToAuthentication() {
+        (activity as SignActivity).replaceFragment(AuthenticationFragment())
     }
 }
