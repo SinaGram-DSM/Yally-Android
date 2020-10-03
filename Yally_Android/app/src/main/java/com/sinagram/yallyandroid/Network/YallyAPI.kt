@@ -1,5 +1,6 @@
 package com.sinagram.yallyandroid.Network
 
+import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -17,7 +18,7 @@ interface YallyAPI {
     suspend fun confirmAuthCode(@Body body: HashMap<String, String>): Response<Void>
 
     @POST("/user")
-    suspend fun doSignUp(@Body body: HashMap<String, String>): Response<Void>
+    suspend fun doSignUp(@Body body: SignUpRequest): Response<Void>
 
     @POST("/user/auth/refresh")
     suspend fun refreshToken(@Header("Authorization") header: String): Response<String>

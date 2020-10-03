@@ -17,7 +17,7 @@ class SignRepository : BaseRepository() {
         return MappingToResult { YallyConnector.createAPI().confirmAuthCode(body) }
     }
 
-    suspend fun doSignUp(body: HashMap<String, String>): Result<Void> {
+    suspend fun doSignUp(body: SignUpRequest): Result<Void> {
         return MappingToResult { YallyConnector.createAPI().doSignUp(body) }
     }
 
