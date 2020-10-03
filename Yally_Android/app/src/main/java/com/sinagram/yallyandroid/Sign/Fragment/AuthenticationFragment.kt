@@ -11,6 +11,12 @@ import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
 
 class AuthenticationFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel by viewModels()
+    private var email: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        email = arguments?.getString("UserEmail")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

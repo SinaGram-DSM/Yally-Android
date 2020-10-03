@@ -41,7 +41,7 @@ class SignUpViewModel: BaseViewModel() {
         }
     }
 
-    private fun getAuthCode(body: HashMap<String, String>) {
+    fun getAuthCode(body: HashMap<String, String>) {
         viewModelScope.launch {
             when (val result = repository.sendAuthCode(body)) {
                 is Result.Success -> {
@@ -54,7 +54,7 @@ class SignUpViewModel: BaseViewModel() {
         }
     }
 
-    private fun checkAuthCode(body: HashMap<String, String>) {
+    fun checkAuthCode(body: HashMap<String, String>) {
         viewModelScope.launch {
             when (val result = repository.confirmAuthCode(body)) {
                 is Result.Success -> {
