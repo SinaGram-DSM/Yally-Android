@@ -49,7 +49,7 @@ class LoginViewModel : BaseViewModel() {
             repository.putToken(result.data)
             repository.putLoginInfo(true)
         } else {
-            errorMessageLiveData.postValue("가입되지 않은 정보입니다.")
+            errorMessageLiveData.postValue("존재하지 않는 계정입니다.\n입력한 정보를 다시 한 번 확인해 주시길 바랍니다.")
         }
     }
 }
