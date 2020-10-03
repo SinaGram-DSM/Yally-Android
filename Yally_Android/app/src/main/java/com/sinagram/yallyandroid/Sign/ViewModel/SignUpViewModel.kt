@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sinagram.yallyandroid.Base.BaseViewModel
 import com.sinagram.yallyandroid.Network.Result
+import com.sinagram.yallyandroid.Sign.Data.SignProcess
 import com.sinagram.yallyandroid.Sign.Data.SignRepository
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import kotlinx.coroutines.launch
 
 class SignUpViewModel: BaseViewModel() {
     private val repository = SignRepository()
-    val signUpSuccessLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+    val signUpSuccessLiveData: MutableLiveData<SignProcess> = MutableLiveData()
 
     fun checkSignUpInfo(signUpRequest: SignUpRequest) {
         when {
@@ -68,7 +69,7 @@ class SignUpViewModel: BaseViewModel() {
 
     private fun createUserSuccess(result: Result.Success<Void>) {
         if (result.code == 201) {
-            signUpSuccessLiveData.postValue(true)
+            signUpSuccessLiveData.postValue(SignProcess.Create)
         } else {
             errorMessageLiveData.postValue("현재 가입된 사용자 정보와 중복됩니다.")
         }
@@ -76,7 +77,7 @@ class SignUpViewModel: BaseViewModel() {
 
     private fun getAuthCodeSuccess(result: Result.Success<Void>) {
         if (result.code == 200) {
-            signUpSuccessLiveData.postValue(true)
+            signUpSuccessLiveData.postValue(SignProcess.GetCode)
         } else {
             errorMessageLiveData.postValue("현재 가입된 사용자의 이메일과 중복됩니다.")
         }
@@ -84,7 +85,7 @@ class SignUpViewModel: BaseViewModel() {
 
     private fun checkAuthCodeSuccess(result: Result.Success<Void>) {
         if (result.code == 200) {
-            signUpSuccessLiveData.postValue(true)
+            signUpSuccessLiveData.postValue(SignProcess.CheckCode)
         } else {
             errorMessageLiveData.postValue("인증코드가 잘못되었습니다.\n다시 한 번 더 확인해 주시길 바랍니다.")
         }
