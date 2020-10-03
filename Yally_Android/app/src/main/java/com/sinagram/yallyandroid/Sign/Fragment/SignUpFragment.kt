@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.sinagram.yallyandroid.R
@@ -54,6 +55,10 @@ class SignUpFragment : Fragment() {
 
         signActivity.findViewById<TextView>(R.id.sign_title_textView).text =
             getString(R.string.sign_in)
+
+        signUpViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        })
 
         signUpViewModel.signUpSuccessLiveData.observe(viewLifecycleOwner, {
             when(it) {
