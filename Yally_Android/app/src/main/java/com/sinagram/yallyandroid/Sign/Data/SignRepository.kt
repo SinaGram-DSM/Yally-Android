@@ -20,4 +20,9 @@ class SignRepository : BaseRepository() {
     suspend fun doSignUp(body: HashMap<String, String>): Result<Any> {
         return MappingToResult { YallyConnector.createAPI().doSignUp(body) }
     }
+
+    fun putToken(tokenResponse: TokenResponse) {
+        sharedPreferences.accessToken = tokenResponse.acessToken
+        sharedPreferences.refreshToken = tokenResponse.refreshToken
+    }
 }

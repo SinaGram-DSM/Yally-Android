@@ -2,7 +2,7 @@ package com.sinagram.yallyandroid.Network
 
 import retrofit2.Response
 
-suspend fun <T> safeApiCall(call: suspend () -> Response<T>): Result<Any> {
+suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Result<T> {
     return try {
         val myResp = call.invoke()
 
