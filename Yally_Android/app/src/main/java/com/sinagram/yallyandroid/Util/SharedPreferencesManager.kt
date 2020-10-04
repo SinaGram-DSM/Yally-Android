@@ -3,7 +3,7 @@ package com.sinagram.yallyandroid.Util
 import android.content.Context
 import android.content.SharedPreferences
 
-class SharedPreferencesManager() {
+class SharedPreferencesManager {
     private val sharedPrefs: SharedPreferences = YallyApplication.context!!.getSharedPreferences(
         MY_APP_PREFERENCES,
         Context.MODE_PRIVATE

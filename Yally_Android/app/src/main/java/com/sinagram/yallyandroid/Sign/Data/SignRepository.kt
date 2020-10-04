@@ -6,19 +6,19 @@ import com.sinagram.yallyandroid.Network.YallyConnector
 
 class SignRepository : BaseRepository() {
     suspend fun doLogin(body: HashMap<String, String>): Result<TokenResponse> {
-        return MappingToResult { YallyConnector.createAPI().doLogin(body) }
+        return mappingToResult { YallyConnector.createAPI().doLogin(body) }
     }
 
     suspend fun sendAuthCode(body: HashMap<String, String>): Result<Void> {
-        return MappingToResult { YallyConnector.createAPI().sendAuthCode(body) }
+        return mappingToResult { YallyConnector.createAPI().sendAuthCode(body) }
     }
 
     suspend fun confirmAuthCode(body: HashMap<String, String>): Result<Void> {
-        return MappingToResult { YallyConnector.createAPI().confirmAuthCode(body) }
+        return mappingToResult { YallyConnector.createAPI().confirmAuthCode(body) }
     }
 
     suspend fun doSignUp(body: SignUpRequest): Result<Void> {
-        return MappingToResult { YallyConnector.createAPI().doSignUp(body) }
+        return mappingToResult { YallyConnector.createAPI().doSignUp(body) }
     }
 
     fun putToken(tokenResponse: TokenResponse) {

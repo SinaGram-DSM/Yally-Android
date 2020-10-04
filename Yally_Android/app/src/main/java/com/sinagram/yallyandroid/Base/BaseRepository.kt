@@ -6,9 +6,9 @@ import com.sinagram.yallyandroid.Util.SharedPreferencesManager
 import retrofit2.Response
 
 open class BaseRepository {
-    val sharedPreferences = SharedPreferencesManager()
+    val sharedPreferences = SharedPreferencesManager.getInstance()
 
-    suspend fun <T : Any> MappingToResult(result: suspend () -> Response<T>): Result<T> {
+    suspend fun <T : Any> mappingToResult(result: suspend () -> Response<T>): Result<T> {
         return safeApiCall(call = result)
     }
 }
