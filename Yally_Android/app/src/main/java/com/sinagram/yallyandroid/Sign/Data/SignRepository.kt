@@ -22,7 +22,7 @@ class SignRepository : BaseRepository() {
     }
 
     fun putToken(tokenResponse: TokenResponse) {
-        sharedPreferences.accessToken = tokenResponse.acessToken
+        sharedPreferences.accessToken = tokenResponse.accessToken
         sharedPreferences.refreshToken = tokenResponse.refreshToken
     }
 
