@@ -34,15 +34,13 @@ class SignUpFragment : Fragment() {
         view.apply {
             signinup_title_textView.text = getString(R.string.welcome_first_visit)
             signinup_subtitle_textView.text = getString(R.string.start_sign_up)
-            signinup_name_editText.visibility = View.VISIBLE
             signinup_doSign_button.text = getString(R.string.sign_in)
             signinup_forgot_textView.visibility = View.GONE
             signinup_doSign_button.setOnClickListener {
                 email = signinup_email_editText.text.toString()
                 val password = signinup_password_editText.text.toString()
-                val nickname = signinup_name_editText.text.toString()
 
-                val signUpRequest = SignUpRequest(email, password, nickname, 0)
+                val signUpRequest = SignUpRequest(email, password, "nickname", 0)
 
                 signUpViewModel.checkSignUpInfo(signUpRequest)
             }

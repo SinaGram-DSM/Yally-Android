@@ -13,7 +13,7 @@ class LoginViewModel : BaseViewModel() {
     private val repository = SignRepository()
     val loginSuccessLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun checkLoginInfo(email: String, password: String) {
+    fun mappingLoginInfo(email: String, password: String) {
         val hashMap = HashMap<String, String>()
         hashMap["email"] = email
         hashMap["password"] = password

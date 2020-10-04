@@ -41,6 +41,9 @@ class LoginFragment : Fragment() {
             signinup_password_editText.addTextChangedListener(
                 createTextWatcher(signinup_password_inputLayout)
             )
+            signinup_forgot_textView.setOnClickListener {
+                (activity as SignActivity).replaceFragment(ResetPasswordFragment())
+            }
         }
     }
 
@@ -83,7 +86,7 @@ class LoginFragment : Fragment() {
         button.apply {
             if (email.length <= 30 && password.length >= 8) {
                 setBackgroundResource(R.drawable.button_gradient)
-                setOnClickListener { loginViewModel.checkLoginInfo(email, password) }
+                setOnClickListener { loginViewModel.mappingLoginInfo(email, password) }
             } else {
                 setBackgroundResource(R.drawable.button_bright_gray)
                 setOnClickListener(null)
