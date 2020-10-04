@@ -10,17 +10,17 @@ import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.Fragment.LoginFragment
 
 class SignActivity : AppCompatActivity() {
-    private val fragmentTransaction = supportFragmentManager.beginTransaction()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign)
 
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.sign_fragment, LoginFragment())
         fragmentTransaction.commit()
     }
 
     fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.sign_fragment, fragment)
         fragmentTransaction.commit()
     }

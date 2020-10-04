@@ -11,7 +11,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.HomeActivity"></activity>
+        <activity android:name=".Home.HomeActivity" />
         <activity
             android:name=".Sign.SignActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

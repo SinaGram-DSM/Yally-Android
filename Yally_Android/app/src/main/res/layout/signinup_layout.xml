@@ -29,47 +29,69 @@
         android:textColor="@color/gray"
         android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/signinup_email_editText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signinup_email_inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:fontFamily="@font/notosanskr_medium"
-        android:hint="@string/email"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/gray"
-        android:textSize="15sp" />
+        android:layout_marginTop="30dp">
 
-    <EditText
-        android:id="@+id/signinup_password_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:fontFamily="@font/notosanskr_medium"
-        android:hint="@string/password"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        android:textSize="15sp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signinup_email_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:fontFamily="@font/notosanskr_medium"
+            android:hint="@string/email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/gray"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/signinup_name_editText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signinup_password_inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:fontFamily="@font/notosanskr_medium"
-        android:hint="@string/nickname"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
-        android:visibility="gone" />
+        android:layout_marginTop="15dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signinup_password_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:fontFamily="@font/notosanskr_medium"
+            android:hint="@string/password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signinup_name_inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:visibility="gone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signinup_name_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:fontFamily="@font/notosanskr_medium"
+            android:hint="@string/nickname"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textColor="@color/gray"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signinup_doSign_button"
