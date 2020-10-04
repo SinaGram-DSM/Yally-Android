@@ -19,11 +19,13 @@ import kotlinx.android.synthetic.main.signinup_layout.*
 import kotlinx.android.synthetic.main.signinup_layout.signinup_email_inputLayout
 import kotlinx.android.synthetic.main.signinup_layout.signinup_password_inputLayout
 import kotlinx.android.synthetic.main.signinup_layout.view.*
+import java.util.regex.Pattern
 
 class ResetPasswordFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
-    private var currentProcess: PasswordProcess = PasswordProcess.Email
-    val hashMap: HashMap<String, String> = HashMap()
+    private val hashMap: HashMap<String, String> = HashMap()
+    private val emailPattern =
+        Pattern.compile("^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\\.([a-zA-Z])+([a-zA-Z])+")
     private var email = ""
     private var pinCode = ""
     private var password = "pass"
@@ -69,18 +71,19 @@ class ResetPasswordFragment : Fragment() {
 
         loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            showErrorMessage()
+        })
+
+        loginViewModel.errorSignLiveData.observe(viewLifecycleOwner, {
+            showErrorMessage(it)
         })
 
         loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
-            when(it) {
+            when (it) {
                 PasswordProcess.Email -> {
-                    currentProcess = PasswordProcess.Code
                     changeCodePage()
                     hashMap["email"] = email
                 }
                 PasswordProcess.Code -> {
-                    currentProcess = PasswordProcess.Password
                     changePasswordPage()
                     hashMap["code"] = pinCode
                 }
@@ -88,7 +91,8 @@ class ResetPasswordFragment : Fragment() {
                     signActivity.moveToMain()
                     signActivity.finish()
                 }
-                else -> {}
+                else -> {
+                }
             }
         })
     }
@@ -133,7 +137,7 @@ class ResetPasswordFragment : Fragment() {
     private fun activeButton(button: Button) {
         button.apply {
             when {
-                email.length <= 30 && email.isNotBlank() -> {
+                email.length <= 30 && emailPattern.matcher(email).matches() -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         loginViewModel.sendResetCode(email)
@@ -160,7 +164,7 @@ class ResetPasswordFragment : Fragment() {
         }
     }
 
-    private fun showErrorMessage() {
+    private fun showErrorMessage(currentProcess: PasswordProcess) {
         when (currentProcess) {
             PasswordProcess.Email -> {
                 signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
@@ -172,7 +176,8 @@ class ResetPasswordFragment : Fragment() {
                 signinup_password_inputLayout.error = "비밀번호 형식이 올바르지 않습니다"
                 signinup_comfirm_password_inputLayout.error = "비밀번호가 일치하지 않습니다"
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 }

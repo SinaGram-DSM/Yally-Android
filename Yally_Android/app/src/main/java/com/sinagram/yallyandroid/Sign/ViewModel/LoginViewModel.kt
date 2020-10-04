@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : BaseViewModel() {
     private val repository = SignRepository()
+    val errorSignLiveData: MutableLiveData<PasswordProcess> = MutableLiveData()
     val loginSuccessLiveData: MutableLiveData<PasswordProcess> = MutableLiveData()
 
     fun mappingLoginInfo(email: String, password: String) {
@@ -50,9 +51,14 @@ class LoginViewModel : BaseViewModel() {
         body["email"] = email
 
         viewModelScope.launch {
-            val result = repository.sendResetCode(body)
-            if (result is Result.Error) {
-                Log.e("LoginViewModel", result.exception)
+            when(val result = repository.sendResetCode(body)) {
+                is Result.Success -> {
+                    loginSuccessLiveData.postValue(PasswordProcess.Email)
+                }
+                is Result.Error -> {
+                    errorSignLiveData.postValue(PasswordProcess.Email)
+                    Log.e("LoginViewModel", result.exception)
+                }
             }
         }
     }
@@ -62,18 +68,29 @@ class LoginViewModel : BaseViewModel() {
         body["code"] = code
 
         viewModelScope.launch {
-            val result = repository.confirmAuthCode(body)
-            if (result is Result.Error) {
-                Log.e("LoginViewModel", result.exception)
+            when(val result = repository.confirmAuthCode(body)) {
+                is Result.Success -> {
+                    loginSuccessLiveData.postValue(PasswordProcess.Code)
+                }
+                is Result.Error -> {
+                    errorSignLiveData.postValue(PasswordProcess.Code)
+                    Log.e("LoginViewModel", result.exception)
+                }
             }
         }
     }
 
     fun sendResetPassword(body: HashMap<String, String>) {
         viewModelScope.launch {
-            val result = repository.changePassword(body)
-            if (result is Result.Error) {
-                Log.e("LoginViewModel", result.exception)
+            when(val result = repository.changePassword(body)) {
+                is Result.Success -> {
+                    loginSuccessLiveData.postValue(PasswordProcess.Password)
+                    repository.putLoginInfo(true)
+                }
+                is Result.Error -> {
+                    errorSignLiveData.postValue(PasswordProcess.Password)
+                    Log.e("LoginViewModel", result.exception)
+                }
             }
         }
     }
