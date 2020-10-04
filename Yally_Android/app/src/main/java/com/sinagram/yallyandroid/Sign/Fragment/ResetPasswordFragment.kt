@@ -7,10 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.SignActivity
+import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
 import kotlinx.android.synthetic.main.signinup_layout.*
 import kotlinx.android.synthetic.main.signinup_layout.signinup_email_editText
 import kotlinx.android.synthetic.main.signinup_layout.signinup_email_inputLayout
@@ -19,6 +23,7 @@ import kotlinx.android.synthetic.main.signinup_layout.signinup_password_inputLay
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class ResetPasswordFragment : Fragment() {
+    private val loginViewModel: LoginViewModel by viewModels()
     private var email = ""
     private var pinCode = ""
     private var password = "pass"
@@ -56,6 +61,21 @@ class ResetPasswordFragment : Fragment() {
 
             })
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val signActivity = activity as SignActivity
+
+        loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            showErrorMessage()
+        })
+
+        loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
+            signActivity.moveToMain()
+            signActivity.finish()
+        })
     }
 
     private fun changeEmailPage() {
@@ -116,5 +136,10 @@ class ResetPasswordFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showErrorMessage() {
+        signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
+        signinup_password_inputLayout.error = "비밀번호가 올바르지 않습니다"
     }
 }
