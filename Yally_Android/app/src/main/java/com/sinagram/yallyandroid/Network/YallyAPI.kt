@@ -20,6 +20,12 @@ interface YallyAPI {
     @POST("/user")
     suspend fun doSignUp(@Body body: SignUpRequest): Response<Void>
 
+    @POST("/user/reset-code/email")
+    suspend fun sendResetCode(@Body body: HashMap<String, String>): Response<Void>
+
+    @POST("/user/auth/password")
+    suspend fun sendResetPassword(@Body body: HashMap<String, String>): Response<Void>
+
     @POST("/user/auth/refresh")
     suspend fun refreshToken(@Header("Authorization") header: String): Response<String>
 }

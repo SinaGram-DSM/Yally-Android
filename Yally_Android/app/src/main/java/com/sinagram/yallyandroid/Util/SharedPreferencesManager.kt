@@ -41,9 +41,9 @@ class SharedPreferencesManager {
         private var instance: SharedPreferencesManager? = null
 
         @Synchronized
-        fun getInstance(): SharedPreferencesManager? {
+        fun getInstance(): SharedPreferencesManager {
             if (instance == null) instance = SharedPreferencesManager()
-            return instance
+            return instance!!
         }
     }
 }

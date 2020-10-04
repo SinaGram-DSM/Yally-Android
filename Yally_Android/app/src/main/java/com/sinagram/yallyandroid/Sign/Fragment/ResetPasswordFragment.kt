@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.Data.PasswordProcess
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
 import kotlinx.android.synthetic.main.signinup_layout.*
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class ResetPasswordFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
+    private var currentProcess: PasswordProcess = PasswordProcess.Email
     private var email = ""
     private var pinCode = ""
     private var password = "pass"
@@ -69,7 +71,6 @@ class ResetPasswordFragment : Fragment() {
 
         loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            showErrorMessage()
         })
 
         loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
@@ -120,15 +121,17 @@ class ResetPasswordFragment : Fragment() {
             when {
                 email.length <= 30 && email.isNotBlank() -> {
                     setBackgroundResource(R.drawable.button_gradient)
-
+                    button.setOnClickListener {
+                        loginViewModel
+                    }
                 }
                 pinCode.length == 6 -> {
                     setBackgroundResource(R.drawable.button_gradient)
-
+                    button.setOnClickListener {  }
                 }
                 password == confirm && password.length >= 8 && password.isNotBlank() -> {
                     setBackgroundResource(R.drawable.button_gradient)
-
+                    button.setOnClickListener {  }
                 }
                 else -> {
                     setBackgroundResource(R.drawable.button_bright_gray)
@@ -139,7 +142,17 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun showErrorMessage() {
-        signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
-        signinup_password_inputLayout.error = "비밀번호가 올바르지 않습니다"
+        when (currentProcess) {
+            PasswordProcess.Email -> {
+                signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
+            }
+            PasswordProcess.Code -> {
+                // 재설정 코드가 올바르지 않습니다
+            }
+            PasswordProcess.Password -> {
+                // 비밀번호 형식이 올바르지 않습니다
+                // 비밀번호가 일치하지 않습니다
+            }
+        }
     }
 }
