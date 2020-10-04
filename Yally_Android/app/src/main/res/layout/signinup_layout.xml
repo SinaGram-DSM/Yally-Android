@@ -38,7 +38,7 @@
         android:layout_marginTop="30dp"
         app:hintEnabled="false">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.sinagram.yallyandroid.Util.ClearEditText
             android:id="@+id/signinup_email_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
         android:layout_marginTop="15dp"
         app:hintEnabled="false">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.sinagram.yallyandroid.Util.ClearEditText
             android:id="@+id/signinup_password_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         android:visibility="gone"
         app:hintEnabled="false">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.sinagram.yallyandroid.Util.ClearEditText
             android:id="@+id/signinup_name_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

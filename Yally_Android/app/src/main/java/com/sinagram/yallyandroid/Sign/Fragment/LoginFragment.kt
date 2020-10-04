@@ -6,11 +6,13 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
@@ -42,7 +44,7 @@ class LoginFragment : Fragment() {
 
                 override fun afterTextChanged(p0: Editable?) {
                     email = p0.toString()
-                    activeButton(this@apply)
+                    activeButton(signinup_doSign_button)
                 }
             })
             signinup_password_editText.addTextChangedListener(object : TextWatcher {
@@ -53,7 +55,7 @@ class LoginFragment : Fragment() {
 
                 override fun afterTextChanged(p0: Editable?) {
                     password = p0.toString()
-                    activeButton(this@apply)
+                    activeButton(signinup_doSign_button)
                 }
             })
         }
@@ -77,17 +79,16 @@ class LoginFragment : Fragment() {
         })
     }
 
-    private fun activeButton(view: View) {
-        view.signinup_doSign_button.background =
+    private fun activeButton(button: Button) {
+        button.apply {
             if (email.length <= 30 && password.length >= 8) {
-                signinup_doSign_button.setOnClickListener {
-                    loginViewModel.checkLoginInfo(email, password)
-                }
-                ResourcesCompat.getDrawable(resources, R.drawable.button_gradient, null)
+                setBackgroundResource(R.drawable.button_gradient)
+                setOnClickListener { loginViewModel.checkLoginInfo(email, password) }
             } else {
-                signinup_doSign_button.setOnClickListener {}
-                ResourcesCompat.getDrawable(resources, R.drawable.button_bright_gray, null)
+                setBackgroundResource(R.drawable.button_bright_gray)
+                setOnClickListener {}
             }
+        }
     }
 
     private fun showErrorMessage() {
