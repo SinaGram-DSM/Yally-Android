@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputLayout
@@ -17,15 +16,14 @@ import com.sinagram.yallyandroid.Sign.Data.PasswordProcess
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
 import kotlinx.android.synthetic.main.signinup_layout.*
-import kotlinx.android.synthetic.main.signinup_layout.signinup_email_editText
 import kotlinx.android.synthetic.main.signinup_layout.signinup_email_inputLayout
-import kotlinx.android.synthetic.main.signinup_layout.signinup_password_editText
 import kotlinx.android.synthetic.main.signinup_layout.signinup_password_inputLayout
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class ResetPasswordFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
     private var currentProcess: PasswordProcess = PasswordProcess.Email
+    val hashMap: HashMap<String, String> = HashMap()
     private var email = ""
     private var pinCode = ""
     private var password = "pass"
@@ -71,11 +69,27 @@ class ResetPasswordFragment : Fragment() {
 
         loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            showErrorMessage()
         })
 
         loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
-            signActivity.moveToMain()
-            signActivity.finish()
+            when(it) {
+                PasswordProcess.Email -> {
+                    currentProcess = PasswordProcess.Code
+                    changeCodePage()
+                    hashMap["email"] = email
+                }
+                PasswordProcess.Code -> {
+                    currentProcess = PasswordProcess.Password
+                    changePasswordPage()
+                    hashMap["code"] = pinCode
+                }
+                PasswordProcess.Password -> {
+                    signActivity.moveToMain()
+                    signActivity.finish()
+                }
+                else -> {}
+            }
         })
     }
 
@@ -122,16 +136,21 @@ class ResetPasswordFragment : Fragment() {
                 email.length <= 30 && email.isNotBlank() -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
-                        loginViewModel
+                        loginViewModel.sendResetCode(email)
                     }
                 }
                 pinCode.length == 6 -> {
                     setBackgroundResource(R.drawable.button_gradient)
-                    button.setOnClickListener {  }
+                    button.setOnClickListener {
+                        loginViewModel.checkResetCode(pinCode)
+                    }
                 }
                 password == confirm && password.length >= 8 && password.isNotBlank() -> {
                     setBackgroundResource(R.drawable.button_gradient)
-                    button.setOnClickListener {  }
+                    button.setOnClickListener {
+                        hashMap["password"] = password
+                        loginViewModel.sendResetPassword(hashMap)
+                    }
                 }
                 else -> {
                     setBackgroundResource(R.drawable.button_bright_gray)
@@ -150,9 +169,10 @@ class ResetPasswordFragment : Fragment() {
                 // 재설정 코드가 올바르지 않습니다
             }
             PasswordProcess.Password -> {
-                // 비밀번호 형식이 올바르지 않습니다
-                // 비밀번호가 일치하지 않습니다
+                signinup_password_inputLayout.error = "비밀번호 형식이 올바르지 않습니다"
+                signinup_comfirm_password_inputLayout.error = "비밀번호가 일치하지 않습니다"
             }
+            else -> {}
         }
     }
 }
