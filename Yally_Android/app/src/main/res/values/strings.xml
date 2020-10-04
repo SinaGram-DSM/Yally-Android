@@ -10,7 +10,7 @@
     <string name="start_login">소통을 시작하려면 이메일로 로그인해주세요</string>
     <string name="start_sign_up">소통을 시작하려면 이메일로 가입해주세요</string>
     <string name="forgot_password">비밀번호를 잊으셨나요?</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="nickname">Your name</string>
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+    <string name="confirm_password">새 비밀번호 확인</string>
 </resources>
