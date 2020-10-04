@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.SignActivity
@@ -36,28 +35,12 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.apply {
-            signinup_email_editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    signinup_email_inputLayout.error = null
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    email = p0.toString()
-                    activeButton(signinup_doSign_button)
-                }
-            })
-            signinup_password_editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    signinup_password_inputLayout.error = null
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    password = p0.toString()
-                    activeButton(signinup_doSign_button)
-                }
-            })
+            signinup_email_editText.addTextChangedListener(
+                createTextWatcher(signinup_email_inputLayout)
+            )
+            signinup_password_editText.addTextChangedListener(
+                createTextWatcher(signinup_password_inputLayout)
+            )
         }
     }
 
@@ -79,6 +62,23 @@ class LoginFragment : Fragment() {
         })
     }
 
+    private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                textInputLayout.error = null
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                when (textInputLayout) {
+                    signinup_password_inputLayout -> password = p0.toString()
+                    signinup_email_inputLayout -> email = p0.toString()
+                }
+                activeButton(signinup_doSign_button)
+            }
+        }
+    }
+
     private fun activeButton(button: Button) {
         button.apply {
             if (email.length <= 30 && password.length >= 8) {
@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
                 setOnClickListener { loginViewModel.checkLoginInfo(email, password) }
             } else {
                 setBackgroundResource(R.drawable.button_bright_gray)
-                setOnClickListener {}
+                setOnClickListener(null)
             }
         }
     }
