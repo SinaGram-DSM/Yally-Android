@@ -56,12 +56,7 @@ class SignUpFragment : Fragment() {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    var text = p0.toString().toInt()
-                    if (text > 120) {
-                        text /= 10
-                        signUp_age_editText.setText(text)
-                    }
-                    signUpRequest.age = text
+                    signUpRequest.age = p0.toString().toInt()
                 }
             })
         }
@@ -74,6 +69,7 @@ class SignUpFragment : Fragment() {
         signUpViewModel.errorSignLiveData.observe(viewLifecycleOwner, {
             showMessage()
         })
+
         signUpViewModel.signUpSuccessLiveData.observe(viewLifecycleOwner, {
             signActivity.moveToMain()
             signActivity.finish()
@@ -102,10 +98,10 @@ class SignUpFragment : Fragment() {
         button.apply {
             when {
                 signUpRequest.password == confirm
-                        && signUpRequest.password.length >= 8
+                        && signUpRequest.password.length in 8..20
                         && signUpRequest.password.isNotBlank()
                         && signUpRequest.nickname.isNotBlank()
-                        && signUpRequest.age != 0-> {
+                        && signUpRequest.age in 1..120-> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         signUpViewModel.checkSignUpInfo(signUpRequest)

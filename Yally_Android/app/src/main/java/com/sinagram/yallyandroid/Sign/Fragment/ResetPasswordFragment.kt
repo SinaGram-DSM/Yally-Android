@@ -69,10 +69,6 @@ class ResetPasswordFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val signActivity = activity as SignActivity
 
-        loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        })
-
         loginViewModel.errorSignLiveData.observe(viewLifecycleOwner, {
             showErrorMessage(it)
         })

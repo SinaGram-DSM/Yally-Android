@@ -84,7 +84,7 @@ class LoginFragment : Fragment() {
 
     private fun activeButton(button: Button) {
         button.apply {
-            if (email.length <= 30 && password.length >= 8) {
+            if (email.length in 1..30 && password.length >= 8 && password.isNotEmpty()) {
                 setBackgroundResource(R.drawable.button_gradient)
                 setOnClickListener { loginViewModel.mappingLoginInfo(email, password) }
             } else {
