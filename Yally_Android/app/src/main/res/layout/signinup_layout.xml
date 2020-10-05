@@ -117,6 +117,17 @@
         app:lineWidth="1dp"
         app:viewType="rectangle" />
 
+    <TextView
+        android:id="@+id/signinup_pinError_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosanskr_medium"
+        android:text="@string/reset_code_not_correct"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/signinup_doSign_button"
         android:layout_width="match_parent"

@@ -8,6 +8,7 @@
     <color name="gray">#707070</color>
     <color name="brightGray">#A0A0A0</color>
     <color name="black">#000000</color>
+    <color name="red">#FF2D00</color>
 
     <color name="back_key_color">#007AFF</color>
     <color name="gradient_start">#4776E6</color>

@@ -58,9 +58,9 @@ class ResetPasswordFragment : Fragment() {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
                     pinCode = p0.toString()
+                    signinup_pinError_textView.visibility = View.GONE
                     activeButton(signinup_doSign_button)
                 }
-
             })
         }
     }
@@ -99,21 +99,32 @@ class ResetPasswordFragment : Fragment() {
 
     private fun changeEmailPage() {
         signinup_password_inputLayout.visibility = View.GONE
+        signinup_title_textView.text = getString(R.string.password_initialization)
+        signinup_subtitle_textView.text = "가입 시 등록한 이메일을 입력해 주세요"
+        signinup_doSign_button.text = getString(R.string.next)
     }
 
     private fun changeCodePage() {
         signinup_email_inputLayout.visibility = View.GONE
         signinup_authCode_pinView.visibility = View.VISIBLE
-        signinup_doSign_button.setBackgroundResource(R.drawable.button_bright_gray)
-        signinup_doSign_button.setOnClickListener(null)
+        signinup_subtitle_textView.text = "메일로 발송된 비밀번호 재설정 코드를 입력해 주세요"
+        signinup_doSign_button.apply {
+            text = getString(R.string.confirm)
+            setBackgroundResource(R.drawable.button_bright_gray)
+            setOnClickListener(null)
+        }
     }
 
     private fun changePasswordPage() {
         signinup_authCode_pinView.visibility = View.GONE
         signinup_password_inputLayout.visibility = View.VISIBLE
         signinup_comfirm_password_inputLayout.visibility = View.VISIBLE
-        signinup_doSign_button.setBackgroundResource(R.drawable.button_bright_gray)
-        signinup_doSign_button.setOnClickListener(null)
+        signinup_subtitle_textView.text = "새로운 비밀번호를 입력해 주세요"
+        signinup_doSign_button.apply {
+            text = getString(R.string.initialization)
+            setBackgroundResource(R.drawable.button_bright_gray)
+            setOnClickListener(null)
+        }
     }
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
@@ -170,7 +181,7 @@ class ResetPasswordFragment : Fragment() {
                 signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
             }
             PasswordProcess.Code -> {
-                // 재설정 코드가 올바르지 않습니다
+                signinup_pinError_textView.visibility = View.VISIBLE
             }
             PasswordProcess.Password -> {
                 signinup_password_inputLayout.error = "비밀번호 형식이 올바르지 않습니다"

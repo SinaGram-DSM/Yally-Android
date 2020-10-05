@@ -5,6 +5,8 @@
     <string name="login">로그인</string>
     <string name="sign_in">회원가입</string>
     <string name="confirm">확인</string>
+    <string name="next">다음</string>
+    <string name="initialization">초기화</string>
     <string name="welcome_back">돌아오신 것을 환영해요!</string>
     <string name="welcome_first_visit">새로 오신 것을 환영해요!</string>
     <string name="start_login">소통을 시작하려면 이메일로 로그인해주세요</string>
@@ -12,5 +14,7 @@
     <string name="forgot_password">비밀번호를 잊으셨나요?</string>
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>
+    <string name="password_initialization">비밀번호 초기화</string>
     <string name="confirm_password">새 비밀번호 확인</string>
+    <string name="reset_code_not_correct">재설정 코드가 올바르지 않습니다</string>
 </resources>
