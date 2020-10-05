@@ -12,9 +12,12 @@
     <string name="start_login">소통을 시작하려면 이메일로 로그인해주세요</string>
     <string name="start_sign_up">소통을 시작하려면 이메일로 가입해주세요</string>
     <string name="forgot_password">비밀번호를 잊으셨나요?</string>
+    <string name="nickname">닉네임</string>
+    <string name="age">나이</string>
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>
     <string name="password_initialization">비밀번호 초기화</string>
     <string name="confirm_password">새 비밀번호 확인</string>
     <string name="reset_code_not_correct">재설정 코드가 올바르지 않습니다</string>
+    <string name="continue_registration_process">회원가입 절차를 계속 진행해 주세요</string>
 </resources>
