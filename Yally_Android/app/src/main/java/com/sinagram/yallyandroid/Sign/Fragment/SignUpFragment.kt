@@ -8,25 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
-import com.sinagram.yallyandroid.Sign.Data.SignProcess
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
 import kotlinx.android.synthetic.main.layout_signinup.*
-import kotlinx.android.synthetic.main.signinup_layout.*
-import org.w3c.dom.Text
 
 class SignUpFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel by viewModels()
     val email by lazy { requireArguments().getString("Email") }
-    var confirm = ""
     var signUpRequest = SignUpRequest("", "", "", 0)
+    var confirm = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,22 +50,19 @@ class SignUpFragment : Fragment() {
                 createTextWatcher(signUp_password_inputLayout)
             )
             signUp_confirm_password_editText.addTextChangedListener(
-                createTextWatcher(signUp_nickname_inputLayout)
+                createTextWatcher(signUp_confirm_password_inputLayout)
             )
             signUp_age_editText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun afterTextChanged(p0: Editable?) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     var text = p0.toString().toInt()
                     if (text > 120) {
                         text /= 10
                         signUp_age_editText.setText(text)
                     }
+                    signUpRequest.age = text
                 }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    signUpRequest.age = p0.toString().toInt()
-                }
-
             })
         }
     }
@@ -112,7 +104,8 @@ class SignUpFragment : Fragment() {
                 signUpRequest.password == confirm
                         && signUpRequest.password.length >= 8
                         && signUpRequest.password.isNotBlank()
-                        && signUpRequest.age != 0 -> {
+                        && signUpRequest.nickname.isNotBlank()
+                        && signUpRequest.age != 0-> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         signUpViewModel.checkSignUpInfo(signUpRequest)

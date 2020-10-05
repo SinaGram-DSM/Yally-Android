@@ -10,9 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
-import com.sinagram.yallyandroid.Sign.Data.PasswordProcess
 import com.sinagram.yallyandroid.Sign.Data.SignProcess
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
@@ -26,6 +24,7 @@ class AuthenticationFragment : Fragment() {
         Pattern.compile("^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\\.([a-zA-Z])+([a-zA-Z])+")
     private var email = ""
     private var pinCode = ""
+    private var signUpFragment = SignUpFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,13 +79,13 @@ class AuthenticationFragment : Fragment() {
             when (it) {
                 SignProcess.GetCode -> {
                     changeCodePage()
+                    signUpFragment.arguments = Bundle().apply {
+                        putString("Email", email)
+                    }
+                    email = ""
                 }
                 SignProcess.CheckCode -> {
-                    signActivity.replaceFragment(SignUpFragment().apply {
-                        arguments = Bundle().apply {
-                            putString("Email", email)
-                        }
-                    })
+                    signActivity.replaceFragment(signUpFragment)
                 }
                 else -> {
                 }
@@ -104,9 +103,19 @@ class AuthenticationFragment : Fragment() {
 
     private fun changeCodePage() {
         signinup_subtitle_textView.text = "등록한 이메일 주소로 전송된 인증 코드를 입력해 주세요"
+        signinup_email_inputLayout.visibility = View.GONE
         signinup_authCode_pinView.visibility = View.VISIBLE
-        signinup_doSign_button.text = getString(R.string.confirm)
         signinup_pinError_textView.text = "인증번호가 올바르지 않습니다"
+        signinup_doSign_button.apply {
+            text = getString(R.string.confirm)
+            signinup_doSign_button.setOnClickListener(null)
+            signinup_doSign_button.setBackgroundResource(R.drawable.button_bright_gray)
+        }
+
+        signUpFragment.arguments = Bundle().apply {
+            putString("Email", email)
+        }
+        email = ""
     }
 
     private fun activeButton(button: Button) {
@@ -114,11 +123,13 @@ class AuthenticationFragment : Fragment() {
             when {
                 email.length <= 30 && emailPattern.matcher(email).matches() -> {
                     setBackgroundResource(R.drawable.button_gradient)
-                    signUpViewModel.getAuthCode(email)
+                    setOnClickListener {
+                        signUpViewModel.getAuthCode(email)
+                    }
                 }
                 pinCode.length == 6 -> {
                     setBackgroundResource(R.drawable.button_gradient)
-                    button.setOnClickListener {
+                    setOnClickListener {
                         signUpViewModel.checkAuthCode(pinCode)
                     }
                 }
