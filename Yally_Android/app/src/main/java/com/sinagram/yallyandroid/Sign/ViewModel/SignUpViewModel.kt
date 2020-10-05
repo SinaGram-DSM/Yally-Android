@@ -12,7 +12,53 @@ import kotlinx.coroutines.launch
 
 class SignUpViewModel: BaseViewModel() {
     private val repository = SignRepository()
+    val errorSignLiveData: MutableLiveData<SignProcess> = MutableLiveData()
     val signUpSuccessLiveData: MutableLiveData<SignProcess> = MutableLiveData()
+
+    fun getAuthCode(email: String) {
+        val body: HashMap<String, String> = HashMap()
+        body["email"] = email
+
+        viewModelScope.launch {
+            when (val result = repository.sendAuthCode(body)) {
+                is Result.Success -> {
+                    getAuthCodeSuccess(result)
+                }
+                is Result.Error -> {
+                    Log.e("SignUpViewModel", result.exception)
+                }
+            }
+        }
+    }
+
+    private fun getAuthCodeSuccess(result: Result.Success<Void>) {
+        if (result.code == 200) {
+            signUpSuccessLiveData.postValue(SignProcess.GetCode)
+        } else {
+            errorSignLiveData.postValue(SignProcess.GetCode)
+        }
+    }
+
+    fun checkAuthCode(body: HashMap<String, String>) {
+        viewModelScope.launch {
+            when (val result = repository.confirmAuthCode(body)) {
+                is Result.Success -> {
+                    checkAuthCodeSuccess(result)
+                }
+                is Result.Error -> {
+                    Log.e("SignUpViewModel", result.exception)
+                }
+            }
+        }
+    }
+
+    private fun checkAuthCodeSuccess(result: Result.Success<Void>) {
+        if (result.code == 200) {
+            signUpSuccessLiveData.postValue(SignProcess.CheckCode)
+        } else {
+            errorMessageLiveData.postValue("인증코드가 잘못되었습니다.\n다시 한 번 더 확인해 주시길 바랍니다.")
+        }
+    }
 
     fun checkSignUpInfo(signUpRequest: SignUpRequest) {
         when {
@@ -41,53 +87,11 @@ class SignUpViewModel: BaseViewModel() {
         }
     }
 
-    fun getAuthCode(body: HashMap<String, String>) {
-        viewModelScope.launch {
-            when (val result = repository.sendAuthCode(body)) {
-                is Result.Success -> {
-                    getAuthCodeSuccess(result)
-                }
-                is Result.Error -> {
-                    Log.e("SignUpViewModel", result.exception)
-                }
-            }
-        }
-    }
-
-    fun checkAuthCode(body: HashMap<String, String>) {
-        viewModelScope.launch {
-            when (val result = repository.confirmAuthCode(body)) {
-                is Result.Success -> {
-                    checkAuthCodeSuccess(result)
-                }
-                is Result.Error -> {
-                    Log.e("SignUpViewModel", result.exception)
-                }
-            }
-        }
-    }
-
     private fun createUserSuccess(result: Result.Success<Void>) {
         if (result.code == 201) {
             signUpSuccessLiveData.postValue(SignProcess.Create)
         } else {
             errorMessageLiveData.postValue("현재 가입된 사용자 정보와 중복됩니다.")
-        }
-    }
-
-    private fun getAuthCodeSuccess(result: Result.Success<Void>) {
-        if (result.code == 200) {
-            signUpSuccessLiveData.postValue(SignProcess.GetCode)
-        } else {
-            errorMessageLiveData.postValue("현재 가입된 사용자의 이메일과 중복됩니다.")
-        }
-    }
-
-    private fun checkAuthCodeSuccess(result: Result.Success<Void>) {
-        if (result.code == 200) {
-            signUpSuccessLiveData.postValue(SignProcess.CheckCode)
-        } else {
-            errorMessageLiveData.postValue("인증코드가 잘못되었습니다.\n다시 한 번 더 확인해 주시길 바랍니다.")
         }
     }
 }
