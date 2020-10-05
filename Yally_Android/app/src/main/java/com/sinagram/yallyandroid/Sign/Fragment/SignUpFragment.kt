@@ -24,6 +24,6 @@ class SignUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.signinup_layout, container, false)
+        return inflater.inflate(R.layout.layout_signinup, container, false)
     }
 }
