@@ -80,12 +80,14 @@ class ResetPasswordFragment : Fragment() {
         loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
             when (it) {
                 PasswordProcess.Email -> {
-                    changeCodePage()
                     hashMap["email"] = email
+                    email = ""
+                    changeCodePage()
                 }
                 PasswordProcess.Code -> {
-                    changePasswordPage()
                     hashMap["code"] = pinCode
+                    pinCode = ""
+                    changePasswordPage()
                 }
                 PasswordProcess.Password -> {
                     signActivity.moveToMain()
@@ -102,6 +104,7 @@ class ResetPasswordFragment : Fragment() {
         signinup_title_textView.text = getString(R.string.password_initialization)
         signinup_subtitle_textView.text = "가입 시 등록한 이메일을 입력해 주세요"
         signinup_doSign_button.text = getString(R.string.next)
+        signinup_forgot_textView.visibility = View.GONE
     }
 
     private fun changeCodePage() {
