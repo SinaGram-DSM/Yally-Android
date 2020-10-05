@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Yally Android</string>
+    <string name="writing">글쓰기</string>
+    <string name="record">녹음</string>
+    <string name="voice_file">음성 파일</string>
+    <string name="voice_cover">음성 커버</string>
+    <string name="writing_button">버튼을 누르면 녹음이 종료됩니다.</string>
+    <string name="upload"> 업로드</string>
+    <string name="back">뒤로</string>
 </resources>
