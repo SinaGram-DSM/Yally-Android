@@ -1,8 +1,8 @@
 package com.sinagram.yallyandroid.Sign.Data
 
 data class SignUpRequest(
-    val email: String,
-    val password: String,
-    val nickname: String,
-    val age: Int
+    var email: String,
+    var password: String,
+    var nickname: String,
+    var age: Int
 )

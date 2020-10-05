@@ -63,21 +63,7 @@ class SignUpViewModel: BaseViewModel() {
         }
     }
 
-    fun checkSignUpInfo(signUpRequest: SignUpRequest) {
-        when {
-            signUpRequest.email.length > 30 -> {
-                errorMessageLiveData.value = "이메일을 30자 이하로 작성해 주시길 바랍니다."
-            }
-            signUpRequest.password.length > 20 -> {
-                errorMessageLiveData.value = "비밀번호를 20자 이하로 작성해 주시길 바랍니다."
-            }
-            else -> {
-                createUser(signUpRequest)
-            }
-        }
-    }
-
-    private fun createUser(body: SignUpRequest) {
+    fun checkSignUpInfo(body: SignUpRequest) {
         viewModelScope.launch {
             when (val result = repository.doSignUp(body)) {
                 is Result.Success -> {
