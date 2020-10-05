@@ -10,12 +10,15 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 class TokenAuthenticator : Interceptor {
+    val sharedPreferencesManager = SharedPreferencesManager.getInstance()
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val mainResponse: Response = chain.proceed(chain.request())
 
         if (mainResponse.code == 404) {
+            sharedPreferencesManager.isLogin = false
             CoroutineScope(Dispatchers.Main).launch {
-                val accessToken = SharedPreferencesManager.getInstance()?.accessToken
+                val accessToken = SharedPreferencesManager.getInstance().accessToken
                 if (accessToken != null) {
                     getAccessToken(accessToken)
                 }
@@ -31,7 +34,7 @@ class TokenAuthenticator : Interceptor {
 
         if (token.isSuccessful) {
             if (token.code() == 200) {
-                SharedPreferencesManager.getInstance()?.accessToken = token.body()
+                sharedPreferencesManager.accessToken = token.body()
             } else {
                 Log.e("TokenAuthenticator", "알 수 없는 오류")
             }
