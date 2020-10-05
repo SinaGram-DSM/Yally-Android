@@ -82,7 +82,11 @@ class AuthenticationFragment : Fragment() {
                     changeCodePage()
                 }
                 SignProcess.CheckCode -> {
-                    signActivity.replaceFragment(SignUpFragment())
+                    signActivity.replaceFragment(SignUpFragment().apply {
+                        arguments = Bundle().apply {
+                            putString("Email", email)
+                        }
+                    })
                 }
                 else -> {
                 }

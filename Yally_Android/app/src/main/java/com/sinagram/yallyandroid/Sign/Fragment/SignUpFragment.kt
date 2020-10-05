@@ -18,6 +18,13 @@ import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class SignUpFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel by viewModels()
+    var email: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        email = arguments?.getString("Email")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
