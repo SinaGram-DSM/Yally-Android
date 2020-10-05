@@ -34,7 +34,7 @@ class SignUpFragment : Fragment() {
         view.apply {
             signinup_title_textView.text = getString(R.string.welcome_first_visit)
             signinup_subtitle_textView.text = getString(R.string.start_sign_up)
-            signinup_doSign_button.text = getString(R.string.sign_in)
+            signinup_doSign_button.text = getString(R.string.sign_up)
             signinup_forgot_textView.visibility = View.GONE
             signinup_doSign_button.setOnClickListener {
                 email = signinup_email_editText.text.toString()
@@ -52,7 +52,7 @@ class SignUpFragment : Fragment() {
         val signActivity = activity as SignActivity
 
         signActivity.findViewById<TextView>(R.id.sign_title_textView).text =
-            getString(R.string.sign_in)
+            getString(R.string.sign_up)
 
         signUpViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()

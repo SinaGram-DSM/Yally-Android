@@ -8,7 +8,7 @@ enum class PasswordProcess {
 }
 
 enum class SignProcess {
-    Create,
     GetCode,
-    CheckCode
+    CheckCode,
+    Create
 }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -36,6 +37,14 @@ class AuthenticationFragment : Fragment() {
         view.apply {
             changeEmailPage()
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val signActivity = activity as SignActivity
+
+        signActivity.findViewById<TextView>(R.id.sign_title_textView).text =
+            getString(R.string.sign_up)
     }
 
     private fun changeEmailPage() {

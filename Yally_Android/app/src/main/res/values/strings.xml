@@ -3,7 +3,7 @@
     <string name="ImageDescription">No image found</string>
     <string name="back">뒤로</string>
     <string name="login">로그인</string>
-    <string name="sign_in">회원가입</string>
+    <string name="sign_up">회원가입</string>
     <string name="confirm">확인</string>
     <string name="next">다음</string>
     <string name="initialization">초기화</string>
