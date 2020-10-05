@@ -25,6 +25,7 @@ class AuthenticationFragment : Fragment() {
     private val emailPattern =
         Pattern.compile("^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\\.([a-zA-Z])+([a-zA-Z])+")
     private var email = ""
+    private var pinCode = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,9 +40,28 @@ class AuthenticationFragment : Fragment() {
 
         view.apply {
             changeEmailPage()
-            signinup_email_editText.addTextChangedListener(
-                createTextWatcher(signinup_email_inputLayout)
-            )
+            signinup_email_editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    signinup_email_inputLayout.error = null
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    email = p0.toString()
+                    activeButton(signinup_doSign_button)
+                }
+            })
+            signinup_authCode_pinView.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    signinup_pinError_textView.text = null
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    pinCode = p0.toString()
+                    activeButton(signinup_doSign_button)
+                }
+            })
         }
     }
 
@@ -79,23 +99,10 @@ class AuthenticationFragment : Fragment() {
     }
 
     private fun changeCodePage() {
-
-    }
-
-    private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
-        return object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                textInputLayout.error = null
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                when (textInputLayout) {
-                    signinup_email_inputLayout -> email = p0.toString()
-                }
-                activeButton(signinup_doSign_button)
-            }
-        }
+        signinup_subtitle_textView.text = "등록한 이메일 주소로 전송된 인증 코드를 입력해 주세요"
+        signinup_authCode_pinView.visibility = View.VISIBLE
+        signinup_doSign_button.text = getString(R.string.confirm)
+        signinup_pinError_textView.text = "인증번호가 올바르지 않습니다"
     }
 
     private fun activeButton(button: Button) {
@@ -104,6 +111,12 @@ class AuthenticationFragment : Fragment() {
                 email.length <= 30 && emailPattern.matcher(email).matches() -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     signUpViewModel.getAuthCode(email)
+                }
+                pinCode.length == 6 -> {
+                    setBackgroundResource(R.drawable.button_gradient)
+                    button.setOnClickListener {
+                        signUpViewModel.checkAuthCode(pinCode)
+                    }
                 }
                 else -> {
                     setBackgroundResource(R.drawable.button_bright_gray)

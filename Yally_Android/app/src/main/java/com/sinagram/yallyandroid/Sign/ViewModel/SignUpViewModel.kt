@@ -39,7 +39,10 @@ class SignUpViewModel: BaseViewModel() {
         }
     }
 
-    fun checkAuthCode(body: HashMap<String, String>) {
+    fun checkAuthCode(code: String) {
+        val body: HashMap<String, String> = HashMap()
+        body["code"] = code
+
         viewModelScope.launch {
             when (val result = repository.confirmAuthCode(body)) {
                 is Result.Success -> {
@@ -56,7 +59,7 @@ class SignUpViewModel: BaseViewModel() {
         if (result.code == 200) {
             signUpSuccessLiveData.postValue(SignProcess.CheckCode)
         } else {
-            errorMessageLiveData.postValue("인증코드가 잘못되었습니다.\n다시 한 번 더 확인해 주시길 바랍니다.")
+            errorSignLiveData.postValue(SignProcess.CheckCode)
         }
     }
 
