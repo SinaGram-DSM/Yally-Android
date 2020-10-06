@@ -2,15 +2,15 @@ package com.sinagram.yallyandroid.Sign.ViewModel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sinagram.yallyandroid.Base.BaseViewModel
 import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Sign.Data.SignProcess
 import com.sinagram.yallyandroid.Sign.Data.SignRepository
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import kotlinx.coroutines.launch
 
-class SignUpViewModel: BaseViewModel() {
+class SignUpViewModel : ViewModel() {
     private val repository = SignRepository()
     val errorSignLiveData: MutableLiveData<SignProcess> = MutableLiveData()
     val signUpSuccessLiveData: MutableLiveData<SignProcess> = MutableLiveData()
@@ -25,6 +25,7 @@ class SignUpViewModel: BaseViewModel() {
                     getAuthCodeSuccess(result)
                 }
                 is Result.Error -> {
+                    errorSignLiveData.postValue(SignProcess.GetCode)
                     Log.e("SignUpViewModel", result.exception)
                 }
             }
@@ -49,6 +50,7 @@ class SignUpViewModel: BaseViewModel() {
                     checkAuthCodeSuccess(result)
                 }
                 is Result.Error -> {
+                    errorSignLiveData.postValue(SignProcess.CheckCode)
                     Log.e("SignUpViewModel", result.exception)
                 }
             }
@@ -70,6 +72,7 @@ class SignUpViewModel: BaseViewModel() {
                     createUserSuccess(result)
                 }
                 is Result.Error -> {
+                    errorSignLiveData.postValue(SignProcess.Create)
                     Log.e("SignUpViewModel", result.exception)
                 }
             }
@@ -80,7 +83,7 @@ class SignUpViewModel: BaseViewModel() {
         if (result.code == 201) {
             signUpSuccessLiveData.postValue(SignProcess.Create)
         } else {
-            errorMessageLiveData.postValue("현재 가입된 사용자 정보와 중복됩니다.")
+            errorSignLiveData.postValue(SignProcess.Create)
         }
     }
 }

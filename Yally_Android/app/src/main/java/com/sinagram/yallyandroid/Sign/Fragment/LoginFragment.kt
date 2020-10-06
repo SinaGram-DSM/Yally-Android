@@ -54,8 +54,7 @@ class LoginFragment : Fragment() {
         signActivity.findViewById<TextView>(R.id.sign_title_textView).text =
             getString(R.string.login)
 
-        loginViewModel.errorMessageLiveData.observe(viewLifecycleOwner, {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        loginViewModel.errorSignLiveData.observe(viewLifecycleOwner, {
             showErrorMessage()
         })
 
