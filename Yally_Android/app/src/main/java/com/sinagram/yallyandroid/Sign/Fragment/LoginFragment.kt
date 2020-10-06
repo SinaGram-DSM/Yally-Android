@@ -94,7 +94,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showErrorMessage() {
-        signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
-        signinup_password_inputLayout.error = "비밀번호가 올바르지 않습니다"
+        signinup_email_inputLayout.error = getString(R.string.account_does_not_exits)
+        signinup_password_inputLayout.error = getString(R.string.password_not_correct)
     }
 }

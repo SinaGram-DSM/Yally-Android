@@ -102,10 +102,10 @@ class AuthenticationFragment : Fragment() {
     }
 
     private fun changeCodePage() {
-        signinup_subtitle_textView.text = "등록한 이메일 주소로 전송된 인증 코드를 입력해 주세요"
+        signinup_subtitle_textView.text = getString(R.string.input_auth_code)
         signinup_email_inputLayout.visibility = View.GONE
         signinup_authCode_pinView.visibility = View.VISIBLE
-        signinup_pinError_textView.text = "인증번호가 올바르지 않습니다"
+        signinup_pinError_textView.text = getString(R.string.auth_code_not_correct)
         signinup_doSign_button.apply {
             text = getString(R.string.confirm)
             signinup_doSign_button.setOnClickListener(null)
@@ -144,7 +144,7 @@ class AuthenticationFragment : Fragment() {
     private fun showErrorMessage(currentProcess: SignProcess) {
         when (currentProcess) {
             SignProcess.GetCode -> {
-                signinup_email_inputLayout.error = "존재하지 않는 계정입니다"
+                signinup_email_inputLayout.error = getString(R.string.email_format_not_correct)
             }
             SignProcess.CheckCode -> {
                 signinup_pinError_textView.visibility = View.VISIBLE

@@ -116,8 +116,8 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showMessage() {
-        signUp_nickname_inputLayout.error = "이미 존재하는 닉네임입니다"
-        signUp_password_inputLayout.error = "비밀번호 형식이 올바르지 않습니다"
-        signUp_confirm_password_inputLayout.error = "비밀번호가 일치하지 않습니다"
+        signUp_nickname_inputLayout.error = getString(R.string.nickname_was_exist)
+        signUp_password_inputLayout.error = getString(R.string.password_format_not_correct)
+        signUp_confirm_password_inputLayout.error = getString(R.string.password_not_equals)
     }
 }
