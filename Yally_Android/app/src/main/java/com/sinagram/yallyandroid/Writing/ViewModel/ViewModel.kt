@@ -1,3 +1,5 @@
 package com.sinagram.yallyandroid.Writing.ViewModel
 
-class ViewModel
+class ViewModel{
+
+}
