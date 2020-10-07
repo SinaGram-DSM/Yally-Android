@@ -7,6 +7,6 @@ interface YallyAPI{
     @Multipart
     @POST("/post")
     suspend fun writing(
-        
+
     )
 }
