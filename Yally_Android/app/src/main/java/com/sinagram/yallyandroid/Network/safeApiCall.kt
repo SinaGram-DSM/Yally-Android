@@ -9,7 +9,7 @@ suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Result<T> {
         if (myResp.isSuccessful) {
             Result.Success(myResp.body()!!, myResp.code())
         } else {
-            Result.Error(myResp.errorBody().toString())
+            Result.Error(myResp.message())
         }
 
     } catch (e: Exception) {

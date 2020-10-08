@@ -1,7 +1,10 @@
 package com.sinagram.yallyandroid.Network
 
+import android.content.Intent
 import android.util.Log
+import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Util.SharedPreferencesManager
+import com.sinagram.yallyandroid.Util.YallyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,17 +13,28 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 class TokenAuthenticator : Interceptor {
-    val sharedPreferencesManager = SharedPreferencesManager.getInstance()
+    private val sharedPreferencesManager = SharedPreferencesManager.getInstance()
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val mainResponse: Response = chain.proceed(chain.request())
 
-        if (mainResponse.code == 404) {
-            sharedPreferencesManager.isLogin = false
-            CoroutineScope(Dispatchers.Main).launch {
-                val accessToken = SharedPreferencesManager.getInstance().accessToken
-                if (accessToken != null) {
-                    getAccessToken(accessToken)
+        when (mainResponse.code) {
+            401, 422 -> {
+                sharedPreferencesManager.apply {
+                    isLogin = false
+                    accessToken = ""
+                }
+                val intent = Intent(YallyApplication.context, SignActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                YallyApplication.context!!.startActivity(intent)
+            }
+            403 -> {
+                sharedPreferencesManager.isLogin = false
+                CoroutineScope(Dispatchers.Main).launch {
+                    val accessToken = SharedPreferencesManager.getInstance().accessToken
+                    if (accessToken != null) {
+                        getAccessToken(accessToken)
+                    }
                 }
             }
         }
