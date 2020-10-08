@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object YallyConnector {
     private var retrofit: Retrofit
     private var api: YallyAPI
-    private const val baseURL = ""
+    private const val baseURL = "http://13.125.238.84:81"
 
     init {
         val loggingInterceptor = HttpLoggingInterceptor()
