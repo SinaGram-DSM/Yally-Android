@@ -51,7 +51,7 @@ class LoginViewModel : ViewModel() {
         body["email"] = email
 
         viewModelScope.launch {
-            when(val result = repository.sendResetCode(body)) {
+            when (val result = repository.sendResetCode(body)) {
                 is Result.Success -> {
                     loginSuccessLiveData.postValue(PasswordProcess.Email)
                 }
@@ -63,26 +63,13 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun checkResetCode(code: String) {
-        val body: HashMap<String, String> = HashMap()
-        body["code"] = code
-
-        viewModelScope.launch {
-            when(val result = repository.confirmAuthCode(body)) {
-                is Result.Success -> {
-                    loginSuccessLiveData.postValue(PasswordProcess.Code)
-                }
-                is Result.Error -> {
-                    errorSignLiveData.postValue(PasswordProcess.Code)
-                    Log.e("LoginViewModel", result.exception)
-                }
-            }
-        }
+    fun checkResetCode() {
+        loginSuccessLiveData.postValue(PasswordProcess.Code)
     }
 
     fun sendResetPassword(body: HashMap<String, String>) {
         viewModelScope.launch {
-            when(val result = repository.changePassword(body)) {
+            when (val result = repository.changePassword(body)) {
                 is Result.Success -> {
                     loginSuccessLiveData.postValue(PasswordProcess.Password)
                     repository.putLoginInfo(true)

@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sinagram.yallyandroid.Home.HomeActivity
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.Fragment.AuthenticationFragment
 import com.sinagram.yallyandroid.Sign.Fragment.LoginFragment
+import com.sinagram.yallyandroid.Sign.Fragment.SignUpFragment
 
 class SignActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +21,7 @@ class SignActivity : AppCompatActivity() {
 
         when (intent.getStringExtra("splash")) {
             "splash_login" -> fragmentTransaction.add(R.id.sign_fragment, LoginFragment()).commit()
-            "splash_signUp" -> fragmentTransaction.add(R.id.sign_fragment, LoginFragment()).commit()
+            "splash_signUp" -> fragmentTransaction.add(R.id.sign_fragment, AuthenticationFragment()).commit()
             else -> {
                 Toast.makeText(
                     this,

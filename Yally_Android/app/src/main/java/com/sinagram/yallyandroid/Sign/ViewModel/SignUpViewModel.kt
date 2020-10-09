@@ -14,10 +14,12 @@ class SignUpViewModel : ViewModel() {
     private val repository = SignRepository()
     val errorSignLiveData: MutableLiveData<SignProcess> = MutableLiveData()
     val signUpSuccessLiveData: MutableLiveData<SignProcess> = MutableLiveData()
+    var email: String = ""
 
     fun getAuthCode(email: String) {
         val body: HashMap<String, String> = HashMap()
         body["email"] = email
+        this.email = email
 
         viewModelScope.launch {
             when (val result = repository.sendAuthCode(body)) {
@@ -42,6 +44,7 @@ class SignUpViewModel : ViewModel() {
 
     fun checkAuthCode(code: String) {
         val body: HashMap<String, String> = HashMap()
+        body["email"] = email
         body["code"] = code
 
         viewModelScope.launch {

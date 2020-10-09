@@ -157,7 +157,7 @@ class ResetPasswordFragment : Fragment() {
                 pinCode.length == 6 -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
-                        loginViewModel.checkResetCode(pinCode)
+                        loginViewModel.checkResetCode()
                     }
                 }
                 password == confirm && password.length >= 8 && password.isNotBlank() -> {
