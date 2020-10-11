@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">Yally Android</string>
+  
+    <string name="welcome_yally">yally에 오신 것을 환영합니다</string>
+    <string name="slash_writing">로그인을 통해 더 넓은 세상을 들으세요.\n아름다운 길거리 공연, 페스티벌, 기타 연주,\n대화, 심지어 동물소리까지! 상상 그 이상의\n것을 담아 전 세계에 공유하세요.</string>
+    <string name="slash_signUp">아직 계정이 없으신가요?</string>
+
+    <string name="ImageDescription">No image found</string>
+    <string name="back">뒤로</string>
+    <string name="login">로그인</string>
+    <string name="sign_up">회원가입</string>
+    <string name="confirm">확인</string>
+    <string name="next">다음</string>
+    <string name="initialization">초기화</string>
+    <string name="welcome_back">돌아오신 것을 환영해요!</string>
+    <string name="password_initialization">비밀번호 초기화</string>
+    <string name="welcome_first_visit">새로 오신 것을 환영해요!</string>
+    <string name="start_login">소통을 시작하려면 이메일로 로그인해주세요</string>
+    <string name="input_email">가입 시 등록한 이메일을 입력해 주세요</string>
+    <string name="input_reset_code">메일로 발송된 비밀번호 재설정 코드를 입력해 주세요</string>
+    <string name="input_new_password">새로운 비밀번호를 입력해 주세요</string>
+    <string name="start_sign_up">소통을 시작하려면 이메일로 가입해주세요</string>
+    <string name="input_auth_code">등록한 이메일 주소로 전송된 인증 코드를 입력해 주세요</string>
+    <string name="continue_registration_process">회원가입 절차를 계속 진행해 주세요</string>
+    <string name="nickname">닉네임</string>
+    <string name="age">나이</string>
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+    <string name="new_password">새 비밀번호</string>
+    <string name="confirm_password">새 비밀번호 확인</string>
+    <string name="forgot_password">비밀번호를 잊으셨나요?</string>
+    <string name="account_does_not_exits">존재하지 않는 계정입니다</string>
+    <string name="password_not_correct">비밀번호가 올바르지 않습니다</string>
+    <string name="reset_code_not_correct">재설정 코드가 올바르지 않습니다</string>
+    <string name="password_format_not_correct">비밀번호 형식이 올바르지 않습니다</string>
+    <string name="password_not_equals">비밀번호가 일치하지 않습니다</string>
+    <string name="email_format_not_correct">이메일 형식이 올바르지 않습니다</string>
+    <string name="auth_code_not_correct">인증번호가 올바르지 않습니다</string>
+    <string name="nickname_was_exist">이미 존재하는 닉네임입니다</string>
 </resources>

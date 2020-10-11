@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#707070</color>
+    <color name="brightGray">#A0A0A0</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF2D00</color>
+
+    <color name="back_key_color">#007AFF</color>
+    <color name="gradient_start">#4776E6</color>
+    <color name="gradient_end">#8E54E9</color>
+    <color name="confirmBox">#1AAF86EF</color>
 </resources>
