@@ -36,7 +36,7 @@
             android:layout_marginRight="72dp"
             android:gravity="center"
             android:text="@string/welcome_yally"
-            android:textColor="@color/color_gray"
+            android:textColor="@color/gray"
             android:textSize="22sp" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:gravity="center_horizontal"
             android:lineSpacingExtra="3sp"
             android:text="@string/slash_writing"
-            android:textColor="@color/color_gray"
+            android:textColor="@color/gray"
             android:textSize="16sp" />
 
         <Button
@@ -62,7 +62,7 @@
             android:layout_marginRight="48dp"
             android:background="@drawable/button_background"
             android:text="@string/login"
-            android:textColor="@color/color_white"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <Button
@@ -76,7 +76,7 @@
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/slash_signUp"
-            android:textColor="@color/color_gray"
+            android:textColor="@color/gray"
             android:textSize="12sp" />
 
     </LinearLayout>
