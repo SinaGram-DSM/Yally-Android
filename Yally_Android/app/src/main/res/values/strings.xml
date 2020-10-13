@@ -37,4 +37,5 @@
     <string name="email_format_not_correct">이메일 형식이 올바르지 않습니다</string>
     <string name="auth_code_not_correct">인증번호가 올바르지 않습니다</string>
     <string name="nickname_was_exist">이미 존재하는 닉네임입니다</string>
+    <string name="dot">•</string>
 </resources>
