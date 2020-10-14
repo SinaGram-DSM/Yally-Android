@@ -6,21 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".Home.HomeActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/home_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/home_bottom_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/white"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/white">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/home_bottom_navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@android:color/transparent"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
+            android:background="@android:color/transparent"
             app:labelVisibilityMode="selected"
             app:menu="@menu/home_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
