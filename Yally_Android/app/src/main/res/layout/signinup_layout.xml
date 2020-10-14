@@ -34,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
         app:hintEnabled="false">
 
         <com.sinagram.yallyandroid.Util.ClearEditText
@@ -42,9 +41,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@android:color/transparent"
             android:ems="10"
             android:hint="@string/email"
             android:importantForAutofill="no"
+            android:includeFontPadding="false"
             android:inputType="textEmailAddress"
             android:textColor="@color/gray"
             android:textSize="15sp" />
@@ -55,7 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="11dp"
         app:hintEnabled="false">
 
         <com.sinagram.yallyandroid.Util.ClearEditText
@@ -63,9 +63,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@android:color/transparent"
             android:ems="10"
             android:hint="@string/password"
             android:importantForAutofill="no"
+            android:includeFontPadding="false"
             android:inputType="textPassword"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -98,8 +100,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
         android:cursorVisible="true"
-        android:inputType="text"
         android:fontFamily="@font/notosanskr_bold"
+        android:inputType="text"
         android:itemBackground="@color/confirmBox"
         android:textSize="40sp"
         android:textStyle="bold"
