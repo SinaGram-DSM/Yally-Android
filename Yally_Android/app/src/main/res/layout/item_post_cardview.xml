@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-=======
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tool="http://schemas.android.com/tools"
->>>>>>> feature-home
     android:orientation="vertical">
 
     <LinearLayout
@@ -35,13 +29,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-<<<<<<< HEAD
                 android:textSize="14sp"
                 tool:text="아이유가진리" />
-=======
-                tool:text="아이유가진리"
-                android:textSize="14sp" />
->>>>>>> feature-home
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,10 +79,6 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:layout_weight="1" />
-=======
-            android:layout_weight="1"/>
->>>>>>> feature-home
     </LinearLayout>
 </LinearLayout>
