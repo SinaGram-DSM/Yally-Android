@@ -1,6 +1,7 @@
 package com.sinagram.yallyandroid.Home
 
 import android.os.Bundle
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,9 @@ class HomeActivity : AppCompatActivity() {
             home_user_profile_button.startAnimation(fab_close)
             home_writing_button.isClickable = false
             home_user_profile_button.isClickable = false
+            home_writing_button.visibility = View.VISIBLE
+            home_user_profile_button.visibility = View.VISIBLE
+
             false
         } else {
             home_writing_button.startAnimation(fab_open)
