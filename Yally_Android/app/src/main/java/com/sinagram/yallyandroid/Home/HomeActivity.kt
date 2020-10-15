@@ -1,7 +1,7 @@
 package com.sinagram.yallyandroid.Home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.activity_home.*
 

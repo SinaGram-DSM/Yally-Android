@@ -30,9 +30,14 @@
             app:menu="@menu/home_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <com.imangazaliev.circlemenu.CircleMenuButton
+    <com.imangazaliev.circlemenu.CircleMenu
+        android:id="@+id/home_circleMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:foreground="@drawable/button_circle_icon"
-        app:layout_anchor="@+id/home_bottom_appbar" />
+        app:buttonColors="@array/bottom_bar_colors"
+        app:buttonIcons="@array/bottom_bar_icons"
+        app:iconsColor="@color/gray"
+        app:layout_anchor="@id/home_bottom_appbar"
+        app:maxAngle="180"
+        app:startAngle="-135" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
