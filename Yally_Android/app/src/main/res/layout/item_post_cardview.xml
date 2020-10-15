@@ -16,10 +16,12 @@
         android:paddingBottom="8dp">
 
         <ImageView
+            android:id="@+id/post_user_image_imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/ImageDescription" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,6 +29,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/post_user_name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosanskr_medium"
@@ -35,6 +38,7 @@
                 tool:text="아이유가진리" />
 
             <TextView
+                android:id="@+id/post_uploaded_time_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
@@ -57,6 +61,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/ImageDescription"
                 android:paddingTop="4dp"
                 android:paddingEnd="4dp"
                 android:src="@drawable/ic_arrow_downward"
@@ -73,6 +78,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/post_yally_count_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
@@ -89,6 +95,7 @@
                     android:background="@color/gray" />
 
                 <TextView
+                    android:id="@+id/post_comments_count_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
@@ -109,6 +116,7 @@
         android:paddingEnd="32dp">
 
         <TextView
+            android:id="@+id/post_content_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -116,7 +124,7 @@
             tool:text="아니 당근 빳따 아이유가 진리인데…ㅠ 왜 다들 몰라줄까요… 이거 다들 진짜 인정하시는 부분이죠?! 저만그런거 아니죠?!?! #아이유 #짱 #ㅎㅋ #으앜" />
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/post_player_seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="34dp"
@@ -132,23 +140,27 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/post_yally_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            tool:ignore="UseCompoundDrawables">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/post_do_yally_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
+                android:contentDescription="@string/ImageDescription"
                 app:srcCompat="@drawable/ic_yally_note" />
 
             <TextView
+                android:id="@+id/post_do_yally_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosanskr_medium"
-                android:text="얄리하기"
+                android:text="@string/do_yally"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -158,23 +170,27 @@
             android:background="@color/gray" />
 
         <LinearLayout
+            android:id="@+id/post_comments_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            tool:ignore="UseCompoundDrawables">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/post_do_comment_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
+                android:contentDescription="@string/ImageDescription"
                 app:srcCompat="@drawable/ic_chat_bubble" />
 
             <TextView
+                android:id="@+id/post_do_comment_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosanskr_medium"
-                android:text="댓글달기"
+                android:text="@string/do_comment"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
