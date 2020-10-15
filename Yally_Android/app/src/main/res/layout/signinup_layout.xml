@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingStart="57dp"
-    android:paddingTop="24dp"
+    android:paddingTop="22dp"
     android:paddingEnd="57dp">
 
     <TextView
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/notosanskr_medium"
+        android:includeFontPadding="false"
         android:text="@string/welcome_back"
         android:textAlignment="center"
         android:textColor="@color/gray"
@@ -24,6 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:includeFontPadding="false"
         android:text="@string/start_login"
         android:textAlignment="center"
         android:textColor="@color/gray"
@@ -34,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         app:hintEnabled="false">
 
         <com.sinagram.yallyandroid.Util.ClearEditText
@@ -41,8 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:background="@android:color/transparent"
             android:ems="10"
             android:hint="@string/email"
             android:importantForAutofill="no"
@@ -57,6 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         app:hintEnabled="false">
 
         <com.sinagram.yallyandroid.Util.ClearEditText
@@ -65,7 +68,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:background="@android:color/transparent"
             android:ems="10"
             android:hint="@string/password"
             android:importantForAutofill="no"
@@ -79,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="20dp"
         android:visibility="gone"
         app:hintEnabled="false">
 
@@ -88,7 +90,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
             android:ems="10"
             android:hint="@string/confirm_password"
             android:importantForAutofill="no"
@@ -101,7 +102,7 @@
         style="@style/PinWidget.PinView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="30dp"
         android:cursorVisible="true"
         android:fontFamily="@font/notosanskr_bold"
         android:inputType="text"
