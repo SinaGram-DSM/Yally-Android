@@ -32,15 +32,21 @@ class HomeActivity : AppCompatActivity() {
             home_user_profile_button.startAnimation(fab_close)
             home_writing_button.isClickable = false
             home_user_profile_button.isClickable = false
-            home_writing_button.visibility = View.VISIBLE
-            home_user_profile_button.visibility = View.VISIBLE
-
+            home_circleMenuButton.animate().scaleX(1f).scaleY(1f).setDuration(300).withStartAction {
+                home_circleMenuButton.scaleX = 1.5f
+                home_circleMenuButton.scaleY = 1.5f
+            }.start()
             false
         } else {
             home_writing_button.startAnimation(fab_open)
             home_user_profile_button.startAnimation(fab_open)
             home_writing_button.isClickable = true
             home_user_profile_button.isClickable = true
+            home_circleMenuButton.animate().scaleX(1.5f).scaleY(1.5f).setDuration(300)
+                .withStartAction {
+                    home_circleMenuButton.scaleX = 1f
+                    home_circleMenuButton.scaleY = 1f
+                }.start()
             true
         }
     }

@@ -16,7 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/white">
+        app:backgroundTint="@color/white"
+        app:fabAnimationMode="scale"
+        app:fabCradleMargin="-10dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/home_bottom_navigationView"
@@ -36,9 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="70dp"
         android:backgroundTint="@color/white"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_edit_mark" />
@@ -49,9 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginStart="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="70dp"
         android:backgroundTint="@color/white"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_baseline_person_24" />
