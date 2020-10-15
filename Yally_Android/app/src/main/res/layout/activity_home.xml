@@ -30,14 +30,34 @@
             app:menu="@menu/home_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <com.imangazaliev.circlemenu.CircleMenu
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/home_writing_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_edit_mark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/home_user_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_baseline_person_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/home_circleMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:buttonColors="@array/bottom_bar_colors"
-        app:buttonIcons="@array/bottom_bar_icons"
-        app:iconsColor="@color/gray"
-        app:layout_anchor="@id/home_bottom_appbar"
-        app:maxAngle="180"
-        app:startAngle="-135" />
+        android:foreground="@drawable/button_circle_icon"
+        app:layout_anchor="@id/home_bottom_appbar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
