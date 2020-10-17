@@ -1,6 +1,6 @@
 package com.sinagram.yallyandroid.Writing.Data
 
-data class Post (
+data class WritingRequest (
     var sound: String,
     var content: String,
     var img: String,
