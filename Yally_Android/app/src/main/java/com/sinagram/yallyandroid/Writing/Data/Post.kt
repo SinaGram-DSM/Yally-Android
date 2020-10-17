@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Writing.Model
+package com.sinagram.yallyandroid.Writing.Data
 
 data class Post (
     var sound: String,
