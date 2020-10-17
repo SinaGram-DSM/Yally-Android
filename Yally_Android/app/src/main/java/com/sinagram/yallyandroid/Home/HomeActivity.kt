@@ -1,12 +1,15 @@
 package com.sinagram.yallyandroid.Home
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.activity_home.*
+
 
 class HomeActivity : AppCompatActivity() {
     private var fabOpen: Animation? = null
@@ -18,6 +21,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         initialization()
+        addSetOnNavigationItemSelectedListener()
     }
 
     private fun initialization() {
@@ -26,6 +30,20 @@ class HomeActivity : AppCompatActivity() {
 
         fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
         fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close)
+    }
+
+    private fun addSetOnNavigationItemSelectedListener() {
+        home_bottom_navigationView.setOnNavigationItemSelectedListener { item ->
+            val fragment = when (item.itemId) {
+                R.id.menu_home_stack -> TimeLineFragment()
+                R.id.menu_home_search -> SearchFragment()
+                else -> TimeLineFragment()
+            }
+
+            supportFragmentManager.beginTransaction().replace(R.id.home_fragment, fragment)
+
+            true
+        }
     }
 
     fun toggleFab(view: View) {

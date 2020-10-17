@@ -14,7 +14,7 @@ interface YallyAPI {
     @POST("/user/auth-code/email")
     suspend fun sendAuthCode(@Body body: HashMap<String, String>): Response<Void>
 
-    @POST("/user/code")
+    @POST("/user/auth-code")
     suspend fun confirmAuthCode(@Body body: HashMap<String, String>): Response<Void>
 
     @POST("/user")
