@@ -39,7 +39,7 @@ class LoginViewModel : ViewModel() {
     private fun loginSuccess(result: Result.Success<TokenResponse>) {
         if (result.code == 200) {
             loginSuccessLiveData.postValue(PasswordProcess.Login)
-            repository.putToken(result.data)
+            repository.putToken(result.data!!)
             repository.putLoginInfo(true)
         } else {
             errorSignLiveData.postValue(PasswordProcess.Login)
