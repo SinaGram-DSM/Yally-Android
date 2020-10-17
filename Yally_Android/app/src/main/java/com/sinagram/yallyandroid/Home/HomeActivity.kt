@@ -6,10 +6,10 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.activity_home.*
-
 
 class HomeActivity : AppCompatActivity() {
     private var fabOpen: Animation? = null
@@ -30,6 +30,8 @@ class HomeActivity : AppCompatActivity() {
 
         fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
         fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close)
+
+        supportFragmentManager.beginTransaction().add(R.id.home_fragment, TimeLineFragment()).commit()
     }
 
     private fun addSetOnNavigationItemSelectedListener() {
@@ -40,10 +42,15 @@ class HomeActivity : AppCompatActivity() {
                 else -> TimeLineFragment()
             }
 
-            supportFragmentManager.beginTransaction().replace(R.id.home_fragment, fragment)
-
+            replaceFragment(fragment)
             true
         }
+    }
+
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.home_fragment, fragment)
+        fragmentTransaction.commit()
     }
 
     fun toggleFab(view: View) {
