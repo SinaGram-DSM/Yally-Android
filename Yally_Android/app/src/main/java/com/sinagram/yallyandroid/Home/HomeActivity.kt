@@ -1,13 +1,13 @@
 package com.sinagram.yallyandroid.Home
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.sinagram.yallyandroid.Home.Fragment.SearchFragment
+import com.sinagram.yallyandroid.Home.Fragment.TimeLineFragment
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.activity_home.*
 

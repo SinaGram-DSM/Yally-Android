@@ -4,6 +4,7 @@ import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -28,4 +29,7 @@ interface YallyAPI {
 
     @POST("/user/auth/refresh")
     suspend fun refreshToken(@Header("Authorization") header: String): Response<String>
+
+    @GET("/timeline/{page}")
+    suspend fun getMainTimeLine(@Header("Authorization")  header: String)
 }
