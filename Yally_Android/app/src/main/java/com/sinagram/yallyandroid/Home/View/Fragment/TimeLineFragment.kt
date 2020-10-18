@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Home.Fragment
+package com.sinagram.yallyandroid.Home.View.Fragment
 
 import android.os.Bundle
 import android.util.Log
