@@ -2,7 +2,6 @@ package com.sinagram.yallyandroid.Sign.Fragment
 
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.Data.SignProcess
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
+import com.sinagram.yallyandroid.Util.TextWatcherImpl
 import kotlinx.android.synthetic.main.signinup_layout.*
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 import java.util.regex.Pattern
@@ -39,25 +39,21 @@ class AuthenticationFragment : Fragment() {
 
         view.apply {
             changeEmailPage()
-            signinup_email_editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            signinup_email_editText.addTextChangedListener(object : TextWatcherImpl() {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     signinup_email_inputLayout.error = null
                 }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    email = p0.toString()
+                override fun afterTextChanged(s: Editable?) {
+                    email = s.toString()
                     activeButton(signinup_doSign_button)
                 }
             })
-            signinup_authCode_pinView.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            signinup_authCode_pinView.addTextChangedListener(object : TextWatcherImpl() {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     signinup_pinError_textView.text = null
                 }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    pinCode = p0.toString()
+                override fun afterTextChanged(s: Editable?) {
+                    pinCode = s.toString()
                     activeButton(signinup_doSign_button)
                 }
             })

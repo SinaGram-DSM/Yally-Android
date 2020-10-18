@@ -15,6 +15,7 @@ import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.Data.LoginRequest
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
+import com.sinagram.yallyandroid.Util.TextWatcherImpl
 import kotlinx.android.synthetic.main.signinup_layout.*
 import kotlinx.android.synthetic.main.signinup_layout.view.*
 
@@ -64,16 +65,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
-        return object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        return object : TextWatcherImpl() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 textInputLayout.error = null
             }
-
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
                 when (textInputLayout) {
-                    signinup_password_inputLayout -> loginRequest.password = p0.toString()
-                    signinup_email_inputLayout -> loginRequest.email = p0.toString()
+                    signinup_password_inputLayout -> loginRequest.password = s.toString()
+                    signinup_email_inputLayout -> loginRequest.email = s.toString()
                 }
                 activeButton(signinup_doSign_button)
             }

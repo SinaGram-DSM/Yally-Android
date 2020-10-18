@@ -15,6 +15,7 @@ import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
+import com.sinagram.yallyandroid.Util.TextWatcherImpl
 import kotlinx.android.synthetic.main.layout_signinup.*
 
 class SignUpFragment : Fragment() {
@@ -52,11 +53,9 @@ class SignUpFragment : Fragment() {
             signUp_confirm_password_editText.addTextChangedListener(
                 createTextWatcher(signUp_confirm_password_inputLayout)
             )
-            signUp_age_editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(p0: Editable?) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    signUpRequest.age = p0.toString().toInt()
+            signUp_age_editText.addTextChangedListener(object : TextWatcherImpl() {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    signUpRequest.age = s.toString().toInt()
                 }
             })
         }
@@ -77,17 +76,15 @@ class SignUpFragment : Fragment() {
     }
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
-        return object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        return object : TextWatcherImpl() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 textInputLayout.error = null
             }
-
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
                 when (textInputLayout) {
-                    signUp_nickname_inputLayout -> signUpRequest.nickname = p0.toString()
-                    signUp_password_inputLayout -> signUpRequest.password = p0.toString()
-                    signUp_confirm_password_inputLayout -> confirm = p0.toString()
+                    signUp_nickname_inputLayout -> signUpRequest.nickname = s.toString()
+                    signUp_password_inputLayout -> signUpRequest.password = s.toString()
+                    signUp_confirm_password_inputLayout -> confirm = s.toString()
                 }
                 activeButton(signUp_doSign_button)
             }

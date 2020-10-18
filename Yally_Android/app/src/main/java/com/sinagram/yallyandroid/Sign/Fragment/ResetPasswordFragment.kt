@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputLayout
@@ -16,11 +15,11 @@ import com.sinagram.yallyandroid.Sign.Data.LoginRequest
 import com.sinagram.yallyandroid.Sign.Data.PasswordProcess
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
+import com.sinagram.yallyandroid.Util.TextWatcherImpl
 import kotlinx.android.synthetic.main.signinup_layout.*
 import kotlinx.android.synthetic.main.signinup_layout.signinup_email_inputLayout
 import kotlinx.android.synthetic.main.signinup_layout.signinup_password_inputLayout
 import kotlinx.android.synthetic.main.signinup_layout.view.*
-import java.util.regex.Pattern
 
 class ResetPasswordFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
@@ -46,11 +45,9 @@ class ResetPasswordFragment : Fragment() {
                 createTextWatcher(signinup_comfirm_password_inputLayout)
             )
 
-            signinup_authCode_pinView.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(p0: Editable?) {
-                    loginRequest.pinCode = p0.toString()
+            signinup_authCode_pinView.addTextChangedListener(object : TextWatcherImpl() {
+                override fun afterTextChanged(s: Editable?) {
+                    loginRequest.pinCode = s.toString()
                     signinup_pinError_textView.visibility = View.GONE
                     activeButton(signinup_doSign_button)
                 }
@@ -121,17 +118,15 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
-        return object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        return object : TextWatcherImpl() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 textInputLayout.error = null
             }
-
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
                 when (textInputLayout) {
-                    signinup_email_inputLayout -> loginRequest.email = p0.toString()
-                    signinup_password_inputLayout -> loginRequest.password = p0.toString()
-                    signinup_comfirm_password_inputLayout -> loginRequest.confirm = p0.toString()
+                    signinup_email_inputLayout -> loginRequest.email = s.toString()
+                    signinup_password_inputLayout -> loginRequest.password = s.toString()
+                    signinup_comfirm_password_inputLayout -> loginRequest.confirm = s.toString()
                 }
                 activeButton(signinup_doSign_button)
             }

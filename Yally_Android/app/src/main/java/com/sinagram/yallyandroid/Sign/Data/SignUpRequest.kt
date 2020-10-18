@@ -5,4 +5,6 @@ data class SignUpRequest(
     var password: String,
     var nickname: String,
     var age: Int
-)
+) {
+
+}
