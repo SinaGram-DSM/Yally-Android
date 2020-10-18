@@ -66,10 +66,8 @@ class LoginFragment : Fragment() {
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
         return object : TextWatcherImpl() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                textInputLayout.error = null
-            }
             override fun afterTextChanged(s: Editable?) {
+                textInputLayout.error = null
                 when (textInputLayout) {
                     signinup_password_inputLayout -> loginRequest.password = s.toString()
                     signinup_email_inputLayout -> loginRequest.email = s.toString()

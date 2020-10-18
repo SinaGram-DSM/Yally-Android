@@ -25,7 +25,11 @@ class ResetPasswordFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val loginRequest = LoginRequest()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.signinup_layout, container, false)
     }
 
@@ -119,10 +123,8 @@ class ResetPasswordFragment : Fragment() {
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
         return object : TextWatcherImpl() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                textInputLayout.error = null
-            }
             override fun afterTextChanged(s: Editable?) {
+                textInputLayout.error = null
                 when (textInputLayout) {
                     signinup_email_inputLayout -> loginRequest.email = s.toString()
                     signinup_password_inputLayout -> loginRequest.password = s.toString()
@@ -135,21 +137,20 @@ class ResetPasswordFragment : Fragment() {
 
     private fun activeButton(button: Button) {
         button.apply {
+            setBackgroundResource(R.drawable.button_gradient)
+
             when {
                 loginRequest.scanEnteredEmail() -> {
-                    setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         loginViewModel.sendResetCode(loginRequest.email)
                     }
                 }
                 loginRequest.scanEnteredPinCode() -> {
-                    setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         loginViewModel.checkResetCode()
                     }
                 }
                 loginRequest.scanEnteredPassword() -> {
-                    setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         loginRequest.addDataInHashMap("password", loginRequest.password)
                         loginViewModel.sendResetPassword(loginRequest.hashMap)
@@ -172,8 +173,10 @@ class ResetPasswordFragment : Fragment() {
                 signinup_pinError_textView.visibility = View.VISIBLE
             }
             PasswordProcess.Password -> {
-                signinup_password_inputLayout.error = getString(R.string.password_format_not_correct)
-                signinup_comfirm_password_inputLayout.error = getString(R.string.password_not_equals)
+                signinup_password_inputLayout.error =
+                    getString(R.string.password_format_not_correct)
+                signinup_comfirm_password_inputLayout.error =
+                    getString(R.string.password_not_equals)
             }
             else -> {
             }

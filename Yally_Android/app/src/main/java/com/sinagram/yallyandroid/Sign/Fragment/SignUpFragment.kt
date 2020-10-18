@@ -20,14 +20,13 @@ import kotlinx.android.synthetic.main.layout_signinup.*
 
 class SignUpFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel by viewModels()
-    val email by lazy { requireArguments().getString("Email") }
-    var signUpRequest = SignUpRequest("", "", "", 0)
+    var signUpRequest = SignUpRequest()
     var confirm = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            signUpRequest.email = email!!
+            signUpRequest.email = requireArguments().getString("Email")!!
         } catch (e: Exception) {
             Log.e("SignUpFragment", e.toString())
         }
@@ -77,10 +76,8 @@ class SignUpFragment : Fragment() {
 
     private fun createTextWatcher(textInputLayout: TextInputLayout): TextWatcher {
         return object : TextWatcherImpl() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                textInputLayout.error = null
-            }
             override fun afterTextChanged(s: Editable?) {
+                textInputLayout.error = null
                 when (textInputLayout) {
                     signUp_nickname_inputLayout -> signUpRequest.nickname = s.toString()
                     signUp_password_inputLayout -> signUpRequest.password = s.toString()
@@ -94,11 +91,7 @@ class SignUpFragment : Fragment() {
     private fun activeButton(button: Button) {
         button.apply {
             when {
-                signUpRequest.password == confirm
-                        && signUpRequest.password.length in 8..20
-                        && signUpRequest.password.isNotBlank()
-                        && signUpRequest.nickname.isNotBlank()
-                        && signUpRequest.age in 1..120-> {
+                signUpRequest.scanEnteredSignUpInformation(confirm) -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         signUpViewModel.checkSignUpInfo(signUpRequest)
