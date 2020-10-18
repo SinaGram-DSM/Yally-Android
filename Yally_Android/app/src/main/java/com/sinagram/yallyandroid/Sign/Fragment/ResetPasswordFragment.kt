@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.Data.LoginRequest
 import com.sinagram.yallyandroid.Sign.Data.PasswordProcess
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
@@ -23,19 +24,9 @@ import java.util.regex.Pattern
 
 class ResetPasswordFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
-    private val hashMap: HashMap<String, String> = HashMap()
-    private val emailPattern =
-        Pattern.compile("^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\\.([a-zA-Z])+([a-zA-Z])+")
-    private var email = ""
-    private var pinCode = ""
-    private var password = "pass"
-    private var confirm = "word"
+    private val loginRequest = LoginRequest()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.signinup_layout, container, false)
     }
 
@@ -44,6 +35,7 @@ class ResetPasswordFragment : Fragment() {
 
         view.apply {
             changeEmailPage()
+
             signinup_email_editText.addTextChangedListener(
                 createTextWatcher(signinup_email_inputLayout)
             )
@@ -53,11 +45,12 @@ class ResetPasswordFragment : Fragment() {
             signinup_comfirm_password_editText.addTextChangedListener(
                 createTextWatcher(signinup_comfirm_password_inputLayout)
             )
+
             signinup_authCode_pinView.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
-                    pinCode = p0.toString()
+                    loginRequest.pinCode = p0.toString()
                     signinup_pinError_textView.visibility = View.GONE
                     activeButton(signinup_doSign_button)
                 }
@@ -76,13 +69,13 @@ class ResetPasswordFragment : Fragment() {
         loginViewModel.loginSuccessLiveData.observe(viewLifecycleOwner, {
             when (it) {
                 PasswordProcess.Email -> {
-                    hashMap["email"] = email
-                    email = ""
+                    loginRequest.addDataInHashMap("email", loginRequest.email)
+                    loginRequest.email = ""
                     changeCodePage()
                 }
                 PasswordProcess.Code -> {
-                    hashMap["code"] = pinCode
-                    pinCode = ""
+                    loginRequest.addDataInHashMap("code", loginRequest.pinCode)
+                    loginRequest.pinCode = ""
                     changePasswordPage()
                 }
                 PasswordProcess.Password -> {
@@ -136,9 +129,9 @@ class ResetPasswordFragment : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 when (textInputLayout) {
-                    signinup_email_inputLayout -> email = p0.toString()
-                    signinup_password_inputLayout -> password = p0.toString()
-                    signinup_comfirm_password_inputLayout -> confirm = p0.toString()
+                    signinup_email_inputLayout -> loginRequest.email = p0.toString()
+                    signinup_password_inputLayout -> loginRequest.password = p0.toString()
+                    signinup_comfirm_password_inputLayout -> loginRequest.confirm = p0.toString()
                 }
                 activeButton(signinup_doSign_button)
             }
@@ -148,23 +141,23 @@ class ResetPasswordFragment : Fragment() {
     private fun activeButton(button: Button) {
         button.apply {
             when {
-                email.length <= 30 && emailPattern.matcher(email).matches() -> {
+                loginRequest.scanEnteredEmail() -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
-                        loginViewModel.sendResetCode(email)
+                        loginViewModel.sendResetCode(loginRequest.email)
                     }
                 }
-                pinCode.length == 6 -> {
+                loginRequest.scanEnteredPinCode() -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
                         loginViewModel.checkResetCode()
                     }
                 }
-                password == confirm && password.length >= 8 && password.isNotBlank() -> {
+                loginRequest.scanEnteredPassword() -> {
                     setBackgroundResource(R.drawable.button_gradient)
                     button.setOnClickListener {
-                        hashMap["password"] = password
-                        loginViewModel.sendResetPassword(hashMap)
+                        loginRequest.addDataInHashMap("password", loginRequest.password)
+                        loginViewModel.sendResetPassword(loginRequest.hashMap)
                     }
                 }
                 else -> {

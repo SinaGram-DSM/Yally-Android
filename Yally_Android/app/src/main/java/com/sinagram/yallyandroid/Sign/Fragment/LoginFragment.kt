@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Sign.Data.LoginRequest
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.LoginViewModel
 import kotlinx.android.synthetic.main.signinup_layout.*
@@ -20,8 +20,7 @@ import kotlinx.android.synthetic.main.signinup_layout.view.*
 
 class LoginFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
-    var email = ""
-    var password = ""
+    private val loginRequest = LoginRequest()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,8 +72,8 @@ class LoginFragment : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 when (textInputLayout) {
-                    signinup_password_inputLayout -> password = p0.toString()
-                    signinup_email_inputLayout -> email = p0.toString()
+                    signinup_password_inputLayout -> loginRequest.password = p0.toString()
+                    signinup_email_inputLayout -> loginRequest.email = p0.toString()
                 }
                 activeButton(signinup_doSign_button)
             }
@@ -83,9 +82,9 @@ class LoginFragment : Fragment() {
 
     private fun activeButton(button: Button) {
         button.apply {
-            if (email.length in 1..30 && password.length >= 8 && password.isNotEmpty()) {
+            if (loginRequest.scanEnteredLoginInformation()) {
                 setBackgroundResource(R.drawable.button_gradient)
-                setOnClickListener { loginViewModel.mappingLoginInfo(email, password) }
+                setOnClickListener { loginViewModel.mappingLoginInfo(loginRequest) }
             } else {
                 setBackgroundResource(R.drawable.button_bright_gray)
                 setOnClickListener(null)
