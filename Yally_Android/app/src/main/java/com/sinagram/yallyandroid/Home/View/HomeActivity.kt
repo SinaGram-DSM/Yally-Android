@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Home
+package com.sinagram.yallyandroid.Home.View
 
 import android.os.Bundle
 import android.view.View
