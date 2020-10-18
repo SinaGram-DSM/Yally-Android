@@ -31,9 +31,9 @@ class TokenAuthenticator : Interceptor {
             403 -> {
                 sharedPreferencesManager.isLogin = false
                 CoroutineScope(Dispatchers.Main).launch {
-                    val accessToken = SharedPreferencesManager.getInstance().accessToken
-                    if (accessToken != null) {
-                        getAccessToken(accessToken)
+                    val refreshToken = SharedPreferencesManager.getInstance().refreshToken
+                    if (refreshToken != null) {
+                        getAccessToken(refreshToken)
                     }
                 }
             }
@@ -41,9 +41,9 @@ class TokenAuthenticator : Interceptor {
         return mainResponse
     }
 
-    private suspend fun getAccessToken(accessToken: String) {
+    private suspend fun getAccessToken(refreshToken: String) {
         val token = withContext(Dispatchers.IO) {
-            YallyConnector.createAPI().refreshToken(accessToken)
+            YallyConnector.createAPI().refreshToken(refreshToken)
         }
 
         if (token.isSuccessful) {
@@ -53,7 +53,7 @@ class TokenAuthenticator : Interceptor {
                 Log.e("TokenAuthenticator", "알 수 없는 오류")
             }
         } else {
-            Log.e("TokenAuthenticator", token.errorBody().toString())
+            Log.e("TokenAuthenticator", token.message())
         }
     }
 }
