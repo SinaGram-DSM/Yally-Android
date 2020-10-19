@@ -33,4 +33,17 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Path("page") page: Int
     ): Response<PostsResponse>
+
+
+    @GET("/post/yally/{id}")
+    suspend fun doYallyOnPost(
+        @Header("Authorization") header: String,
+        @Path("id") id: String
+    ): Response<Void>
+
+    @DELETE("/post/yally/{id}")
+    suspend fun cancelYallyOnPost(
+        @Header("Authorization") header: String,
+        @Path("id") id: String
+    ): Response<Void>
 }
