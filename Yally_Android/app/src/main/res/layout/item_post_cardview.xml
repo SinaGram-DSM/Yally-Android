@@ -120,7 +120,9 @@
             android:id="@+id/post_content_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:bufferType="spannable"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="14sp"
             tool:text="아니 당근 빳따 아이유가 진리인데…ㅠ 왜 다들 몰라줄까요… 이거 다들 진짜 인정하시는 부분이죠?! 저만그런거 아니죠?!?! #아이유 #짱 #ㅎㅋ #으앜" />
 
