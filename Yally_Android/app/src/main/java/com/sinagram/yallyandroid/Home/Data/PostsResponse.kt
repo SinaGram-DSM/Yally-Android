@@ -14,7 +14,7 @@ data class Post(
     val isYally: Boolean,
     val sound: String,
     val user: User,
-    val yallY: Int
+    val yally: Int
 )
 
 data class User(
