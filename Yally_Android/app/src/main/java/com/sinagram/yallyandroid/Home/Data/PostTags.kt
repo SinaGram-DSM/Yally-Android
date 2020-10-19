@@ -4,10 +4,6 @@ import android.graphics.Typeface
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.StyleSpan
-import androidx.core.content.res.ResourcesCompat
-import com.sinagram.yallyandroid.R
-import com.sinagram.yallyandroid.Util.FontSpan
-import com.sinagram.yallyandroid.Util.YallyApplication.Companion.context
 
 class PostTags(val content: String) {
     fun applyBoldToTags(span: Spannable) {

@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.text.Spannable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostDate
 import com.sinagram.yallyandroid.Home.Data.PostMediaPlayer
@@ -21,6 +22,8 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             post_comments_count_textView.text =
                 context.getString(R.string.comment_count, postData.comment)
             post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
+            Glide.with(this).load(postData.user.img).circleCrop().into(post_user_image_imageView)
+            Glide.with(this).load(postData.img).centerCrop().into(post_content_imageView)
         }
     }
 
