@@ -35,9 +35,7 @@ class TimeLineFragment : Fragment() {
 //            timeLine_recyclerView.apply {
 //                setHasFixedSize(true)
 //                layoutManager = LinearLayoutManager(activity)
-//                adapter = MainTimeLineAdapter(
-//                    it, ResourcesCompat.getFont(context, R.font.notosanskr_medium)
-//                )
+//                adapter = MainTimeLineAdapter(it)
 //            }
 //        })
 
@@ -60,9 +58,7 @@ class TimeLineFragment : Fragment() {
         timeLine_recyclerView.apply{
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = MainTimeLineAdapter(
-                listOf(post), ResourcesCompat.getFont(context, R.font.notosanskr_medium)
-            )
+            adapter = MainTimeLineAdapter(listOf(post))
         }
     }
 }

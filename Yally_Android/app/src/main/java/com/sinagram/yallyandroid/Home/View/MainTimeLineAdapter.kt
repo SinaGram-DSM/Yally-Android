@@ -10,13 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Home.Data.Post
+import com.sinagram.yallyandroid.Home.Data.PostDate
+import com.sinagram.yallyandroid.Home.Data.PostTags
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Util.FontSpan
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainTimeLineAdapter(var postsList: List<Post>, val font: Typeface?) :
+class MainTimeLineAdapter(var postsList: List<Post>) :
     RecyclerView.Adapter<MainTimeLineAdapter.MainTimeLineViewHolder>() {
 
     override fun getItemCount(): Int = postsList.size
@@ -34,9 +36,9 @@ class MainTimeLineAdapter(var postsList: List<Post>, val font: Typeface?) :
             itemView.apply {
                 post_user_name_textView.text = postData.user.nickname
                 post_yally_count_textView.text =
-                    Resources.getSystem().getString(R.string.yally_count, postData.yally)
+                    context.getString(R.string.yally_count, postData.yally)
                 post_comments_count_textView.text =
-                    Resources.getSystem().getString(R.string.comment_count, postData.comment)
+                    context.getString(R.string.comment_count, postData.comment)
             }
 
             setTimeFromUploadedTime(postData.createdAt)
@@ -47,29 +49,8 @@ class MainTimeLineAdapter(var postsList: List<Post>, val font: Typeface?) :
 
     inner class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun setTimeFromUploadedTime(uploadedDate: String) {
-            val now = System.currentTimeMillis()
-            val dateNow = Date(now)
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
-            try {
-                val dateCreated = dateFormat.parse(uploadedDate)!!
-                val duration = dateNow.time - dateCreated.time
-                val min = duration / 60000
-
-                val timeDifference = when {
-                    min < 1 -> "방금전"
-                    min in 1..59 -> "${min}분"
-                    min in 60..1440 -> "${duration / 3600000}시간"
-                    else -> SimpleDateFormat(
-                        "MM월 dd일",
-                        Locale.getDefault()
-                    ).format(dateCreated.time)
-                }
-
-                itemView.post_uploaded_time_textView.text = timeDifference
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            itemView.post_uploaded_time_textView.text =
+                PostDate(uploadedDate).setTimeFromUploadedTime()
         }
 
         fun checkClickedYally(isYally: Boolean) {
@@ -81,24 +62,7 @@ class MainTimeLineAdapter(var postsList: List<Post>, val font: Typeface?) :
 
         fun applyBoldToTags(content: String) {
             itemView.post_content_textView.text = content
-            var isCharacter = false
-            val span: Spannable = itemView.post_content_textView.text as Spannable
-            var index = 0
-
-            while (content.length >= index + 1) {
-                if (content[index] == '#') isCharacter = !isCharacter
-                if (content[index] == ' ') isCharacter = false
-                if (isCharacter) {
-                    span.setSpan(
-                        FontSpan(font),
-                        index,
-                        index + 1,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-
-                index++
-            }
+            PostTags(content).applyBoldToTags(itemView.post_content_textView.text as Spannable)
         }
     }
 }
