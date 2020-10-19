@@ -1,6 +1,7 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.text.Spannable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 context.getString(R.string.yally_count, postData.yally)
             post_comments_count_textView.text =
                 context.getString(R.string.comment_count, postData.comment)
+            post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
         }
     }
 
@@ -33,9 +35,11 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
                 postSeekBar.visibility = if (isClickedPost) {
                     startMediaPlayer(postData)
+                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
                     View.VISIBLE
                 } else {
                     stopMediaPlayer()
+                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
                     View.GONE
                 }
             }

@@ -107,34 +107,47 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingStart="32dp"
-        android:paddingTop="32dp"
-        android:paddingEnd="32dp">
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/post_content_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:bufferType="spannable"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tool:text="아니 당근 빳따 아이유가 진리인데…ㅠ 왜 다들 몰라줄까요… 이거 다들 진짜 인정하시는 부분이죠?! 저만그런거 아니죠?!?! #아이유 #짱 #ㅎㅋ #으앜" />
-
-        <SeekBar
-            android:id="@+id/post_player_seekBar"
+        <ImageView
+            android:id="@+id/post_content_imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
-            android:progressDrawable="@drawable/custom_seeker_bar"
-            android:thumb="@drawable/custom_seeker_bar_thump"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:src="@drawable/splash_imageview"
+            android:layout_height="210dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingStart="32dp"
+            android:paddingTop="32dp"
+            android:paddingEnd="32dp">
+
+            <TextView
+                android:id="@+id/post_content_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="spannable"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tool:text="아니 당근 빳따 아이유가 진리인데…ㅠ 왜 다들 몰라줄까요… 이거 다들 진짜 인정하시는 부분이죠?! 저만그런거 아니죠?!?! #아이유 #짱 #ㅎㅋ #으앜" />
+
+            <SeekBar
+                android:id="@+id/post_player_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:progressDrawable="@drawable/custom_seeker_bar"
+                android:thumb="@drawable/custom_seeker_bar_thump"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
