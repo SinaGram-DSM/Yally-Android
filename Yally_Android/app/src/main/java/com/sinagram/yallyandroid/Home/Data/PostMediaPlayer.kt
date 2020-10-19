@@ -4,6 +4,8 @@ import android.media.MediaPlayer
 import android.widget.SeekBar
 import com.sinagram.yallyandroid.Home.View.ProgressBarThread
 import com.sinagram.yallyandroid.Util.SeekBarChangeListenerImpl
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PostMediaPlayer(private val postSeekBar: SeekBar) {
     var isClickedPost = false
@@ -43,5 +45,9 @@ class PostMediaPlayer(private val postSeekBar: SeekBar) {
         mediaPlayer.stop()
         mediaPlayer.release()
         postSeekBar.progress = 0
+    }
+
+    fun getSoundSourceLength(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.duration)
     }
 }

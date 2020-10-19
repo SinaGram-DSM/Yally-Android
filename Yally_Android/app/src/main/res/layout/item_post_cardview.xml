@@ -144,6 +144,16 @@
                 android:progressDrawable="@drawable/custom_seeker_bar"
                 android:thumb="@drawable/custom_seeker_bar_thump"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/post_soundLength_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:fontFamily="@font/notosanskr_light"
+                android:includeFontPadding="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
         </LinearLayout>
     </FrameLayout>
 

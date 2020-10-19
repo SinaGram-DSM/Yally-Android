@@ -38,6 +38,7 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
                 postSeekBar.visibility = if (isClickedPost) {
                     startMediaPlayer(postData)
+                    itemView.post_soundLength_textView.text = getSoundSourceLength()
                     itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
                     View.VISIBLE
                 } else {
