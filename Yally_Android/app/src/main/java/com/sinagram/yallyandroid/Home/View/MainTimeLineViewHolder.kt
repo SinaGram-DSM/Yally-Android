@@ -59,6 +59,9 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         if (isYally) {
             itemView.post_do_yally_imageView.setImageResource(R.drawable.ic_yally_note_colorful)
             itemView.post_do_yally_textView.setTextColor(Color.parseColor("#6E3CEF"))
+        } else {
+            itemView.post_do_yally_imageView.setImageResource(R.drawable.ic_yally_note)
+            itemView.post_do_yally_textView.setTextColor(Color.parseColor("#707070"))
         }
     }
 

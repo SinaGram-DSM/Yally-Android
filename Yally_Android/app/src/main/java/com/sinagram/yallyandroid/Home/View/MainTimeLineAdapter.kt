@@ -1,10 +1,12 @@
 package com.sinagram.yallyandroid.Home.View
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.R
+import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineAdapter(var postsList: List<Post>) :
     RecyclerView.Adapter<MainTimeLineViewHolder>() {
@@ -26,6 +28,11 @@ class MainTimeLineAdapter(var postsList: List<Post>) :
             setTimeFromUploadedTime(postData.createdAt)
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
+
+            itemView.post_yally_layout.setOnClickListener {
+                postData.isYally = !postData.isYally
+                checkClickedYally(postData.isYally)
+            }
         }
     }
 }

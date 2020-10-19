@@ -11,7 +11,7 @@ data class Post(
     val id: String,
     val img: String,
     val isMine: Boolean,
-    val isYally: Boolean,
+    var isYally: Boolean,
     val sound: String,
     val user: User,
     val yally: Int
