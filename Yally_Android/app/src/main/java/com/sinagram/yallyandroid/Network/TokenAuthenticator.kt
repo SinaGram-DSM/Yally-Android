@@ -48,7 +48,7 @@ class TokenAuthenticator : Interceptor {
 
         if (token.isSuccessful) {
             if (token.code() == 200) {
-                sharedPreferencesManager.accessToken = token.body()
+                sharedPreferencesManager.accessToken = "Bearer " + token.body()
             } else {
                 Log.e("TokenAuthenticator", "알 수 없는 오류")
             }

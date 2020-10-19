@@ -30,8 +30,8 @@ class SignRepository : BaseRepository() {
     }
 
     fun putToken(tokenResponse: TokenResponse) {
-        sharedPreferences.accessToken = tokenResponse.accessToken
-        sharedPreferences.refreshToken = tokenResponse.refreshToken
+        sharedPreferences.accessToken = "Bearer " + tokenResponse.accessToken
+        sharedPreferences.refreshToken = "Bearer " + tokenResponse.refreshToken
     }
 
     fun putLoginInfo(isLogin: Boolean) {
