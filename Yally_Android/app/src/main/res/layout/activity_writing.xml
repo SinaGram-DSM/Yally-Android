@@ -25,7 +25,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
@@ -43,12 +43,12 @@
             android:layout_marginBottom="15dp"
             android:gravity="center"
             android:text="@string/writing"
-            android:textColor="#707070"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_marginLeft="65dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
@@ -73,7 +73,8 @@
             android:layout_height="40dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/circle" />
+            android:background="@drawable/circle"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <EditText
             android:id="@+id/writing_writing_edit"
@@ -82,6 +83,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
+            android:hint = "당신의 이야기를 들려주세요!"
+            android:textColor="@color/writing_text_gray"
             android:background="@android:color/transparent"
             android:maxEms="100"
             android:textSize="14sp" />
@@ -110,6 +113,7 @@
             android:background="@drawable/writing_button"
             android:drawableLeft="@drawable/icon_mic"
             android:paddingLeft="8dp"
+            android:textColor="@color/writing_text_gray"
             android:text="@string/record"
             android:textSize="11sp" />
 
@@ -118,6 +122,7 @@
             android:layout_width="88dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:textColor="@color/writing_text_gray"
             android:background="@drawable/writing_button"
             android:drawableLeft="@drawable/icon_sound"
             android:paddingLeft="8dp"
@@ -129,6 +134,7 @@
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:textColor="@color/writing_text_gray"
             android:background="@drawable/writing_button"
             android:drawableLeft="@drawable/icon_picture"
             android:paddingLeft="8dp"
@@ -139,7 +145,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:id="@+id/writing_deleteVoice_button"
@@ -148,13 +155,15 @@
             android:layout_height="6dp"
             android:background="@drawable/circle"
             android:backgroundTint="#707070"
-            android:src="@drawable/icon_delete"/>
+            android:src="@drawable/icon_delete"
+            android:visibility="invisible"/>
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:id="@+id/writing_deleteCover_button"
@@ -163,7 +172,8 @@
             android:layout_marginTop="6dp"
             android:background="@drawable/circle"
             android:backgroundTint="#707070"
-            android:src="@drawable/icon_delete" />
+            android:src="@drawable/icon_delete"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
@@ -178,25 +188,30 @@
             android:layout_height="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/recording_button" />
+            android:background="@drawable/recording_button"
+            android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/writing_recording_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="3dp"
             android:text="00:00"
             android:textColor="@color/writing_red"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:visibility="gone" />
 
         <TextView
+            android:id="@+id/writing_text_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="3dp"
             android:text="@string/writing_button"
             android:textColor="@color/writing_red"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
