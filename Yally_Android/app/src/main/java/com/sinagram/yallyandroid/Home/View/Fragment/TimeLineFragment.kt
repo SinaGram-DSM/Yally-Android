@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Home.Data.User
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
@@ -55,10 +54,14 @@ class TimeLineFragment : Fragment() {
             isMine = true
         )
 
-        timeLine_recyclerView.apply{
+        val clickYally = { data: Post, observer: Observer<Boolean> ->
+            timeLineViewModel.clickYally(data).observe(viewLifecycleOwner, observer)
+        }
+
+        timeLine_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = MainTimeLineAdapter(listOf(post))
+            adapter = MainTimeLineAdapter(listOf(post), clickYally)
         }
     }
 }

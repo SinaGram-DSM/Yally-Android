@@ -3,6 +3,7 @@ package com.sinagram.yallyandroid.Home.View
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.text.Spannable
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,8 +18,7 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun postInit(postData: Post) {
         itemView.apply {
             post_user_name_textView.text = postData.user.nickname
-            post_yally_count_textView.text =
-                context.getString(R.string.yally_count, postData.yally)
+            post_yally_count_textView.text = context.getString(R.string.yally_count, postData.yally)
             post_comments_count_textView.text =
                 context.getString(R.string.comment_count, postData.comment)
             post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
@@ -36,16 +36,21 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             itemView.post_content_textView.setOnClickListener {
                 isClickedPost = !isClickedPost
 
-                postSeekBar.visibility = if (isClickedPost) {
-                    startMediaPlayer(postData)
-                    itemView.post_soundLength_textView.text = getSoundSourceLength()
-                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
-                    View.VISIBLE
-                } else {
-                    stopMediaPlayer()
-                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
-                    View.GONE
+                try {
+                    postSeekBar.visibility = if (isClickedPost) {
+                        startMediaPlayer(postData)
+                        itemView.post_soundLength_textView.text = getSoundSourceLength()
+                        itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
+                        View.VISIBLE
+                    } else {
+                        stopMediaPlayer()
+                        itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
+                        View.GONE
+                    }
+                } catch (e: Exception) {
+                    Log.e("MainTimeLineViewHolder", e.message.toString())
                 }
+
             }
         }
     }

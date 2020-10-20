@@ -1,14 +1,17 @@
 package com.sinagram.yallyandroid.Home.View
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
-class MainTimeLineAdapter(var postsList: List<Post>) :
+class MainTimeLineAdapter(
+    var postsList: List<Post>,
+    private val clickYally: (Post, Observer<Boolean>) -> Unit
+) :
     RecyclerView.Adapter<MainTimeLineViewHolder>() {
 
     override fun getItemCount(): Int = postsList.size
@@ -30,8 +33,19 @@ class MainTimeLineAdapter(var postsList: List<Post>) :
             checkClickedYally(postData.isYally)
 
             itemView.post_yally_layout.setOnClickListener {
-                postData.isYally = !postData.isYally
-                checkClickedYally(postData.isYally)
+                val observer = Observer<Boolean> {
+                    if (it) {
+                        postData.isYally = !postData.isYally
+                        checkClickedYally(postData.isYally)
+                        if (postData.isYally) {
+                            itemView.post_yally_count_textView.text = (++postData.yally).toString()
+                        } else {
+                            itemView.post_yally_count_textView.text = (--postData.yally).toString()
+                        }
+                    }
+                }
+
+                clickYally(postData, observer)
             }
         }
     }
