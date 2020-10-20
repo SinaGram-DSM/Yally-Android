@@ -3,6 +3,7 @@ package com.sinagram.yallyandroid.Home.ViewModel
 import android.util.Log
 import androidx.lifecycle.*
 import com.sinagram.yallyandroid.Home.Data.HomeRepository
+import com.sinagram.yallyandroid.Home.Data.Listening
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Network.Result
@@ -49,6 +50,19 @@ class TimeLineViewModel : ViewModel() {
                     }
                 }
             }
+            emit(isSuccess)
+        }
+    }
+
+    fun getListeningList(): LiveData<List<Listening>> {
+        return liveData {
+            val isSuccess = withContext(viewModelScope.coroutineContext) {
+                when (val result = repository.getListeningList()) {
+                    is Result.Success -> result.data!!.listeners
+                    is Result.Error -> listOf()
+                }
+            }
+
             emit(isSuccess)
         }
     }

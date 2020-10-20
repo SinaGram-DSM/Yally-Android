@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sinagram.yallyandroid.Home.Data.Listening
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.User
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
@@ -58,10 +59,14 @@ class TimeLineFragment : Fragment() {
             timeLineViewModel.clickYally(data).observe(viewLifecycleOwner, observer)
         }
 
+        val listeningOnPost = { observer: Observer<List<Listening>> ->
+            timeLineViewModel.getListeningList().observe(viewLifecycleOwner, observer)
+        }
+
         timeLine_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = MainTimeLineAdapter(listOf(post), clickYally)
+            adapter = MainTimeLineAdapter(listOf(post), clickYally, listeningOnPost)
         }
     }
 }

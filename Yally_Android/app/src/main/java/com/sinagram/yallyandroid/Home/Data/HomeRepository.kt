@@ -22,11 +22,21 @@ class HomeRepository: BaseRepository() {
         return checkHaveToken { YallyConnector.createAPI().cancelYallyOnPost(token, id) }
     }
 
+    suspend fun getListeningList(): Result<ListeningResponse> {
+        val token = getAccessToken()!!
+        val email = getEmail()
+        return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
+    }
+
     private fun getAccessToken(): String? {
         return sharedPreferences.accessToken
     }
 
-    suspend fun <T : Any> checkHaveToken(result: suspend () -> Response<T>): Result<T> {
+    private fun getEmail(): String {
+        return sharedPreferences.email
+    }
+
+    private suspend fun <T : Any> checkHaveToken(result: suspend () -> Response<T>): Result<T> {
         val token = getAccessToken()
 
         return if (token != null && token.isNotEmpty()) {

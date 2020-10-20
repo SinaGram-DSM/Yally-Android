@@ -60,12 +60,12 @@
 
             <ImageView
                 android:id="@+id/post_menu_imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/ImageDescription"
-                android:paddingEnd="12dp"
+                android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_arrow_downward"
                 tool:ignore="RtlSymmetry" />
 

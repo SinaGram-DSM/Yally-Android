@@ -1,7 +1,6 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.text.Spannable
 import android.util.Log
 import android.view.View
@@ -77,7 +76,7 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         PostTags(content).applyBoldToTags(itemView.post_content_textView.text as Spannable)
     }
 
-    fun setPostMenuAnimation(isMine: Boolean) {
+    fun setPostMenuAnimation() {
         itemView.post_menu_imageView.setOnClickListener {
             isMenuClick = !isMenuClick
 
@@ -85,10 +84,12 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 it.animate().rotationX(180f).setDuration(300).withStartAction {
                     it.rotationX = 0f
                 }.start()
+                itemView.post_menu_textView.visibility = View.VISIBLE
             } else {
                 it.animate().rotationX(0f).setDuration(300).withStartAction {
                     it.rotationX = 180f
                 }.start()
+                itemView.post_menu_textView.visibility = View.INVISIBLE
             }
         }
     }

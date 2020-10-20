@@ -1,10 +1,10 @@
 package com.sinagram.yallyandroid.Home.Data
 
-data class ListenersResponse(
-    val listeners: List<Listener>
+data class ListeningResponse(
+    val listeners: List<Listening>
 )
 
-data class Listener(
+data class Listening(
     val isListening: Boolean,
     val listener: Int,
     val listening: Int,

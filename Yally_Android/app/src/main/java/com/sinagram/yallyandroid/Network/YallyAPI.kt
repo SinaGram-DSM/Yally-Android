@@ -1,6 +1,6 @@
 package com.sinagram.yallyandroid.Network
 
-import com.sinagram.yallyandroid.Home.Data.ListenersResponse
+import com.sinagram.yallyandroid.Home.Data.ListeningResponse
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
@@ -52,5 +52,5 @@ interface YallyAPI {
     suspend fun getListeningList(
         @Header("Authorization") header: String,
         @Path("email") email: String
-    ): Response<ListenersResponse>
+    ): Response<ListeningResponse>
 }
