@@ -35,6 +35,18 @@ interface YallyAPI {
         @Path("page") page: Int
     ): Response<PostsResponse>
 
+    @POST("/user/listening")
+    suspend fun doListening(
+        @Header("Authorization") header: String,
+        listeningEmail: String
+    ): Response<Void>
+
+    @DELETE("/user/listening")
+    suspend fun cancelListening(
+        @Header("Authorization") header: String,
+        listeningEmail: String
+    ): Response<Void>
+
 
     @GET("/post/yally/{id}")
     suspend fun doYallyOnPost(

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinagram.yallyandroid.Home.Data.Listening
 import com.sinagram.yallyandroid.Home.Data.Post
+import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
 import com.sinagram.yallyandroid.Home.Data.User
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
@@ -59,14 +60,20 @@ class TimeLineFragment : Fragment() {
             timeLineViewModel.clickYally(data).observe(viewLifecycleOwner, observer)
         }
 
-        val listeningOnPost = { observer: Observer<List<Listening>> ->
+        val getListeningOnPost = { observer: Observer<List<Listening>> ->
             timeLineViewModel.getListeningList().observe(viewLifecycleOwner, observer)
         }
+
+        val listeningOnPost =
+            { state: StateOnPostMenu, email: String, observer: Observer<StateOnPostMenu> ->
+                timeLineViewModel.sendListeningToUser(state, email)
+                    .observe(viewLifecycleOwner, observer)
+            }
 
         timeLine_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = MainTimeLineAdapter(listOf(post), clickYally, listeningOnPost)
+            adapter = MainTimeLineAdapter(listOf(post), clickYally, getListeningOnPost, listeningOnPost)
         }
     }
 }

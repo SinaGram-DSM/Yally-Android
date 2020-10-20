@@ -28,6 +28,16 @@ class HomeRepository: BaseRepository() {
         return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
     }
 
+    suspend fun doListening(email: String): Result<Void> {
+        val token = getAccessToken()!!
+        return checkHaveToken { YallyConnector.createAPI().doListening(token, email) }
+    }
+
+    suspend fun cancelListening(email: String): Result<Void> {
+        val token = getAccessToken()!!
+        return checkHaveToken { YallyConnector.createAPI().cancelListening(token, email) }
+    }
+
     private fun getAccessToken(): String? {
         return sharedPreferences.accessToken
     }

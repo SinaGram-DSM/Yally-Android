@@ -1,20 +1,24 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Home.Data.Listening
 import com.sinagram.yallyandroid.Home.Data.Post
+import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineAdapter(
     var postsList: List<Post>,
     private val clickYally: (Post, Observer<Boolean>) -> Unit,
-    private val listeningOnPost: (Observer<List<Listening>>) -> Unit
+    private val getListeningOnPost: (Observer<List<Listening>>) -> Unit,
+    private val listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit
 ) :
     RecyclerView.Adapter<MainTimeLineViewHolder>() {
+    lateinit var stateOfPostMenu: StateOnPostMenu
 
     override fun getItemCount(): Int = postsList.size
 
@@ -34,9 +38,10 @@ class MainTimeLineAdapter(
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
             setPostMenuAnimation()
+            setBubbleTitle(postData, itemView)
 
             itemView.post_yally_layout.setOnClickListener {
-                val observer = Observer<Boolean> {
+                clickYally(postData) {
                     if (it) {
                         postData.isYally = !postData.isYally
                         checkClickedYally(postData.isYally)
@@ -47,24 +52,43 @@ class MainTimeLineAdapter(
                         }
                     }
                 }
-
-                clickYally(postData, observer)
             }
 
-            if (postData.isMine) {
-                itemView.post_menu_textView.text = "삭제"
-            } else {
-                val observer = Observer<List<Listening>> {
-                    itemView.post_menu_textView.text = "리스닝"
-
-                    for (i in it) {
-                        if (postData.user.nickname == i.nickname) {
-                            itemView.post_menu_textView.text = "언리스닝"
+            itemView.post_menu_textView.setOnClickListener {
+                listeningOnPost(stateOfPostMenu, postData.user.email) {
+                    when (it) {
+                        StateOnPostMenu.LISTENING -> {
+                            itemView.post_menu_textView.text = "리스닝"
+                            stateOfPostMenu = StateOnPostMenu.LISTENING
                         }
+                        StateOnPostMenu.UNLISTENING -> {
+                            itemView.post_menu_textView.text = "언리스닝"
+                            stateOfPostMenu = StateOnPostMenu.UNLISTENING
+                        }
+                        else -> { }
                     }
                 }
 
-                listeningOnPost(observer)
+                itemView.post_menu_imageView.callOnClick()
+            }
+        }
+    }
+
+    private fun setBubbleTitle(postData: Post, itemView: View) {
+        if (postData.isMine) {
+            itemView.post_menu_textView.text = "삭제"
+            stateOfPostMenu = StateOnPostMenu.DELETE
+        } else {
+            getListeningOnPost {
+                itemView.post_menu_textView.text = "리스닝"
+                stateOfPostMenu = StateOnPostMenu.LISTENING
+
+                for (i in it) {
+                    if (postData.user.nickname == i.nickname) {
+                        itemView.post_menu_textView.text = "언리스닝"
+                        stateOfPostMenu = StateOnPostMenu.UNLISTENING
+                    }
+                }
             }
         }
     }
