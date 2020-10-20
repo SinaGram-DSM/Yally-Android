@@ -27,7 +27,7 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             when (val result = repository.doLogin(body)) {
                 is Result.Success -> {
-                    loginSuccess(result)
+                    loginSuccess(result, body["email"]!!)
                 }
                 is Result.Error -> {
                     errorSignLiveData.postValue(PasswordProcess.Login)
@@ -37,11 +37,12 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun loginSuccess(result: Result.Success<TokenResponse>) {
+    private fun loginSuccess(result: Result.Success<TokenResponse>, email: String) {
         if (result.code == 200) {
             loginSuccessLiveData.postValue(PasswordProcess.Login)
             repository.putToken(result.data!!)
             repository.putLoginInfo(true)
+            repository.putUserEmail(email)
         } else {
             errorSignLiveData.postValue(PasswordProcess.Login)
         }

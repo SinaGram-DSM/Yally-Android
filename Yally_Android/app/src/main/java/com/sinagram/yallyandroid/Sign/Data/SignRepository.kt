@@ -37,4 +37,8 @@ class SignRepository : BaseRepository() {
     fun putLoginInfo(isLogin: Boolean) {
         sharedPreferences.isLogin = isLogin
     }
+
+    fun putUserEmail(email: String) {
+        sharedPreferences.email = email
+    }
 }

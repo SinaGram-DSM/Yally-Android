@@ -33,11 +33,20 @@ class SharedPreferencesManager {
             editor.apply()
         }
 
+    var email: String
+        get() = sharedPrefs.getString(SAVE_EMAIL, "")!!
+        set(value) {
+            val editor = sharedPrefs.edit()
+            editor.putString(SAVE_EMAIL, value)
+            editor.apply()
+        }
+
     companion object {
         private const val MY_APP_PREFERENCES = "Yally-Android"
         private const val IS_LOGIN = "isLogin"
         private const val SAVE_TOKEN = "accessToken"
         private const val SAVE_REFRESH = "refreshToken"
+        private const val SAVE_EMAIL = "userEmail"
         private var instance: SharedPreferencesManager? = null
 
         @Synchronized
