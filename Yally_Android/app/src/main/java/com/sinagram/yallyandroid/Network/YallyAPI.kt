@@ -12,9 +12,5 @@ interface YallyAPI {
     @POST("/post")
     suspend fun writing (
         @Part part: WritingRequest
-        /*@Part("sound") sound: RequestBody?,
-        @Part("content") content: RequestBody?,
-        @Part("image") image: RequestBody?,
-        @Part("hashtag") hashtag: RequestBody?*/
     ): Response<Void>
 }
