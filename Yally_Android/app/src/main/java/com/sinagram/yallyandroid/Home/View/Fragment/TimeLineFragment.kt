@@ -34,7 +34,7 @@ class TimeLineFragment : Fragment() {
 //            timeLine_recyclerView.apply {
 //                setHasFixedSize(true)
 //                layoutManager = LinearLayoutManager(activity)
-//                adapter = MainTimeLineAdapter(it)
+//                adapter = MainTimeLineAdapter(it, clickYally)
 //            }
 //        })
 

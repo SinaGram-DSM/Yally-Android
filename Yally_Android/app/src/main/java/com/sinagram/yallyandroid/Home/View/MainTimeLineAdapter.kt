@@ -31,6 +31,7 @@ class MainTimeLineAdapter(
             setTimeFromUploadedTime(postData.createdAt)
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
+            setPostMenuAnimation(postData.isMine)
 
             itemView.post_yally_layout.setOnClickListener {
                 val observer = Observer<Boolean> {

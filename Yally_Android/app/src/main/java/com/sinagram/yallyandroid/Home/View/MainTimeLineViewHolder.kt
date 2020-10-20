@@ -15,6 +15,8 @@ import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    var isMenuClick = false
+
     fun postInit(postData: Post) {
         itemView.apply {
             post_user_name_textView.text = postData.user.nickname
@@ -73,5 +75,21 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun applyBoldToTags(content: String) {
         itemView.post_content_textView.text = content
         PostTags(content).applyBoldToTags(itemView.post_content_textView.text as Spannable)
+    }
+
+    fun setPostMenuAnimation(isMine: Boolean) {
+        itemView.post_menu_imageView.setOnClickListener {
+            isMenuClick = !isMenuClick
+
+            if (isMenuClick) {
+                it.animate().rotationX(180f).setDuration(300).withStartAction {
+                    it.rotationX = 0f
+                }.start()
+            } else {
+                it.animate().rotationX(0f).setDuration(300).withStartAction {
+                    it.rotationX = 180f
+                }.start()
+            }
+        }
     }
 }
