@@ -4,8 +4,10 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="writing_red">#d34646</color>
-    <color name="button_gray">#d1d1d1</color>
+    <color name="button_gray">#efefef</color>
     <color name="ground_color">#fdfdfd</color>
     <color name="white">#ffffff</color>
     <color name="writing_blue">#007aff</color>
+    <color name="writing_text_gray">#707070</color>
+    <color name="black">#000000</color>
 </resources>
