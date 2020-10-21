@@ -20,8 +20,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
-            app:srcCompat="@drawable/icon_back"
-            android:contentDescription="TODO" />
+            app:srcCompat="@drawable/icon_back" />
 
         <Button
             android:layout_width="wrap_content"
@@ -86,7 +85,7 @@
             android:hint = "당신의 이야기를 들려주세요!"
             android:textColor="@color/writing_text_gray"
             android:background="@android:color/transparent"
-            android:maxEms="100"
+            android:maxLength="100"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -142,6 +141,7 @@
             android:textSize="11sp" />
 
         <ImageView
+            android:id="@+id/writing_voice_imageView"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="8dp"
@@ -159,6 +159,7 @@
             android:visibility="invisible"/>
 
         <ImageView
+            android:id="@+id/writing_voiceCover_imageView"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="10dp"
@@ -184,6 +185,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/writing_recording_imageView"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="30dp"
