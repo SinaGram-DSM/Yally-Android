@@ -13,7 +13,7 @@ import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineAdapter(
-    var postsList: ArrayList<Post>,
+    var postsList: MutableList<Post>,
     private val clickYally: (Post, Observer<Boolean>) -> Unit,
     private val getListeningOnPost: (Observer<List<Listening>>) -> Unit,
     private val listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit,

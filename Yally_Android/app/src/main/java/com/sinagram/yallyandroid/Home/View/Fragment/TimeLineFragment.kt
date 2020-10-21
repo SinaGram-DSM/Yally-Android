@@ -16,7 +16,6 @@ import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.fragment_time_line.*
-import okhttp3.internal.notify
 
 class TimeLineFragment : Fragment() {
     private val timeLineViewModel: TimeLineViewModel by viewModels()
@@ -77,7 +76,7 @@ class TimeLineFragment : Fragment() {
         val deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
 
         val adapter = MainTimeLineAdapter(
-            timeLineList as ArrayList<Post>,
+            timeLineList,
             clickYally,
             getListeningOnPost,
             listeningOnPost,
