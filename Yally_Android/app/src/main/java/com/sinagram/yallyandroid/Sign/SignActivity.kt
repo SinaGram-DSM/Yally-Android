@@ -6,11 +6,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.sinagram.yallyandroid.Home.HomeActivity
+import com.sinagram.yallyandroid.Home.View.HomeActivity
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.Fragment.AuthenticationFragment
 import com.sinagram.yallyandroid.Sign.Fragment.LoginFragment
-import com.sinagram.yallyandroid.Sign.Fragment.SignUpFragment
 
 class SignActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
