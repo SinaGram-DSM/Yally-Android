@@ -11,6 +11,7 @@ class TimeLineViewModel : ViewModel() {
     private val repository = HomeRepository()
     val notPageLiveData: MutableLiveData<String> = MutableLiveData()
     val successLiveData: MutableLiveData<List<Post>> = MutableLiveData()
+    val successDeleteLiveData: MutableLiveData<Int> = MutableLiveData()
 
     fun getTimeLineItem(page: Int) {
         viewModelScope.launch {
@@ -86,6 +87,18 @@ class TimeLineViewModel : ViewModel() {
             }
 
             emit(isSuccess)
+        }
+    }
+
+    fun deletePost(id: String, index: Int) {
+        viewModelScope.launch {
+            val result = repository.deletePost(id)
+
+            if (result is Result.Success) {
+                successDeleteLiveData.postValue(index)
+            } else {
+                Log.d("TimeLineViewModel", (result as Result.Error).exception)
+            }
         }
     }
 }

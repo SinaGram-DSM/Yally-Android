@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.sinagram.yallyandroid.Home.Data.CustomDialog
 import com.sinagram.yallyandroid.Home.Data.Listening
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
@@ -12,10 +13,11 @@ import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineAdapter(
-    var postsList: List<Post>,
+    var postsList: ArrayList<Post>,
     private val clickYally: (Post, Observer<Boolean>) -> Unit,
     private val getListeningOnPost: (Observer<List<Listening>>) -> Unit,
-    private val listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit
+    private val listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit,
+    private val deletePost: (String, Int) -> Unit
 ) :
     RecyclerView.Adapter<MainTimeLineViewHolder>() {
     lateinit var stateOfPostMenu: StateOnPostMenu
@@ -55,17 +57,22 @@ class MainTimeLineAdapter(
             }
 
             itemView.post_menu_textView.setOnClickListener {
-                listeningOnPost(stateOfPostMenu, postData.user.email) {
-                    when (it) {
-                        StateOnPostMenu.LISTENING -> {
-                            itemView.post_menu_textView.text = "리스닝"
-                            stateOfPostMenu = StateOnPostMenu.LISTENING
+                if (stateOfPostMenu == StateOnPostMenu.DELETE) {
+                    CustomDialog(itemView.context).showDialog { deletePost(postData.id, position) }
+                } else {
+                    listeningOnPost(stateOfPostMenu, postData.user.email) {
+                        when (it) {
+                            StateOnPostMenu.LISTENING -> {
+                                itemView.post_menu_textView.text = "리스닝"
+                                stateOfPostMenu = StateOnPostMenu.LISTENING
+                            }
+                            StateOnPostMenu.UNLISTENING -> {
+                                itemView.post_menu_textView.text = "언리스닝"
+                                stateOfPostMenu = StateOnPostMenu.UNLISTENING
+                            }
+                            else -> {
+                            }
                         }
-                        StateOnPostMenu.UNLISTENING -> {
-                            itemView.post_menu_textView.text = "언리스닝"
-                            stateOfPostMenu = StateOnPostMenu.UNLISTENING
-                        }
-                        else -> { }
                     }
                 }
 
@@ -91,5 +98,11 @@ class MainTimeLineAdapter(
                 }
             }
         }
+    }
+
+    fun removeAt(position: Int) {
+        postsList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, postsList.size)
     }
 }

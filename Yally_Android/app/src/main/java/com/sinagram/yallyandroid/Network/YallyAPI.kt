@@ -48,6 +48,12 @@ interface YallyAPI {
     ): Response<Void>
 
 
+    @DELETE("/post/{id}")
+    suspend fun deletePost(
+        @Header("Authorization") header: String,
+        @Path("id") id: String
+    ): Response<Void>
+
     @GET("/post/yally/{id}")
     suspend fun doYallyOnPost(
         @Header("Authorization") header: String,
@@ -59,6 +65,7 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Path("id") id: String
     ): Response<Void>
+
 
     @GET("/profile/{email}/listening")
     suspend fun getListeningList(

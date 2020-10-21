@@ -22,10 +22,9 @@ class HomeRepository: BaseRepository() {
         return checkHaveToken { YallyConnector.createAPI().cancelYallyOnPost(token, id) }
     }
 
-    suspend fun getListeningList(): Result<ListeningResponse> {
+    suspend fun deletePost(id: String): Result<Void> {
         val token = getAccessToken()!!
-        val email = getEmail()
-        return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
+        return checkHaveToken { YallyConnector.createAPI().deletePost(token, id) }
     }
 
     suspend fun doListening(email: String): Result<Void> {
@@ -36,6 +35,12 @@ class HomeRepository: BaseRepository() {
     suspend fun cancelListening(email: String): Result<Void> {
         val token = getAccessToken()!!
         return checkHaveToken { YallyConnector.createAPI().cancelListening(token, email) }
+    }
+
+    suspend fun getListeningList(): Result<ListeningResponse> {
+        val token = getAccessToken()!!
+        val email = getEmail()
+        return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
     }
 
     private fun getAccessToken(): String? {

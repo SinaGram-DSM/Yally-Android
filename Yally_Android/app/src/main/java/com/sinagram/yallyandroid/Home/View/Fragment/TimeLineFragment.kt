@@ -16,9 +16,11 @@ import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.fragment_time_line.*
+import okhttp3.internal.notify
 
 class TimeLineFragment : Fragment() {
     private val timeLineViewModel: TimeLineViewModel by viewModels()
+    private lateinit var timeLineList: MutableList<Post>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +58,8 @@ class TimeLineFragment : Fragment() {
             isMine = true
         )
 
+        timeLineList.add(post)
+
         val clickYally = { data: Post, observer: Observer<Boolean> ->
             timeLineViewModel.clickYally(data).observe(viewLifecycleOwner, observer)
         }
@@ -70,10 +74,24 @@ class TimeLineFragment : Fragment() {
                     .observe(viewLifecycleOwner, observer)
             }
 
+        val deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
+
+        val adapter = MainTimeLineAdapter(
+            timeLineList as ArrayList<Post>,
+            clickYally,
+            getListeningOnPost,
+            listeningOnPost,
+            deletePost
+        )
+
+        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            adapter.removeAt(it)
+        })
+
         timeLine_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = MainTimeLineAdapter(listOf(post), clickYally, getListeningOnPost, listeningOnPost)
+            this.adapter = adapter
         }
     }
 }
