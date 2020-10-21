@@ -89,7 +89,7 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 it.animate().rotationX(0f).setDuration(300).withStartAction {
                     it.rotationX = 180f
                 }.start()
-                itemView.post_menu_textView.visibility = View.INVISIBLE
+                itemView.post_menu_textView.visibility = View.GONE
             }
         }
     }
