@@ -29,12 +29,18 @@ class HomeRepository: BaseRepository() {
 
     suspend fun doListening(email: String): Result<Void> {
         val token = getAccessToken()!!
-        return checkHaveToken { YallyConnector.createAPI().doListening(token, email) }
+        val hashMap: HashMap<String, String> = HashMap()
+        hashMap["email"] = email
+
+        return checkHaveToken { YallyConnector.createAPI().doListening(token, hashMap) }
     }
 
     suspend fun cancelListening(email: String): Result<Void> {
         val token = getAccessToken()!!
-        return checkHaveToken { YallyConnector.createAPI().cancelListening(token, email) }
+        val hashMap: HashMap<String, String> = HashMap()
+        hashMap["email"] = email
+
+        return checkHaveToken { YallyConnector.createAPI().cancelListening(token, hashMap) }
     }
 
     suspend fun getListeningList(): Result<ListeningResponse> {
@@ -43,21 +49,7 @@ class HomeRepository: BaseRepository() {
         return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
     }
 
-    private fun getAccessToken(): String? {
-        return sharedPreferences.accessToken
-    }
-
     private fun getEmail(): String {
         return sharedPreferences.email
-    }
-
-    private suspend fun <T : Any> checkHaveToken(result: suspend () -> Response<T>): Result<T> {
-        val token = getAccessToken()
-
-        return if (token != null && token.isNotEmpty()) {
-            mappingToResult(result)
-        } else {
-            Result.Error("Token is Null")
-        }
     }
 }
