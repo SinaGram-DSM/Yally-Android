@@ -1,5 +1,6 @@
 package com.sinagram.yallyandroid.Network
 
+import com.sinagram.yallyandroid.Detail.CommentResponse
 import com.sinagram.yallyandroid.Home.Data.ListeningResponse
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
@@ -38,15 +39,21 @@ interface YallyAPI {
     @POST("/user/listening")
     suspend fun doListening(
         @Header("Authorization") header: String,
-        listeningEmail: String
+        @Body body: HashMap<String, String>
     ): Response<Void>
 
     @DELETE("/user/listening")
     suspend fun cancelListening(
         @Header("Authorization") header: String,
-        listeningEmail: String
+        @Body body: HashMap<String, String>
     ): Response<Void>
 
+
+    @GET("/post/{id}/comment")
+    suspend fun getComments(
+        @Header("Authorization") header: String,
+        @Path("id") id: String
+    ): Response<CommentResponse>
 
     @DELETE("/post/{id}")
     suspend fun deletePost(

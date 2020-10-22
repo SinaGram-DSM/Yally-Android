@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_detail_post.view.*
 
 class DetailPostFragment : Fragment() {
     val detailPostData: Post by lazy { requireArguments().getParcelable("postData")!! }
+    val detailPostViewModel: DetailPostViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,5 +30,11 @@ class DetailPostFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = MainTimeLineAdapter(mutableListOf(detailPostData), PostAdaptConnector())
         }
+
+        detailPostViewModel.successLiveData.observe(viewLifecycleOwner, {
+            view.detail_post_comment_recyclerView.run {
+                layoutManager = LinearLayoutManager(activity)
+            }
+        })
     }
 }

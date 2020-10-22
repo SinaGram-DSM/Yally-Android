@@ -20,7 +20,7 @@ class TimeLineViewModel : ViewModel() {
             if (result is Result.Success) {
                 timeLineSuccess(result)
             } else {
-                Log.e("LoginViewModel", (result as Result.Error).exception)
+                Log.e("TimeLineViewModel", (result as Result.Error).exception)
             }
         }
     }
@@ -81,7 +81,7 @@ class TimeLineViewModel : ViewModel() {
                         StateOnPostMenu.LISTENING
                     }
                 } else {
-                    Log.e("LoginViewModel", (result as Result.Error).exception)
+                    Log.e("TimeLineViewModel", (result as Result.Error).exception)
                     StateOnPostMenu.DELETE
                 }
             }
