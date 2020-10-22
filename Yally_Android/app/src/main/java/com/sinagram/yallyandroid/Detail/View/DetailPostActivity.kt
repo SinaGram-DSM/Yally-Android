@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Detail
+package com.sinagram.yallyandroid.Detail.View
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

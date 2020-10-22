@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Detail.DetailPostActivity"
+            android:name=".Detail.View.DetailPostActivity"
             android:windowSoftInputMode="adjustUnspecified|adjustPan" />
         <activity android:name=".Home.View.HomeActivity" />
         <activity android:name=".Sign.SignActivity" />

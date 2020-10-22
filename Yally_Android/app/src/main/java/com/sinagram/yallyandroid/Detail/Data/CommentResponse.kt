@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Detail
+package com.sinagram.yallyandroid.Detail.Data
 
 import com.sinagram.yallyandroid.Home.Data.User
 
@@ -7,6 +7,7 @@ data class CommentResponse(
 )
 
 data class Comment(
+    val id: String,
     val content: String,
     val createdAt: String,
     val isMine: Boolean,

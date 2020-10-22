@@ -1,6 +1,6 @@
 package com.sinagram.yallyandroid.Network
 
-import com.sinagram.yallyandroid.Detail.CommentResponse
+import com.sinagram.yallyandroid.Detail.Data.CommentResponse
 import com.sinagram.yallyandroid.Home.Data.ListeningResponse
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
@@ -59,6 +59,12 @@ interface YallyAPI {
     suspend fun deletePost(
         @Header("Authorization") header: String,
         @Path("id") id: String
+    ): Response<Void>
+
+    @DELETE("/post/comment/{commentId}")
+    suspend fun deleteComment(
+        @Header("Authorization") header: String,
+        @Path("commentId") id: String
     ): Response<Void>
 
     @GET("/post/yally/{id}")

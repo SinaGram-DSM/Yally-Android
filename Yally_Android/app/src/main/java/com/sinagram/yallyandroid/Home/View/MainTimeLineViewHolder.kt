@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sinagram.yallyandroid.Detail.DetailPostActivity
+import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostDate
 import com.sinagram.yallyandroid.Home.Data.PostMediaPlayer
