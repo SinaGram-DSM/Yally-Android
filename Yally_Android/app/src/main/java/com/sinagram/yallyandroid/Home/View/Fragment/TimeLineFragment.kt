@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sinagram.yallyandroid.Home.Data.Listening
-import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
-import com.sinagram.yallyandroid.Home.Data.User
+import com.sinagram.yallyandroid.Home.Data.*
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
@@ -59,29 +56,10 @@ class TimeLineFragment : Fragment() {
 
         timeLineList.add(post)
 
-        val clickYally = { data: Post, observer: Observer<Boolean> ->
-            timeLineViewModel.clickYally(data).observe(viewLifecycleOwner, observer)
-        }
+        val postAdaptConnector = PostAdaptConnector()
+        postAdaptConnector.setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
 
-        val getListeningOnPost = { observer: Observer<List<Listening>> ->
-            timeLineViewModel.getListeningList().observe(viewLifecycleOwner, observer)
-        }
-
-        val listeningOnPost =
-            { state: StateOnPostMenu, email: String, observer: Observer<StateOnPostMenu> ->
-                timeLineViewModel.sendListeningToUser(state, email)
-                    .observe(viewLifecycleOwner, observer)
-            }
-
-        val deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
-
-        val adapter = MainTimeLineAdapter(
-            timeLineList,
-            clickYally,
-            getListeningOnPost,
-            listeningOnPost,
-            deletePost
-        )
+        val adapter = MainTimeLineAdapter(timeLineList, postAdaptConnector)
 
         timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
             adapter.removeAt(it)

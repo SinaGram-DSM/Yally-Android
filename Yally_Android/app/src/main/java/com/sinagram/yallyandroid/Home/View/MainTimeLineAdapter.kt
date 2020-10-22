@@ -3,21 +3,17 @@ package com.sinagram.yallyandroid.Home.View
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Home.Data.CustomDialog
-import com.sinagram.yallyandroid.Home.Data.Listening
 import com.sinagram.yallyandroid.Home.Data.Post
+import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineAdapter(
     var postsList: MutableList<Post>,
-    private val clickYally: (Post, Observer<Boolean>) -> Unit,
-    private val getListeningOnPost: (Observer<List<Listening>>) -> Unit,
-    private val listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit,
-    private val deletePost: (String, Int) -> Unit
+    private val postAdaptConnector: PostAdaptConnector
 ) :
     RecyclerView.Adapter<MainTimeLineViewHolder>() {
     lateinit var stateOfPostMenu: StateOnPostMenu
@@ -39,12 +35,12 @@ class MainTimeLineAdapter(
             setTimeFromUploadedTime(postData.createdAt)
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
-            clickCommentOnPost()
+            clickCommentOnPost(postData)
             setPostMenuAnimation()
             setBubbleTitle(postData, itemView)
 
             itemView.post_yally_layout.setOnClickListener {
-                clickYally(postData) {
+                postAdaptConnector.clickYally(postData) {
                     if (it) {
                         postData.isYally = !postData.isYally
                         checkClickedYally(postData.isYally)
@@ -59,9 +55,9 @@ class MainTimeLineAdapter(
 
             itemView.post_menu_textView.setOnClickListener {
                 if (stateOfPostMenu == StateOnPostMenu.DELETE) {
-                    CustomDialog(itemView.context).showDialog { deletePost(postData.id, position) }
+                    CustomDialog(itemView.context).showDialog { postAdaptConnector.deletePost(postData.id, position) }
                 } else {
-                    listeningOnPost(stateOfPostMenu, postData.user.email) {
+                    postAdaptConnector.listeningOnPost(stateOfPostMenu, postData.user.email) {
                         when (it) {
                             StateOnPostMenu.LISTENING -> {
                                 itemView.post_menu_textView.text = "리스닝"
@@ -87,7 +83,7 @@ class MainTimeLineAdapter(
             itemView.post_menu_textView.text = "삭제"
             stateOfPostMenu = StateOnPostMenu.DELETE
         } else {
-            getListeningOnPost {
+            postAdaptConnector.getListeningOnPost {
                 itemView.post_menu_textView.text = "리스닝"
                 stateOfPostMenu = StateOnPostMenu.LISTENING
 
