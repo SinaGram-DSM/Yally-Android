@@ -11,6 +11,6 @@ data class Comment(
     val content: String,
     val createdAt: String,
     val isMine: Boolean,
-    val sound: String,
+    val sound: String?,
     val user: User
 )
