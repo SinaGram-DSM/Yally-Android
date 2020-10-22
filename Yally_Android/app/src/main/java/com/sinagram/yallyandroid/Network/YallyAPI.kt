@@ -5,6 +5,8 @@ import com.sinagram.yallyandroid.Home.Data.ListeningResponse
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -30,12 +32,6 @@ interface YallyAPI {
     @POST("/user/auth/refresh")
     suspend fun refreshToken(@Header("Authorization") header: String): Response<String>
 
-    @GET("/timeline/{page}")
-    suspend fun getMainTimeLine(
-        @Header("Authorization") header: String,
-        @Path("page") page: Int
-    ): Response<PostsResponse>
-
     @POST("/user/listening")
     suspend fun doListening(
         @Header("Authorization") header: String,
@@ -49,6 +45,13 @@ interface YallyAPI {
     ): Response<Void>
 
 
+    @GET("/timeline/{page}")
+    suspend fun getMainTimeLine(
+        @Header("Authorization") header: String,
+        @Path("page") page: Int
+    ): Response<PostsResponse>
+
+
     @GET("/post/{id}/comment")
     suspend fun getComments(
         @Header("Authorization") header: String,
@@ -59,6 +62,14 @@ interface YallyAPI {
     suspend fun deletePost(
         @Header("Authorization") header: String,
         @Path("id") id: String
+    ): Response<Void>
+
+    @Multipart
+    @POST("/post/comment/{id}")
+    suspend fun postComment(
+        @Header("Authorization") header: String,
+        @Part file: MultipartBody.Part,
+        @Part("content") content: RequestBody
     ): Response<Void>
 
     @DELETE("/post/comment/{commentId}")
