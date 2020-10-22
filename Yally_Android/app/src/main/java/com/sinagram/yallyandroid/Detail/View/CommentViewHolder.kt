@@ -18,7 +18,7 @@ class CommentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             comment_uploaded_time_textView.text =
                 PostDate(commentData.createdAt).setTimeFromUploadedTime()
 
-            if (commentData.sound.isNotBlank()) {
+            commentData.sound?.let {
                 comment_player_layout.visibility = View.VISIBLE
             }
         }

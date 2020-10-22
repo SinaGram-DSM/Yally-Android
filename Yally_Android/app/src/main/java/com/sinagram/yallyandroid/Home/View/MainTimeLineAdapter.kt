@@ -44,10 +44,10 @@ class MainTimeLineAdapter(
                     if (it) {
                         postData.isYally = !postData.isYally
                         checkClickedYally(postData.isYally)
-                        if (postData.isYally) {
-                            itemView.post_yally_count_textView.text = (++postData.yally).toString()
+                        itemView.post_yally_count_textView.text = if (postData.isYally) {
+                            itemView.context.getString(R.string.yally_count, ++postData.yally)
                         } else {
-                            itemView.post_yally_count_textView.text = (--postData.yally).toString()
+                            itemView.context.getString(R.string.yally_count, --postData.yally)
                         }
                     }
                 }
