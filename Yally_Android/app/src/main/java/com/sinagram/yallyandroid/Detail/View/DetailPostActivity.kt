@@ -3,6 +3,7 @@ package com.sinagram.yallyandroid.Detail.View
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import com.sinagram.yallyandroid.R
 
 class DetailPostActivity : AppCompatActivity() {
@@ -30,5 +31,9 @@ class DetailPostActivity : AppCompatActivity() {
                 putParcelable("postData", extra)
             }
         }
+    }
+
+    fun backPress(view: View) {
+        onBackPressed()
     }
 }
