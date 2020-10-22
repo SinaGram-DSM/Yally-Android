@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_time_line.*
 
 class TimeLineFragment : Fragment() {
     private val timeLineViewModel: TimeLineViewModel by viewModels()
-    private lateinit var timeLineList: MutableList<Post>
+    private var timeLineList: MutableList<Post> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

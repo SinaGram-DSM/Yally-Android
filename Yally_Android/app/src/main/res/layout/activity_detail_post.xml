@@ -61,6 +61,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/brightGray" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/detail_post_fragment"
         android:layout_width="match_parent"

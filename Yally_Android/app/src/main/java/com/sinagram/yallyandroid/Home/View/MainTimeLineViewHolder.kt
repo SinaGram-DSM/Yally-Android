@@ -1,11 +1,13 @@
 package com.sinagram.yallyandroid.Home.View
 
+import android.content.Intent
 import android.graphics.Color
 import android.text.Spannable
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sinagram.yallyandroid.Detail.DetailPostActivity
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostDate
 import com.sinagram.yallyandroid.Home.Data.PostMediaPlayer
@@ -69,6 +71,20 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             itemView.post_do_yally_imageView.setImageResource(R.drawable.ic_yally_note)
             itemView.post_do_yally_textView.setTextColor(Color.parseColor("#707070"))
         }
+    }
+
+    fun clickCommentOnPost() {
+        itemView.post_comments_layout.setOnClickListener {
+            moveToDetailComment()
+        }
+
+        itemView.post_comments_count_textView.setOnClickListener {
+            moveToDetailComment()
+        }
+    }
+
+    private fun moveToDetailComment() {
+        itemView.context.startActivity(Intent(itemView.context, DetailPostActivity::class.java))
     }
 
     fun applyBoldToTags(content: String) {

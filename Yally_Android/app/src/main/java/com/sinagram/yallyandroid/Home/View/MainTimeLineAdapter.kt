@@ -39,6 +39,7 @@ class MainTimeLineAdapter(
             setTimeFromUploadedTime(postData.createdAt)
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
+            clickCommentOnPost()
             setPostMenuAnimation()
             setBubbleTitle(postData, itemView)
 
