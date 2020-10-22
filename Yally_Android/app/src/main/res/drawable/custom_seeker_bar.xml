@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
         <shape android:shape="line">
             <stroke
-                android:width="10dp"
+                android:width="3dp"
                 android:color="@color/white" />
         </shape>
     </item>
@@ -13,10 +13,9 @@
         <clip>
             <shape android:shape="line">
                 <stroke
-                    android:width="6dp"
-                    android:color="@color/white" />
+                    android:width="3dp"
+                    android:color="#C5C5C5" />
             </shape>
         </clip>
     </item>
-
 </layer-list>
