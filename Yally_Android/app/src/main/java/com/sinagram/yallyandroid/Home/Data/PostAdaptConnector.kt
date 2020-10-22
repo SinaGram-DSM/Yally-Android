@@ -8,7 +8,8 @@ data class PostAdaptConnector(
     var clickYally: (Post, Observer<Boolean>) -> Unit = { _, _ -> },
     var getListeningOnPost: (Observer<List<Listening>>) -> Unit = { _ -> },
     var listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit = { _, _, _ -> },
-    var deletePost: (String, Int) -> Unit = { _, _ -> }
+    var deletePost: (String, Int) -> Unit = { _, _ -> },
+    var moveToComment: (Post) -> Unit = { _ -> }
 ) {
     fun setAttributeFromTimeLine(
         timeLineViewModel: TimeLineViewModel,

@@ -35,7 +35,6 @@ class MainTimeLineAdapter(
             setTimeFromUploadedTime(postData.createdAt)
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
-            clickCommentOnPost(postData)
             setPostMenuAnimation()
             setBubbleTitle(postData, itemView)
 
@@ -55,7 +54,9 @@ class MainTimeLineAdapter(
 
             itemView.post_menu_textView.setOnClickListener {
                 if (stateOfPostMenu == StateOnPostMenu.DELETE) {
-                    CustomDialog(itemView.context).showDialog { postAdaptConnector.deletePost(postData.id, position) }
+                    CustomDialog(itemView.context).showDialog(true) {
+                        postAdaptConnector.deletePost(postData.id, position)
+                    }
                 } else {
                     postAdaptConnector.listeningOnPost(stateOfPostMenu, postData.user.email) {
                         when (it) {
@@ -74,6 +75,14 @@ class MainTimeLineAdapter(
                 }
 
                 itemView.post_menu_imageView.callOnClick()
+            }
+
+            itemView.post_comments_layout.setOnClickListener {
+                postAdaptConnector.moveToComment(postData)
+            }
+
+            itemView.post_comments_count_textView.setOnClickListener {
+                postAdaptConnector.moveToComment(postData)
             }
         }
     }

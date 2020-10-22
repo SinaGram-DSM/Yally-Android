@@ -73,22 +73,6 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 
-    fun clickCommentOnPost(postData: Post) {
-        itemView.post_comments_layout.setOnClickListener {
-            moveToDetailComment(postData)
-        }
-
-        itemView.post_comments_count_textView.setOnClickListener {
-            moveToDetailComment(postData)
-        }
-    }
-
-    private fun moveToDetailComment(postData: Post) {
-        val intent = Intent(itemView.context, DetailPostActivity::class.java)
-        intent.putExtra("postData", postData)
-        itemView.context.startActivity(intent)
-    }
-
     fun applyBoldToTags(content: String) {
         itemView.post_content_textView.text = content
         PostTags(content).applyBoldToTags(itemView.post_content_textView.text as Spannable)

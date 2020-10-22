@@ -44,7 +44,7 @@ class CommentAdapter(
             visibility = View.VISIBLE
 
             setOnClickListener {
-                CustomDialog(context).showDialog {
+                CustomDialog(context).showDialog(false) {
                     commentAdaptConnector.clickDeleteComment(id, index)
                 }
             }

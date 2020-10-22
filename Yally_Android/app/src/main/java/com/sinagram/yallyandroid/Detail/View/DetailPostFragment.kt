@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_detail_post.view.*
 class DetailPostFragment : Fragment() {
     private val detailPostData: Post by lazy { requireArguments().getParcelable("postData")!! }
     private val detailPostViewModel: DetailPostViewModel by viewModels()
+    private var commentList: MutableList<Comment> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +42,18 @@ class DetailPostFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        var commentAdapter = CommentAdapter(mutableListOf(), CommentAdaptConnector())
+        val commentAdaptConnector = CommentAdaptConnector().apply {
+            setAttributeFromComment(detailPostViewModel, viewLifecycleOwner)
+        }
+        var commentAdapter = CommentAdapter(commentList, commentAdaptConnector)
 
         detailPostViewModel.successLiveData.observe(viewLifecycleOwner, {
+            commentList.addAll(it)
+            commentAdapter = CommentAdapter(commentList, commentAdaptConnector)
+
             detail_post_comment_recyclerView.run {
+                setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(activity)
-                commentAdapter = CommentAdapter(it as MutableList<Comment>, CommentAdaptConnector())
                 adapter = commentAdapter
             }
         })
