@@ -8,7 +8,7 @@ import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.launch
 
 class DetailPostViewModel : ViewModel() {
-    val repository = DetailRepository()
+    private val repository = DetailRepository()
     val successLiveData: MutableLiveData<List<Comment>> = MutableLiveData()
 
     fun getComments(id: String) {

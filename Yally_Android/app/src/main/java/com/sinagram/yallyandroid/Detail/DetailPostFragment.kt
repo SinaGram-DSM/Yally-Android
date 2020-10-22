@@ -31,9 +31,12 @@ class DetailPostFragment : Fragment() {
             adapter = MainTimeLineAdapter(mutableListOf(detailPostData), PostAdaptConnector())
         }
 
+        detailPostViewModel.getComments(detailPostData.id)
+
         detailPostViewModel.successLiveData.observe(viewLifecycleOwner, {
             view.detail_post_comment_recyclerView.run {
                 layoutManager = LinearLayoutManager(activity)
+                adapter = CommentAdapter(it as MutableList<Comment>)
             }
         })
     }
