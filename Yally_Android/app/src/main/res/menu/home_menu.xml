@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_home_stack"
-        android:icon="@drawable/ic_view_agenda_24px"
+        android:icon="@drawable/ic_stack_24dp"
         android:title="@string/dot"
         app:showAsAction="always" />
 

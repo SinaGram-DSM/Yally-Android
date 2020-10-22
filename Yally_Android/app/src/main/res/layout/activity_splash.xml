@@ -59,7 +59,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginTop="26dp"
             android:layout_marginRight="48dp"
-            android:background="@drawable/button_background"
+            android:background="@drawable/button_gradient"
             android:fontFamily="@font/notosanskr_medium"
             android:text="@string/login"
             android:textColor="@color/white"
