@@ -14,8 +14,8 @@ import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.fragment_detail_post.view.*
 
 class DetailPostFragment : Fragment() {
-    val detailPostData: Post by lazy { requireArguments().getParcelable("postData")!! }
-    val detailPostViewModel: DetailPostViewModel by viewModels()
+    private val detailPostData: Post by lazy { requireArguments().getParcelable("postData")!! }
+    private val detailPostViewModel: DetailPostViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
