@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Detail.DetailPostFragment">
+
+    <include
+        android:id="@+id/detail_post_include"
+        layout="@layout/item_post_cardview" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detail_post_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/detail_post_soundInput_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_mic_24dp" />
+
+        <EditText
+            android:id="@+id/detail_post_comment_editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bubble_background"
+            android:backgroundTint="#EFEFEF"
+            android:ems="10"
+            android:hint="@string/enter_comment"
+            android:inputType="textPersonName"
+            android:padding="6dp"
+            android:textColorHint="@color/gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/detail_post_input_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/input"
+            android:textColor="@color/back_key_color" />
+    </LinearLayout>
+</LinearLayout>
