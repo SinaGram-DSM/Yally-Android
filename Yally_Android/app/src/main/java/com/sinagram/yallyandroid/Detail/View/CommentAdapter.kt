@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_post_comment.view.*
 
 class CommentAdapter(
     var commentList: MutableList<Comment>,
-    val commentAdaptConnector: CommentAdaptConnector
+    private val commentAdaptConnector: CommentAdaptConnector
 ) : RecyclerView.Adapter<CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {

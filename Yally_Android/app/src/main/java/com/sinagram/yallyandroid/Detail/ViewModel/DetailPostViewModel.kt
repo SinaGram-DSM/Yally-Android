@@ -35,7 +35,7 @@ class DetailPostViewModel : ViewModel() {
 
     fun deleteComment(id: String, index: Int) {
         viewModelScope.launch {
-            val result = repository.getCommentList(id)
+            val result = repository.deleteComment(id)
 
             if (result is Result.Success) {
                 deleteCommentLiveData.postValue(index)

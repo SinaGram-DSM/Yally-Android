@@ -68,8 +68,7 @@ interface YallyAPI {
     @POST("/post/comment/{id}")
     suspend fun postComment(
         @Header("Authorization") header: String,
-        @Part file: MultipartBody.Part,
-        @Part("content") content: RequestBody
+        @PartMap partMap: HashMap<String, RequestBody>
     ): Response<Void>
 
     @DELETE("/post/comment/{commentId}")
