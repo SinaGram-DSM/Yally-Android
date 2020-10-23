@@ -68,6 +68,7 @@ interface YallyAPI {
     @POST("/post/comment/{id}")
     suspend fun postComment(
         @Header("Authorization") header: String,
+        @Path("id") id: String,
         @PartMap partMap: HashMap<String, RequestBody>
     ): Response<Void>
 

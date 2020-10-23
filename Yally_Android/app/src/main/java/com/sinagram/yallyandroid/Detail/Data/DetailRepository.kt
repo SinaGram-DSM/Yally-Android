@@ -20,14 +20,11 @@ class DetailRepository : BaseRepository() {
         return checkHaveToken { YallyConnector.createAPI().deleteComment(token, id) }
     }
 
-    suspend fun sendComment(content: String, file: File?): Result<Void> {
-        val mapRequestBody = HashMap<String, RequestBody>()
-        mapRequestBody["content"] = content.toRequestBody("text/plain".toMediaTypeOrNull())
-        file?.let {
-            mapRequestBody["file"] = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-        }
+    suspend fun sendComment(
+        id: String, requestHashMap: HashMap<String, RequestBody>
+    ): Result<Void> {
 
         val token = getAccessToken()!!
-        return checkHaveToken { YallyConnector.createAPI().postComment(token, mapRequestBody) }
+        return checkHaveToken { YallyConnector.createAPI().postComment(token, id, requestHashMap) }
     }
 }
