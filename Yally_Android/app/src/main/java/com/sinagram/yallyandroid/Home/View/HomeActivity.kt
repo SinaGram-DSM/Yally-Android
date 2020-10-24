@@ -91,11 +91,13 @@ class HomeActivity : AppCompatActivity() {
     private fun checkPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) || ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.RECORD_AUDIO
             )
         ) {
             AlertDialog.Builder(this)
                 .setTitle("알림")
-                .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
+                .setMessage("권한이 거부되었습니다.\n사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
                 .setNeutralButton("설정") { _, _ ->
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     intent.data = Uri.parse("package:$packageName")

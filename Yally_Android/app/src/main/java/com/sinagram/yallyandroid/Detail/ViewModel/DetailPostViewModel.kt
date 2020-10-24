@@ -2,6 +2,7 @@ package com.sinagram.yallyandroid.Detail.ViewModel
 
 import android.media.MediaRecorder
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,7 @@ class DetailPostViewModel : ViewModel() {
     val deleteCommentLiveData: MutableLiveData<Int> = MutableLiveData()
     val recorderLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var mediaRecorder: MediaRecorder = MediaRecorder()
+    private var haveFile = false
 
     fun getComments(id: String) {
         viewModelScope.launch {
@@ -51,34 +53,45 @@ class DetailPostViewModel : ViewModel() {
     }
 
     fun startRecord(filePath: String) {
-        viewModelScope.launch {
-            val recordTask = launch {
-                withTimeout(60000) {
-                    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-                    mediaRecorder.setOutputFile(filePath)
-                    mediaRecorder.prepare()
-                    mediaRecorder.start()
+        try {
+            viewModelScope.launch {
+                val recordTask = launch {
+                    withTimeout(10000) {
+                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+                        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+                        mediaRecorder.setOutputFile(filePath)
+                        mediaRecorder.prepare()
+                        mediaRecorder.start()
+                        recorderLiveData.postValue(true)
+                    }
+                }
+
+                if (!haveFile && recordTask.isCancelled) {
+                    stopRecord()
                 }
             }
-
-            if (recordTask.isCancelled) {
-                stopRecord()
-            }
+        } catch (e: Exception) {
+            Log.e("DetailPostViewModel", e.message.toString())
         }
+
     }
 
     fun stopRecord() {
         mediaRecorder.stop()
         mediaRecorder.release()
-        recorderLiveData.value = true
+        recorderLiveData.value = false
+        haveFile = true
     }
 
     fun sendComment(id: String, request: CommentRequest) {
         viewModelScope.launch {
+            if (!haveFile) {
+                request.file = null
+            }
+
+            haveFile = false
             request.addComment()
-            request.addFile()
             val result = repository.sendComment(id, request.requestHashMap)
 
             if (result is Result.Success) {

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +26,10 @@ import java.io.File
 class DetailPostFragment : Fragment() {
     private val detailPostData: Post by lazy { requireArguments().getParcelable("postData")!! }
     private val detailPostViewModel: DetailPostViewModel by viewModels()
-    private var commentList: MutableList<Comment> = mutableListOf()
     private var isClickRecorder: Boolean = false
     private var mLastClickTime: Long = 0
     private var commentRequest: CommentRequest = CommentRequest("")
+    private lateinit var commentAdapter: CommentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +54,9 @@ class DetailPostFragment : Fragment() {
             }
 
             mLastClickTime = SystemClock.elapsedRealtime()
-            isClickRecorder = !isClickRecorder
 
             try {
-                if (isClickRecorder) {
+                if (!isClickRecorder) {
                     detailPostViewModel.startRecord(commentRequest.file!!.absolutePath)
                     view.detail_post_input_textView.isEnabled = false
                 } else {
@@ -73,8 +73,19 @@ class DetailPostFragment : Fragment() {
             if (content.isNotEmpty()) {
                 commentRequest.content = content
                 detailPostViewModel.sendComment(detailPostData.id, commentRequest)
+                commentRequest.file = File(Environment.getExternalStorageDirectory(), "yally.mp3")
                 view.detail_post_comment_editText.setText("")
             }
+        }
+
+        val commentAdaptConnector = CommentAdaptConnector()
+        commentAdaptConnector.setAttributeFromComment(detailPostViewModel, viewLifecycleOwner)
+        commentAdapter = CommentAdapter(mutableListOf(), commentAdaptConnector)
+
+        view.detail_post_comment_recyclerView.run {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
+            adapter = commentAdapter
         }
     }
 
@@ -86,29 +97,24 @@ class DetailPostFragment : Fragment() {
             adapter = MainTimeLineAdapter(mutableListOf(detailPostData), PostAdaptConnector())
         }
 
-
-        val commentAdaptConnector = CommentAdaptConnector()
-        commentAdaptConnector.setAttributeFromComment(detailPostViewModel, viewLifecycleOwner)
-        var commentAdapter = CommentAdapter(commentList, commentAdaptConnector)
-
         detailPostViewModel.successLiveData.observe(viewLifecycleOwner, {
-            commentList.addAll(it)
-            commentAdapter = CommentAdapter(commentList, commentAdaptConnector)
-
-            detail_post_comment_recyclerView.run {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(activity)
-                adapter = commentAdapter
-            }
+            commentAdapter.commentList.addAll(it)
+            commentAdapter.notifyDataSetChanged()
+            detail_post_comment_recyclerView.adapter = commentAdapter
         })
-
 
         detailPostViewModel.deleteCommentLiveData.observe(viewLifecycleOwner, {
             commentAdapter.removeAt(it)
         })
 
         detailPostViewModel.recorderLiveData.observe(viewLifecycleOwner, {
-            isClickRecorder = false
+            if (it) {
+                Toast.makeText(activity, "녹음이 시작되었습니다.", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(activity, "녹음이 종료되었습니다.", Toast.LENGTH_LONG).show()
+            }
+
+            isClickRecorder = !isClickRecorder
         })
     }
 }
