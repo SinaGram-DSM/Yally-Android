@@ -13,10 +13,10 @@ data class Post(
     val content: String,
     val createdAt: String,
     val id: String,
-    val img: String,
+    val img: String?,
     val isMine: Boolean,
     var isYally: Boolean,
-    val sound: String,
+    val sound: String?,
     val user: User,
     var yally: Int
 ) : Parcelable
