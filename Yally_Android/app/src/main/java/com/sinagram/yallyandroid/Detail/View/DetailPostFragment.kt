@@ -98,6 +98,7 @@ class DetailPostFragment : Fragment() {
         }
 
         detailPostViewModel.successLiveData.observe(viewLifecycleOwner, {
+            commentAdapter.commentList.clear()
             commentAdapter.commentList.addAll(it)
             commentAdapter.notifyDataSetChanged()
             detail_post_comment_recyclerView.adapter = commentAdapter

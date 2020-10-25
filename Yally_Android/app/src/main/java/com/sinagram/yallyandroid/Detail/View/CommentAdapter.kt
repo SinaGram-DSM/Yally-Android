@@ -51,8 +51,8 @@ class CommentAdapter(
         }
     }
 
-
     fun removeAt(index: Int) {
         commentList.removeAt(index)
+        notifyDataSetChanged()
     }
 }

@@ -95,7 +95,7 @@ class DetailPostViewModel : ViewModel() {
             val result = repository.sendComment(id, request.requestHashMap)
 
             if (result is Result.Success) {
-
+                getComments(id)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
             }
