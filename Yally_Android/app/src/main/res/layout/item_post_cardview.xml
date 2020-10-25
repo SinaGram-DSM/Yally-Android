@@ -139,6 +139,7 @@
             tool:ignore="RtlHardcoded">
 
             <LinearLayout
+                android:id="@+id/post_content_layout"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
                 android:gravity="center"

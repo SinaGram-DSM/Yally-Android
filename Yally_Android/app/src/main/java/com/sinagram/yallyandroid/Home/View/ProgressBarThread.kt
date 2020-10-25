@@ -1,6 +1,7 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.media.MediaPlayer
+import android.util.Log
 import android.widget.SeekBar
 
 class ProgressBarThread(
@@ -10,8 +11,12 @@ class ProgressBarThread(
 ) : Thread() {
 
     override fun run() {
-        while (isPlaying) {
-            post_player_seekBar.progress = mediaPlayer.currentPosition
+        while (isPlaying && !isInterrupted) {
+            try {
+                post_player_seekBar.progress = mediaPlayer.currentPosition
+            } catch (e: Exception) {
+                Log.e("ProgressBarThread", e.message.toString())
+            }
         }
     }
 }

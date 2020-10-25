@@ -3,6 +3,7 @@ package com.sinagram.yallyandroid.Home.Data
 import android.media.MediaPlayer
 import android.widget.SeekBar
 import com.sinagram.yallyandroid.Home.View.ProgressBarThread
+import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.Util.SeekBarChangeListenerImpl
 import java.text.SimpleDateFormat
 import java.util.*
@@ -11,6 +12,7 @@ class PostMediaPlayer(private val postSeekBar: SeekBar) {
     var isClickedPost = false
     var mediaPlayer = MediaPlayer()
     var isPlaying = false
+    var mThread: ProgressBarThread? = null
 
     fun setSeekBarListener() {
         postSeekBar.setOnSeekBarChangeListener(object : SeekBarChangeListenerImpl() {
@@ -24,20 +26,25 @@ class PostMediaPlayer(private val postSeekBar: SeekBar) {
                 val progress = seekBar?.progress
                 mediaPlayer.seekTo(progress!!)
                 mediaPlayer.start()
-                ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost).start()
+                mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost)
+                mThread!!.start()
             }
         })
     }
 
     fun startMediaPlayer(postData: Post) {
-        mediaPlayer.setDataSource(postData.sound)
+        mediaPlayer.setDataSource(YallyConnector.s3 + postData.sound)
         mediaPlayer.isLooping = true
-        mediaPlayer.start()
 
-        val duration = mediaPlayer.duration
-        postSeekBar.max = duration
-        ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost).start()
-        isPlaying = true
+        mediaPlayer.setOnPreparedListener { mp ->
+            mp?.start()
+            val duration = mediaPlayer.duration
+            postSeekBar.max = duration
+            mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost)
+            mThread!!.start()
+            isPlaying = true
+        }
+        mediaPlayer.prepareAsync()
     }
 
     fun stopMediaPlayer() {
@@ -45,6 +52,9 @@ class PostMediaPlayer(private val postSeekBar: SeekBar) {
         mediaPlayer.stop()
         mediaPlayer.release()
         postSeekBar.progress = 0
+        if (mThread != null) {
+            mThread!!.interrupt()
+        }
     }
 
     fun getSoundSourceLength(): String {
