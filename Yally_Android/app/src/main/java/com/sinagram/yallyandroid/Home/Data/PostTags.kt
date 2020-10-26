@@ -11,7 +11,7 @@ class PostTags(val content: String) {
         var index = 0
 
         while (content.length >= index + 1) {
-            if (content[index] == '#') isCharacter = !isCharacter
+            if (content[index] == '#') isCharacter = true
             if (content[index] == ' ') isCharacter = false
             if (isCharacter) {
                 span.setSpan(
