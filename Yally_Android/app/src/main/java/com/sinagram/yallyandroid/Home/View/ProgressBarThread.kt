@@ -11,12 +11,12 @@ class ProgressBarThread(
 ) : Thread() {
 
     override fun run() {
-        while (isPlaying && !isInterrupted) {
-            try {
+        try {
+            while (isPlaying && !isInterrupted) {
                 post_player_seekBar.progress = mediaPlayer.currentPosition
-            } catch (e: Exception) {
-                Log.e("ProgressBarThread", e.message.toString())
             }
+        } catch (e: Exception) {
+            Log.e("ProgressBarThread", e.message.toString())
         }
     }
 }

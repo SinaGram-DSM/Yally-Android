@@ -2,14 +2,13 @@ package com.sinagram.yallyandroid.Home.View
 
 import android.graphics.Color
 import android.text.Spannable
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.PostDate
-import com.sinagram.yallyandroid.Home.Data.PostMediaPlayer
-import com.sinagram.yallyandroid.Home.Data.PostTags
+import com.sinagram.yallyandroid.Util.PostDate
+import com.sinagram.yallyandroid.Util.PostMediaPlayer
+import com.sinagram.yallyandroid.Util.PostTags
 import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
@@ -33,27 +32,23 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun setPostClicked(postData: Post) {
         val postSeekBar = itemView.post_player_seekBar
+        val textView = itemView.post_soundLength_textView
 
-        PostMediaPlayer(postSeekBar).apply {
+        PostMediaPlayer(postSeekBar, textView).apply {
             setSeekBarListener()
 
             itemView.post_content_layout.setOnClickListener {
                 isClickedPost = !isClickedPost
 
-                try {
-                    postSeekBar.visibility = if (isClickedPost) {
-                        startMediaPlayer(postData)
-                        itemView.post_soundLength_textView.text = getSoundSourceLength()
-                        itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
-                        View.VISIBLE
-                    } else {
-                        stopMediaPlayer()
-                        itemView.post_soundLength_textView.text = ""
-                        itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
-                        View.GONE
-                    }
-                } catch (e: Exception) {
-                    Log.e("MainTimeLineViewHolder", e.message.toString())
+                postSeekBar.visibility = if (isClickedPost) {
+                    postData.sound?.let { sound -> startMediaPlayer(sound) }
+                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
+                    View.VISIBLE
+                } else {
+                    stopMediaPlayer()
+                    itemView.post_soundLength_textView.text = ""
+                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
+                    View.GONE
                 }
             }
         }
