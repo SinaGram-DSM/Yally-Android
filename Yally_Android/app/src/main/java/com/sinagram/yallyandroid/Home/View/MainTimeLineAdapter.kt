@@ -55,20 +55,22 @@ class MainTimeLineAdapter(
             itemView.post_menu_textView.setOnClickListener {
                 if (stateOfPostMenu == StateOnPostMenu.DELETE) {
                     CustomDialog(itemView.context).showDialog(true) {
-                        postAdaptConnector.deletePost(postData.id, position)
+                        postData.id?.let { postAdaptConnector.deletePost(it, position) }
                     }
                 } else {
-                    postAdaptConnector.listeningOnPost(stateOfPostMenu, postData.user.email) {
-                        when (it) {
-                            StateOnPostMenu.LISTENING -> {
-                                itemView.post_menu_textView.text = "리스닝"
-                                stateOfPostMenu = StateOnPostMenu.LISTENING
-                            }
-                            StateOnPostMenu.UNLISTENING -> {
-                                itemView.post_menu_textView.text = "언리스닝"
-                                stateOfPostMenu = StateOnPostMenu.UNLISTENING
-                            }
-                            else -> {
+                    postData.user.email?.let { email ->
+                        postAdaptConnector.listeningOnPost(stateOfPostMenu, email) {
+                            when (it) {
+                                StateOnPostMenu.LISTENING -> {
+                                    itemView.post_menu_textView.text = "리스닝"
+                                    stateOfPostMenu = StateOnPostMenu.LISTENING
+                                }
+                                StateOnPostMenu.UNLISTENING -> {
+                                    itemView.post_menu_textView.text = "언리스닝"
+                                    stateOfPostMenu = StateOnPostMenu.UNLISTENING
+                                }
+                                else -> {
+                                }
                             }
                         }
                     }
@@ -78,11 +80,11 @@ class MainTimeLineAdapter(
             }
 
             itemView.post_comments_layout.setOnClickListener {
-                postAdaptConnector.moveToComment(postData.id)
+                postData.id?.let { postAdaptConnector.moveToComment(it) }
             }
 
             itemView.post_comments_count_textView.setOnClickListener {
-                postAdaptConnector.moveToComment(postData.id)
+                postData.id?.let { postAdaptConnector.moveToComment(it) }
             }
         }
     }
@@ -110,5 +112,10 @@ class MainTimeLineAdapter(
         postsList.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, postsList.size)
+    }
+
+    fun minusComment() {
+        postsList[0].comment--
+        notifyDataSetChanged()
     }
 }

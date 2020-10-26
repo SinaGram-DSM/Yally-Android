@@ -28,6 +28,7 @@ class DetailPostFragment : Fragment() {
     private var mLastClickTime: Long = 0
     private var commentRequest: CommentRequest = CommentRequest("")
     private lateinit var commentAdapter: CommentAdapter
+    private lateinit var postAdapter: MainTimeLineAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,7 @@ class DetailPostFragment : Fragment() {
         }
 
         val commentAdaptConnector = CommentAdaptConnector()
-        commentAdaptConnector.setAttributeFromComment(detailPostViewModel, viewLifecycleOwner)
+        commentAdaptConnector.setAttributeFromComment(detailPostViewModel)
         commentAdapter = CommentAdapter(mutableListOf(), commentAdaptConnector)
 
         view.detail_post_comment_recyclerView.run {
@@ -93,7 +94,7 @@ class DetailPostFragment : Fragment() {
 
         detailPostViewModel.postLiveData.observe(viewLifecycleOwner, {
             val data = it
-            val postAdapter = if (data != null) {
+            postAdapter = if (data != null) {
                 MainTimeLineAdapter(mutableListOf(data), PostAdaptConnector())
             } else {
                 MainTimeLineAdapter(mutableListOf(), PostAdaptConnector())
@@ -114,6 +115,7 @@ class DetailPostFragment : Fragment() {
 
         detailPostViewModel.deleteCommentLiveData.observe(viewLifecycleOwner, {
             commentAdapter.removeAt(it)
+            postAdapter.minusComment()
         })
 
         detailPostViewModel.recorderLiveData.observe(viewLifecycleOwner, {

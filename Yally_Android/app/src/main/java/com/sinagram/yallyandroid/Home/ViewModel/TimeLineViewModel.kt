@@ -36,17 +36,13 @@ class TimeLineViewModel : ViewModel() {
     fun clickYally(post: Post): LiveData<Boolean> {
         return liveData {
             val isSuccess = withContext(viewModelScope.coroutineContext) {
-                if (post.isYally) {
-                    when (repository.cancelYally(post.id)) {
-                        is Result.Success -> true
-                        is Result.Error -> false
-                    }
+                val result = if (post.isYally) {
+                    post.id?.let { repository.cancelYally(it) }
                 } else {
-                    when (repository.doYally(post.id)) {
-                        is Result.Success -> true
-                        is Result.Error -> false
-                    }
+                    post.id?.let { repository.doYally(it) }
                 }
+
+                result is Result.Success
             }
             emit(isSuccess)
         }

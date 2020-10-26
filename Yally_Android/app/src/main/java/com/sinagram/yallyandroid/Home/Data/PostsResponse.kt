@@ -9,10 +9,10 @@ data class PostsResponse(
 
 @Parcelize
 data class Post(
-    val comment: Int,
+    var comment: Int,
     val content: String,
     val createdAt: String,
-    val id: String,
+    val id: String?,
     val img: String?,
     val isMine: Boolean,
     var isYally: Boolean,
@@ -23,7 +23,7 @@ data class Post(
 
 @Parcelize
 data class User(
-    val email: String,
+    val email: String?,
     val img: String,
     val nickname: String
 ) : Parcelable

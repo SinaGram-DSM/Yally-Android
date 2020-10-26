@@ -114,6 +114,7 @@ class DetailPostViewModel : ViewModel() {
 
             if (result is Result.Success) {
                 getComments(id)
+                getDetailPost(id)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
             }
