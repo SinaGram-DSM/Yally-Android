@@ -15,6 +15,7 @@ class CommentAdapter(
     var commentList: MutableList<Comment>,
     private val commentAdaptConnector: CommentAdaptConnector
 ) : RecyclerView.Adapter<CommentViewHolder>() {
+    var isClick: Boolean? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         return CommentViewHolder(
@@ -36,6 +37,25 @@ class CommentAdapter(
                 position,
                 itemView.comment_delete_imageView
             )
+
+            itemView.run {
+                comment_play_imageView.setOnClickListener {
+                    if (isClick == null){
+                        startPlayer(commentData.sound)
+                        comment_play_imageView.setImageResource(R.drawable.ic_baseline_pause_24)
+                        isClick = true
+                    } else {
+                        isClick = !isClick!!
+                        if (isClick!!) {
+                            commentMediaPlayer?.restartMediaPlayer()
+                            comment_play_imageView.setImageResource(R.drawable.ic_baseline_pause_24)
+                        } else {
+                            commentMediaPlayer?.pauseMediaPlayer()
+                            comment_play_imageView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                        }
+                    }
+                }
+            }
         }
     }
 

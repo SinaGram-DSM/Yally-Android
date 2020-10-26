@@ -103,12 +103,11 @@ class DetailPostViewModel : ViewModel() {
 
     fun sendComment(id: String, request: CommentRequest) {
         viewModelScope.launch {
-            if (!haveFile) {
-                request.file = null
-            }
+            if (!haveFile) request.file = null
 
             haveFile = false
             request.addComment()
+            request.addFile()
             val result = repository.sendComment(id, request.requestHashMap)
 
             if (result is Result.Success) {
