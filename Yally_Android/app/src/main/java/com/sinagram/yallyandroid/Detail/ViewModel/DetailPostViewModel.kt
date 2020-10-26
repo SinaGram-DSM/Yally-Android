@@ -2,7 +2,6 @@ package com.sinagram.yallyandroid.Detail.ViewModel
 
 import android.media.MediaRecorder
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,31 +9,51 @@ import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
 import com.sinagram.yallyandroid.Detail.Data.DetailRepository
+import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
 class DetailPostViewModel : ViewModel() {
     private val repository = DetailRepository()
+    val postLiveData: MutableLiveData<Post?> = MutableLiveData()
     val successLiveData: MutableLiveData<List<Comment>> = MutableLiveData()
     val deleteCommentLiveData: MutableLiveData<Int> = MutableLiveData()
     val recorderLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var mediaRecorder: MediaRecorder = MediaRecorder()
     private var haveFile = false
 
-    fun getComments(id: String) {
+    fun getDetailPost(id: String) {
         viewModelScope.launch {
-            val result = repository.getCommentList(id)
+            val result = repository.getDetailPost(id)
 
             if (result is Result.Success) {
-                timeLineSuccess(result)
+                postSuccess(result)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
             }
         }
     }
 
-    private fun timeLineSuccess(result: Result.Success<CommentResponse>) {
+    private fun postSuccess(result: Result.Success<Post>) {
+        if (result.code == 200) {
+            postLiveData.postValue(result.data)
+        }
+    }
+
+    fun getComments(id: String) {
+        viewModelScope.launch {
+            val result = repository.getCommentList(id)
+
+            if (result is Result.Success) {
+                commentSuccess(result)
+            } else {
+                Log.e("DetailPostViewModel", (result as Result.Error).exception)
+            }
+        }
+    }
+
+    private fun commentSuccess(result: Result.Success<CommentResponse>) {
         if (result.code == 200) {
             successLiveData.postValue(result.data?.comments ?: listOf())
         }
@@ -74,7 +93,6 @@ class DetailPostViewModel : ViewModel() {
         } catch (e: Exception) {
             Log.e("DetailPostViewModel", e.message.toString())
         }
-
     }
 
     fun stopRecord() {

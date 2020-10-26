@@ -35,6 +35,7 @@ class DetailPostFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         commentRequest.file = File(Environment.getExternalStorageDirectory(), "yally.mp3")
+        detailPostViewModel.getDetailPost(detailPostData.id)
         detailPostViewModel.getComments(detailPostData.id)
     }
 
@@ -92,10 +93,19 @@ class DetailPostFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        detail_post_recyclerView.run {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = MainTimeLineAdapter(mutableListOf(detailPostData), PostAdaptConnector())
-        }
+        detailPostViewModel.postLiveData.observe(viewLifecycleOwner, {
+            val data = it
+            val postAdapter = if (data != null) {
+                MainTimeLineAdapter(mutableListOf(data), PostAdaptConnector())
+            } else {
+                MainTimeLineAdapter(mutableListOf(), PostAdaptConnector())
+            }
+
+            detail_post_recyclerView.run {
+                layoutManager = LinearLayoutManager(activity)
+                adapter = postAdapter
+            }
+        })
 
         detailPostViewModel.successLiveData.observe(viewLifecycleOwner, {
             commentAdapter.commentList.clear()

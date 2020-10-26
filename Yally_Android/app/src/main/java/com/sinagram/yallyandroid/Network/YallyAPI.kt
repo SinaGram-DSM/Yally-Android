@@ -2,6 +2,7 @@ package com.sinagram.yallyandroid.Network
 
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
 import com.sinagram.yallyandroid.Home.Data.ListeningResponse
+import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
@@ -51,6 +52,12 @@ interface YallyAPI {
         @Path("page") page: Int
     ): Response<PostsResponse>
 
+
+    @GET("/post/{id}")
+    suspend fun getDetailPost(
+        @Header("Authorization") header: String,
+        @Path("id") id: String
+    ): Response<Post>
 
     @GET("/post/{id}/comment")
     suspend fun getComments(
