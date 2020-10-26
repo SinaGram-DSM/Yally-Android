@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentAdaptConnector
-import com.sinagram.yallyandroid.Home.Data.CustomDialog
+import com.sinagram.yallyandroid.Util.CustomDialog
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 

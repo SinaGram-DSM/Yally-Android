@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sinagram.yallyandroid.Home.Data.CustomDialog
+import com.sinagram.yallyandroid.Util.CustomDialog
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu

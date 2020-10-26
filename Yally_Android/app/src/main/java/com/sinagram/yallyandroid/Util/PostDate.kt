@@ -1,4 +1,4 @@
-package com.sinagram.yallyandroid.Home.Data
+package com.sinagram.yallyandroid.Util
 
 import java.text.SimpleDateFormat
 import java.util.*

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Detail.Data.Comment
-import com.sinagram.yallyandroid.Home.Data.PostDate
+import com.sinagram.yallyandroid.Util.PostDate
 import com.sinagram.yallyandroid.Network.YallyConnector
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 
