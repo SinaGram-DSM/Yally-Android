@@ -10,48 +10,47 @@ import java.util.*
 
 class PostMediaPlayer(private val postSeekBar: SeekBar, private val textView: TextView) {
     var isClickedPost = false
-    var mediaPlayer = MediaPlayer()
-    var isPlaying = false
+    var mediaPlayer: MediaPlayer? = MediaPlayer()
     var mThread: ProgressBarThread? = null
 
     fun setSeekBarListener() {
         postSeekBar.setOnSeekBarChangeListener(object : SeekBarChangeListenerImpl() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                isPlaying = false
-                mediaPlayer.pause()
+                mediaPlayer?.pause()
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                isPlaying = true
                 val progress = seekBar?.progress
-                mediaPlayer.seekTo(progress!!)
-                mediaPlayer.start()
-                mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost)
+                mediaPlayer?.seekTo(progress!!)
+                mediaPlayer?.start()
+                mThread = ProgressBarThread(postSeekBar, mediaPlayer!!, isClickedPost)
                 mThread!!.start()
             }
         })
     }
 
     fun startMediaPlayer(soundURL: String) {
-        mediaPlayer.setDataSource(YallyConnector.s3 + soundURL)
-        mediaPlayer.isLooping = true
+        mediaPlayer = MediaPlayer()
+        mediaPlayer!!.setDataSource(YallyConnector.s3 + soundURL)
+        mediaPlayer!!.isLooping = true
 
-        mediaPlayer.setOnPreparedListener { mp ->
+        mediaPlayer!!.setOnPreparedListener { mp ->
             mp?.start()
-            val duration = mediaPlayer.duration
+            val duration = mediaPlayer!!.duration
             postSeekBar.max = duration
             textView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(duration)
-            mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost)
+            mThread = ProgressBarThread(postSeekBar, mediaPlayer!!, isClickedPost)
             mThread!!.start()
-            isPlaying = true
         }
-        mediaPlayer.prepareAsync()
+        mediaPlayer!!.prepareAsync()
     }
 
     fun stopMediaPlayer() {
-        isPlaying = false
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        if (mediaPlayer != null) {
+            mediaPlayer!!.stop()
+            mediaPlayer!!.release()
+        }
+        mediaPlayer = null
         postSeekBar.progress = 0
         if (mThread != null) {
             mThread!!.interrupt()

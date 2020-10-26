@@ -8,25 +8,31 @@ import com.sinagram.yallyandroid.Network.YallyConnector
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CommenttMediaPlayer(private val postSeekBar: SeekBar, private val textView: TextView) {
-    var isClickedPost = false
+class CommentMediaPlayer(
+    private val postSeekBar: SeekBar,
+    private val currentTextView: TextView,
+    private val endTextView: TextView
+) {
+    var isClickedPlay = false
     var mediaPlayer = MediaPlayer()
-    var isPlaying = false
     var mThread: ProgressBarThread? = null
 
     fun setSeekBarListener() {
         postSeekBar.setOnSeekBarChangeListener(object : SeekBarChangeListenerImpl() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                isPlaying = false
+                isClickedPlay = false
                 mediaPlayer.pause()
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                isPlaying = true
                 val progress = seekBar?.progress
+                currentTextView.text =
+                    SimpleDateFormat("mm:ss", Locale.getDefault()).format(progress)
+                isClickedPlay = true
                 mediaPlayer.seekTo(progress!!)
                 mediaPlayer.start()
-                mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost)
+                mThread =
+                    ProgressBarThread(postSeekBar, mediaPlayer, isClickedPlay, currentTextView)
                 mThread!!.start()
             }
         })
@@ -40,16 +46,27 @@ class CommenttMediaPlayer(private val postSeekBar: SeekBar, private val textView
             mp?.start()
             val duration = mediaPlayer.duration
             postSeekBar.max = duration
-            textView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(duration)
-            mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPost)
+            endTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(duration)
+            mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPlay, currentTextView)
             mThread!!.start()
-            isPlaying = true
         }
         mediaPlayer.prepareAsync()
     }
 
+    fun pauseMediaPlayer() {
+        isClickedPlay = false
+        mediaPlayer.pause()
+        if (mThread != null) mThread!!.interrupt()
+    }
+
+    fun restartMediaPlayer() {
+        isClickedPlay = true
+        mediaPlayer.start()
+        mThread = ProgressBarThread(postSeekBar, mediaPlayer, isClickedPlay, currentTextView)
+    }
+
     fun stopMediaPlayer() {
-        isPlaying = false
+        isClickedPlay = false
         mediaPlayer.stop()
         mediaPlayer.release()
         postSeekBar.progress = 0
