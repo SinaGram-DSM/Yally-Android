@@ -2,6 +2,7 @@ package com.sinagram.yallyandroid.Home.Data
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.sinagram.yallyandroid.Detail.ViewModel.DetailPostViewModel
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 
 data class PostAdaptConnector(
@@ -30,5 +31,14 @@ data class PostAdaptConnector(
             }
 
         deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
+    }
+
+    fun setAttributeFromComment(
+        detailPostViewModel: DetailPostViewModel,
+        lifecycleOwner: LifecycleOwner
+    ) {
+        clickYally = { data: Post, observer: Observer<Boolean> ->
+            detailPostViewModel.clickYally(data).observe(lifecycleOwner, observer)
+        }
     }
 }

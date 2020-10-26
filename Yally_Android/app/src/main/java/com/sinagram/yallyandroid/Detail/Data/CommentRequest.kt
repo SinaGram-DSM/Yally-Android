@@ -7,7 +7,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 data class CommentRequest(
-    var content: String,
+    var content: String = "",
     var file: File? = null,
     var requestHashMap: HashMap<String, RequestBody> = HashMap()
 ) {

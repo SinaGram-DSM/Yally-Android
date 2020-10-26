@@ -2,9 +2,7 @@ package com.sinagram.yallyandroid.Detail.ViewModel
 
 import android.media.MediaRecorder
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
@@ -12,6 +10,7 @@ import com.sinagram.yallyandroid.Detail.Data.DetailRepository
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 
 class DetailPostViewModel : ViewModel() {
@@ -118,6 +117,21 @@ class DetailPostViewModel : ViewModel() {
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
             }
+        }
+    }
+
+    fun clickYally(post: Post): LiveData<Boolean> {
+        return liveData {
+            val isSuccess = withContext(viewModelScope.coroutineContext) {
+                val result = if (post.isYally) {
+                    post.id?.let { repository.cancelYally(it) }
+                } else {
+                    post.id?.let { repository.doYally(it) }
+                }
+
+                result is Result.Success
+            }
+            emit(isSuccess)
         }
     }
 }

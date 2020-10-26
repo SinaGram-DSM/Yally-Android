@@ -33,4 +33,14 @@ class DetailRepository : BaseRepository() {
         val token = getAccessToken()!!
         return checkHaveToken { YallyConnector.createAPI().postComment(token, id, requestHashMap) }
     }
+
+    suspend fun doYally(id: String): Result<Void> {
+        val token = getAccessToken()!!
+        return checkHaveToken { YallyConnector.createAPI().doYallyOnPost(token, id) }
+    }
+
+    suspend fun cancelYally(id: String): Result<Void> {
+        val token = getAccessToken()!!
+        return checkHaveToken { YallyConnector.createAPI().cancelYallyOnPost(token, id) }
+    }
 }
