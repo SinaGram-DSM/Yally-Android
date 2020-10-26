@@ -32,9 +32,9 @@ class TimeLineFragment : Fragment() {
         timeLineViewModel.getTimeLineItem(1)
         val postAdaptConnector = PostAdaptConnector().apply {
             setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
-            moveToComment = { post: Post ->
+            moveToComment = { id: String ->
                 val intent = Intent(context, DetailPostActivity::class.java)
-                intent.putExtra("postData", post)
+                intent.putExtra("postData", id)
                 startActivity(intent)
             }
         }

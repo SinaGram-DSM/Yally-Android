@@ -11,11 +11,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentAdaptConnector
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.ViewModel.DetailPostViewModel
-import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.R
@@ -24,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_detail_post.view.*
 import java.io.File
 
 class DetailPostFragment : Fragment() {
-    private val detailPostData: Post by lazy { requireArguments().getParcelable("postData")!! }
+    private val detailPostDataId: String by lazy { requireArguments().getString("postDataId")!! }
     private val detailPostViewModel: DetailPostViewModel by viewModels()
     private var isClickRecorder: Boolean = false
     private var mLastClickTime: Long = 0
@@ -35,8 +33,8 @@ class DetailPostFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         commentRequest.file = File(Environment.getExternalStorageDirectory(), "yally.mp3")
-        detailPostViewModel.getDetailPost(detailPostData.id)
-        detailPostViewModel.getComments(detailPostData.id)
+        detailPostViewModel.getDetailPost(detailPostDataId)
+        detailPostViewModel.getComments(detailPostDataId)
     }
 
     override fun onCreateView(
@@ -73,7 +71,7 @@ class DetailPostFragment : Fragment() {
             val content = view.detail_post_comment_editText.text.toString()
             if (content.isNotEmpty()) {
                 commentRequest.content = content
-                detailPostViewModel.sendComment(detailPostData.id, commentRequest)
+                detailPostViewModel.sendComment(detailPostDataId, commentRequest)
                 commentRequest.file = File(Environment.getExternalStorageDirectory(), "yally.mp3")
                 view.detail_post_comment_editText.setText("")
             }

@@ -2,7 +2,6 @@ package com.sinagram.yallyandroid.Detail.View
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import com.sinagram.yallyandroid.R
 
@@ -17,10 +16,10 @@ class DetailPostActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun getExtraFromIntent(): Parcelable {
-        val parcelable: Parcelable? = intent.getParcelableExtra("postData")
-        if (parcelable == null) finish()
-        return parcelable!!
+    private fun getExtraFromIntent(): String {
+        val data = intent.getStringExtra("postData")
+        if (data == null) finish()
+        return data!!
     }
 
     private fun createDetailPostFragment(): DetailPostFragment {
@@ -28,7 +27,7 @@ class DetailPostActivity : AppCompatActivity() {
 
         return DetailPostFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("postData", extra)
+                putString("postDataId", extra)
             }
         }
     }
