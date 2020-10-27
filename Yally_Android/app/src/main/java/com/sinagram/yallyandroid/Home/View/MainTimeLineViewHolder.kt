@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Util.PostDate
-import com.sinagram.yallyandroid.Util.PostMediaPlayer
 import com.sinagram.yallyandroid.Util.PostTags
 import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.R
@@ -27,30 +26,6 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 .into(post_user_image_imageView)
             Glide.with(this).load(YallyConnector.s3 + postData.img).centerCrop()
                 .into(post_content_imageView)
-        }
-    }
-
-    fun setPostClicked(postData: Post) {
-        val postSeekBar = itemView.post_player_seekBar
-        val textView = itemView.post_soundLength_textView
-
-        PostMediaPlayer(postSeekBar, textView).apply {
-            setSeekBarListener()
-
-            itemView.post_content_layout.setOnClickListener {
-                isClickedPost = !isClickedPost
-
-                postSeekBar.visibility = if (isClickedPost) {
-                    postData.sound?.let { sound -> startMediaPlayer(sound) }
-                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
-                    View.VISIBLE
-                } else {
-                    stopMediaPlayer()
-                    itemView.post_soundLength_textView.text = ""
-                    itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
-                    View.GONE
-                }
-            }
         }
     }
 

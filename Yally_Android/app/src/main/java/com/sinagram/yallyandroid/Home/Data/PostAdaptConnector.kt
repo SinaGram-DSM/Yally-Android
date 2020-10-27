@@ -1,16 +1,21 @@
 package com.sinagram.yallyandroid.Home.Data
 
+import android.graphics.Color
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.sinagram.yallyandroid.Detail.ViewModel.DetailPostViewModel
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
+import com.sinagram.yallyandroid.Util.YallyMediaPlayer
+import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 data class PostAdaptConnector(
     var clickYally: (Post, Observer<Boolean>) -> Unit = { _, _ -> },
     var getListeningOnPost: (Observer<List<Listening>>) -> Unit = { _ -> },
     var listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit = { _, _, _ -> },
     var deletePost: (String, Int) -> Unit = { _, _ -> },
-    var moveToComment: (String) -> Unit = { _ -> }
+    var moveToComment: (String) -> Unit = { _ -> },
+    var clickPost: (String?, View) -> Unit = { _, _ -> }
 ) {
     fun setAttributeFromTimeLine(
         timeLineViewModel: TimeLineViewModel,
@@ -31,6 +36,32 @@ data class PostAdaptConnector(
             }
 
         deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
+
+        clickPost = { sound: String?, itemView: View ->
+            var isClick = false
+            val seekbar = itemView.post_player_seekBar
+            val textView = itemView.post_soundLength_textView
+            val imageView = itemView.post_content_imageView
+
+            YallyMediaPlayer(seekbar, textView).run {
+                setSeekBarListener()
+
+                itemView.post_content_layout.setOnClickListener {
+                    isClick = !isClick
+
+                    seekbar.visibility = if (isClick) {
+                        sound?.let { initMediaPlayer(sound) }
+                        imageView.setColorFilter(Color.parseColor("#98000000"))
+                        View.VISIBLE
+                    } else {
+                        stopMediaPlayer()
+                        textView.text = ""
+                        imageView.setColorFilter(Color.parseColor("#4C000000"))
+                        View.GONE
+                    }
+                }
+            }
+        }
     }
 
     fun setAttributeFromComment(

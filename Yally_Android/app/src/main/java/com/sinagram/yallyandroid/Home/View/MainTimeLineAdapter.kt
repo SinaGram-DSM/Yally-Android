@@ -31,7 +31,6 @@ class MainTimeLineAdapter(
 
         holder.apply {
             postInit(postData)
-            setPostClicked(postData)
             setTimeFromUploadedTime(postData.createdAt)
             applyBoldToTags(postData.content)
             checkClickedYally(postData.isYally)
@@ -86,6 +85,8 @@ class MainTimeLineAdapter(
             itemView.post_comments_count_textView.setOnClickListener {
                 postData.id?.let { postAdaptConnector.moveToComment(it) }
             }
+
+            postAdaptConnector.clickPost(postData.sound, itemView)
         }
     }
 

@@ -12,7 +12,7 @@ data class CommentRequest(
     var requestHashMap: HashMap<String, RequestBody> = HashMap()
 ) {
     fun addComment() {
-        requestHashMap["content"] = content.toRequestBody("text/plain".toMediaTypeOrNull())
+        requestHashMap["content"] = content.toRequestBody("multipart/form-data".toMediaTypeOrNull())
     }
 
     fun addFile() {
