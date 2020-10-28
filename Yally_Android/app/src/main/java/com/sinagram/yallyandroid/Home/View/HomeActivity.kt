@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
     private var fabOpen: Animation? = null
     private var fabClose: Animation? = null
     private var isFabOpen = false
-    private val MY_PERMISSION_STORAGE = 1111
+    private val PERMISSION_CODE = 1111
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +114,7 @@ class HomeActivity : AppCompatActivity() {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ),
-                MY_PERMISSION_STORAGE
+                PERMISSION_CODE
             )
         }
     }
@@ -125,7 +125,7 @@ class HomeActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            MY_PERMISSION_STORAGE -> for (i in grantResults.indices) {
+            PERMISSION_CODE -> for (i in grantResults.indices) {
                 if (grantResults[i] < 0) {
                     Toast.makeText(this, "해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show()
                     return

@@ -1,8 +1,6 @@
 package com.sinagram.yallyandroid.Util
 
 import android.media.MediaPlayer
-import android.text.Layout
-import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.sinagram.yallyandroid.Network.YallyConnector
@@ -10,10 +8,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object YallyMediaPlayer {
-    var seekBar: SeekBar? = null
-    var endTextView: TextView? = null
     var mediaPlayer: MediaPlayer? = null
-    var progressBarThread: ProgressBarThread? = null
+    private var seekBar: SeekBar? = null
+    private var endTextView: TextView? = null
+    private var progressBarThread: ProgressBarThread? = null
     var func: () -> Unit = {}
 
     fun setViews(seekBar: SeekBar, textView: TextView) {

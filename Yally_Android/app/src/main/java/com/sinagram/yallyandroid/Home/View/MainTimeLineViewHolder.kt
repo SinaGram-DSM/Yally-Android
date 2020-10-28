@@ -13,7 +13,7 @@ import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var isMenuClick = false
+    private var isMenuClick = false
 
     fun postInit(postData: Post) {
         itemView.apply {

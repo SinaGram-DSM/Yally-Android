@@ -4,19 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sinagram.yallyandroid.Util.CustomDialog
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Util.CustomDialog
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineAdapter(
     var postsList: MutableList<Post>,
     private val postAdaptConnector: PostAdaptConnector
-) :
-    RecyclerView.Adapter<MainTimeLineViewHolder>() {
-    lateinit var stateOfPostMenu: StateOnPostMenu
+) : RecyclerView.Adapter<MainTimeLineViewHolder>() {
+    private lateinit var stateOfPostMenu: StateOnPostMenu
 
     override fun getItemCount(): Int = postsList.size
 
@@ -49,6 +48,11 @@ class MainTimeLineAdapter(
                         }
                     }
                 }
+            }
+
+            itemView.post_content_layout.setOnClickListener {
+                postAdaptConnector.clickPost(postData.sound, itemView)
+                it.callOnClick()
             }
 
             itemView.post_menu_textView.setOnClickListener {
@@ -85,8 +89,6 @@ class MainTimeLineAdapter(
             itemView.post_comments_count_textView.setOnClickListener {
                 postData.id?.let { postAdaptConnector.moveToComment(it) }
             }
-
-            postAdaptConnector.clickPost(postData.sound, itemView)
         }
     }
 

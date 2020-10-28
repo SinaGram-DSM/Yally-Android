@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object YallyConnector {
     private var retrofit: Retrofit
     private var api: YallyAPI
-    const val baseURL = "http://13.125.238.84:81"
+    private const val baseURL = "http://13.125.238.84:81"
     const val s3 = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
 
     init {

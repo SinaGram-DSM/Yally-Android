@@ -14,12 +14,13 @@ data class CommentAdaptConnector(
     fun setAttributeFromComment(viewModel: DetailPostViewModel) {
         clickDeleteComment = { id: String, index: Int -> viewModel.deleteComment(id, index) }
         clickComment = { sound: String?, itemView: View ->
-            val seekbar = itemView.comment_player_seekBar
+            val seekBar = itemView.comment_player_seekBar
             val endTextView = itemView.comment_sound_end_textView
             var isClick: Boolean? = null
 
             if (sound != null) {
-                YallyMediaPlayer(seekbar, endTextView).run {
+                YallyMediaPlayer.apply {
+                    setViews(seekBar, endTextView)
                     setSeekBarListener()
 
                     itemView.comment_play_imageView.setOnClickListener { view ->

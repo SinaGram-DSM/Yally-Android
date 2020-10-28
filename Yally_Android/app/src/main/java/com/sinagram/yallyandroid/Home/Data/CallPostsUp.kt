@@ -4,8 +4,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 
-class CallPostsUp(val data: List<Post>, val timeLineViewModel: TimeLineViewModel): RecyclerView.OnScrollListener() {
-    var pageId = 1
+class CallPostsUp(val data: List<Post>, private val timeLineViewModel: TimeLineViewModel) :
+    RecyclerView.OnScrollListener() {
+    private var pageId = 1
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)

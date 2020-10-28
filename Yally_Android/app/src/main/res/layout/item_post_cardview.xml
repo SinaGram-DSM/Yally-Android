@@ -130,7 +130,8 @@
         <ImageView
             android:id="@+id/post_content_imageView"
             android:layout_width="match_parent"
-            android:layout_height="210dp" />
+            android:layout_height="210dp"
+            android:contentDescription="@string/ImageDescription" />
 
         <RelativeLayout
             android:layout_width="match_parent"

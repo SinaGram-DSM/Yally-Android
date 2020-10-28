@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/ImageDescription"
             android:src="@drawable/ic_mic_24dp" />
 
         <EditText
@@ -40,6 +41,7 @@
             android:backgroundTint="#EFEFEF"
             android:ems="10"
             android:hint="@string/enter_comment"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:padding="6dp"
             android:textColorHint="@color/gray"
