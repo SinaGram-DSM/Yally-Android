@@ -5,20 +5,20 @@ data class PostsResponse(
 )
 
 data class Post(
-    val comment: Int,
+    var comment: Int,
     val content: String,
     val createdAt: String,
-    val id: String,
-    val img: String,
+    var id: String?,
+    val img: String?,
     val isMine: Boolean,
     var isYally: Boolean,
-    val sound: String,
+    val sound: String?,
     val user: User,
     var yally: Int
 )
 
 data class User(
-    val email: String,
+    val email: String?,
     val img: String,
     val nickname: String
 )

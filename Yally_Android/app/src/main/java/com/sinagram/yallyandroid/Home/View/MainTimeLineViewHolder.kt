@@ -2,19 +2,18 @@ package com.sinagram.yallyandroid.Home.View
 
 import android.graphics.Color
 import android.text.Spannable
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.PostDate
-import com.sinagram.yallyandroid.Home.Data.PostMediaPlayer
-import com.sinagram.yallyandroid.Home.Data.PostTags
+import com.sinagram.yallyandroid.Util.PostDate
+import com.sinagram.yallyandroid.Util.PostTags
+import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
 class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var isMenuClick = false
+    private var isMenuClick = false
 
     fun postInit(postData: Post) {
         itemView.apply {
@@ -23,36 +22,10 @@ class MainTimeLineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             post_comments_count_textView.text =
                 context.getString(R.string.comment_count, postData.comment)
             post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
-            Glide.with(this).load(postData.user.img).circleCrop().into(post_user_image_imageView)
-            Glide.with(this).load(postData.img).centerCrop().into(post_content_imageView)
-        }
-    }
-
-    fun setPostClicked(postData: Post) {
-        val postSeekBar = itemView.post_player_seekBar
-
-        PostMediaPlayer(postSeekBar).apply {
-            setSeekBarListener()
-
-            itemView.post_content_textView.setOnClickListener {
-                isClickedPost = !isClickedPost
-
-                try {
-                    postSeekBar.visibility = if (isClickedPost) {
-                        startMediaPlayer(postData)
-                        itemView.post_soundLength_textView.text = getSoundSourceLength()
-                        itemView.post_content_imageView.setColorFilter(Color.parseColor("#98000000"))
-                        View.VISIBLE
-                    } else {
-                        stopMediaPlayer()
-                        itemView.post_content_imageView.setColorFilter(Color.parseColor("#4C000000"))
-                        View.GONE
-                    }
-                } catch (e: Exception) {
-                    Log.e("MainTimeLineViewHolder", e.message.toString())
-                }
-
-            }
+            Glide.with(this).load(YallyConnector.s3 + postData.user.img).circleCrop()
+                .into(post_user_image_imageView)
+            Glide.with(this).load(YallyConnector.s3 + postData.img).centerCrop()
+                .into(post_content_imageView)
         }
     }
 

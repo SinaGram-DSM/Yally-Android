@@ -2,16 +2,12 @@ package com.sinagram.yallyandroid.Splash
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.SignActivity
 import kotlinx.android.synthetic.main.activity_splash.*
-
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

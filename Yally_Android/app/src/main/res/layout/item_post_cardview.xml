@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -129,7 +130,8 @@
         <ImageView
             android:id="@+id/post_content_imageView"
             android:layout_width="match_parent"
-            android:layout_height="210dp" />
+            android:layout_height="210dp"
+            android:contentDescription="@string/ImageDescription" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -138,6 +140,7 @@
             tool:ignore="RtlHardcoded">
 
             <LinearLayout
+                android:id="@+id/post_content_layout"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
                 android:gravity="center"

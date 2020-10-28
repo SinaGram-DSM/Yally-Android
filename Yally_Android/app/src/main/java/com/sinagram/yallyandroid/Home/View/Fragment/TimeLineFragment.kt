@@ -1,25 +1,27 @@
 package com.sinagram.yallyandroid.Home.View.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sinagram.yallyandroid.Home.Data.Listening
-import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.StateOnPostMenu
-import com.sinagram.yallyandroid.Home.Data.User
+import androidx.recyclerview.widget.RecyclerView
+import com.bekawestberg.loopinglayout.library.LoopingLayoutManager
+import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
+import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Util.YallyMediaPlayer
 import kotlinx.android.synthetic.main.fragment_time_line.*
 
 class TimeLineFragment : Fragment() {
     private val timeLineViewModel: TimeLineViewModel by viewModels()
-    private lateinit var timeLineList: MutableList<Post>
+    private lateinit var mainTimeLineAdapter: MainTimeLineAdapter
+    private var pageId = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,66 +33,61 @@ class TimeLineFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        timeLineViewModel.getTimeLineItem(1)
-//
-//        timeLineViewModel.successLiveData.observe(viewLifecycleOwner, {
-//            timeLine_recyclerView.apply {
-//                setHasFixedSize(true)
-//                layoutManager = LinearLayoutManager(activity)
-//                adapter = MainTimeLineAdapter(it, clickYally)
-//            }
-//        })
+        timeLineViewModel.getTimeLineItem(pageId)
 
-        val post = Post(
-            id = "42736b0ace29e3a9b5cfa3a0240d4c0e",
-            content = "아니 당근 빳따 아이유가 진리인데…ㅠ 왜 다들 몰라줄까요… 이거 다들 진짜 인정하시는 부분이죠?! 저만그런거 아니죠?!?! #아이유 #짱 #ㅎㅋ #으앜",
-            sound = "1602582644569.JPG",
-            img = "1602582644582.JPG",
-            createdAt = "2020-10-13 18:50:44",
-            user = User(
-                email = "admin123@gmail.com",
-                nickname = "admin", img = "user.jpg"
-            ),
-            comment = 0,
-            yally = 0,
-            isYally = true,
-            isMine = true
-        )
-
-        timeLineList.add(post)
-
-        val clickYally = { data: Post, observer: Observer<Boolean> ->
-            timeLineViewModel.clickYally(data).observe(viewLifecycleOwner, observer)
-        }
-
-        val getListeningOnPost = { observer: Observer<List<Listening>> ->
-            timeLineViewModel.getListeningList().observe(viewLifecycleOwner, observer)
-        }
-
-        val listeningOnPost =
-            { state: StateOnPostMenu, email: String, observer: Observer<StateOnPostMenu> ->
-                timeLineViewModel.sendListeningToUser(state, email)
-                    .observe(viewLifecycleOwner, observer)
+        val postAdaptConnector = PostAdaptConnector().apply {
+            setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
+            moveToComment = { id: String ->
+                val intent = Intent(context, DetailPostActivity::class.java)
+                intent.putExtra("postData", id)
+                startActivity(intent)
             }
+        }
 
-        val deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
+        mainTimeLineAdapter = MainTimeLineAdapter(mutableListOf(), postAdaptConnector)
+        setRecyclerView()
 
-        val adapter = MainTimeLineAdapter(
-            timeLineList,
-            clickYally,
-            getListeningOnPost,
-            listeningOnPost,
-            deletePost
-        )
-
-        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
-            adapter.removeAt(it)
+        timeLineViewModel.notPageLiveData.observe(viewLifecycleOwner, {
+            timeLine_recyclerView.run {
+                clearOnScrollListeners()
+                layoutManager = LoopingLayoutManager(context, LoopingLayoutManager.VERTICAL, false)
+            }
         })
 
-        timeLine_recyclerView.apply {
+        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            mainTimeLineAdapter.removeAt(it)
+        })
+
+        timeLineViewModel.successLiveData.observe(viewLifecycleOwner, {
+            mainTimeLineAdapter.postsList.addAll(it)
+            mainTimeLineAdapter.notifyDataSetChanged()
+            pageId++
+        })
+    }
+
+    private fun setRecyclerView() {
+        timeLine_recyclerView.run {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            this.adapter = adapter
+            adapter = mainTimeLineAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val manager = LinearLayoutManager::class.java.cast(recyclerView.layoutManager)
+                    val totalItemCount = manager.itemCount
+                    val lastVisible = manager.findLastCompletelyVisibleItemPosition()
+
+                    if (lastVisible >= totalItemCount - 1) {
+                        timeLineViewModel.getTimeLineItem(pageId)
+                    }
+                }
+            })
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        YallyMediaPlayer.stopMediaPlayer()
     }
 }
