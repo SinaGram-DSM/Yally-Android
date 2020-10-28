@@ -2,7 +2,10 @@ package com.sinagram.yallyandroid.Detail.ViewModel
 
 import android.media.MediaRecorder
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.sinagram.yallyandroid.Base.BasePostRepository
+import com.sinagram.yallyandroid.Base.BasePostViewModel
 import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
@@ -10,21 +13,20 @@ import com.sinagram.yallyandroid.Detail.Data.DetailRepository
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 
-class DetailPostViewModel : ViewModel() {
-    private val repository = DetailRepository()
+class DetailPostViewModel : BasePostViewModel() {
+    override var repository: BasePostRepository = DetailRepository()
     val postLiveData: MutableLiveData<Post?> = MutableLiveData()
     val successLiveData: MutableLiveData<List<Comment>> = MutableLiveData()
     val deleteCommentLiveData: MutableLiveData<Int> = MutableLiveData()
     val recorderLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    private var mediaRecorder: MediaRecorder = MediaRecorder()
+    private var mediaRecorder: MediaRecorder? = null
     private var haveFile = false
 
     fun getDetailPost(id: String) {
         viewModelScope.launch {
-            val result = repository.getDetailPost(id)
+            val result = (repository as DetailRepository).getDetailPost(id)
 
             if (result is Result.Success) {
                 postSuccess(result)
@@ -42,7 +44,7 @@ class DetailPostViewModel : ViewModel() {
 
     fun getComments(id: String) {
         viewModelScope.launch {
-            val result = repository.getCommentList(id)
+            val result = (repository as DetailRepository).getCommentList(id)
 
             if (result is Result.Success) {
                 commentSuccess(result)
@@ -60,7 +62,7 @@ class DetailPostViewModel : ViewModel() {
 
     fun deleteComment(id: String, index: Int) {
         viewModelScope.launch {
-            val result = repository.deleteComment(id)
+            val result = (repository as DetailRepository).deleteComment(id)
 
             if (result is Result.Success) {
                 deleteCommentLiveData.postValue(index)
@@ -75,12 +77,13 @@ class DetailPostViewModel : ViewModel() {
             viewModelScope.launch {
                 val recordTask = launch {
                     withTimeout(10000) {
-                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-                        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-                        mediaRecorder.setOutputFile(filePath)
-                        mediaRecorder.prepare()
-                        mediaRecorder.start()
+                        mediaRecorder = MediaRecorder()
+                        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+                        mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+                        mediaRecorder!!.setOutputFile(filePath)
+                        mediaRecorder!!.prepare()
+                        mediaRecorder!!.start()
                         recorderLiveData.postValue(true)
                     }
                 }
@@ -95,10 +98,13 @@ class DetailPostViewModel : ViewModel() {
     }
 
     fun stopRecord() {
-        mediaRecorder.stop()
-        mediaRecorder.release()
-        recorderLiveData.value = false
-        haveFile = true
+        if (mediaRecorder != null) {
+            mediaRecorder!!.stop()
+            mediaRecorder!!.release()
+            recorderLiveData.value = false
+            haveFile = true
+        }
+        mediaRecorder = null
     }
 
     fun sendComment(id: String, request: CommentRequest) {
@@ -108,7 +114,7 @@ class DetailPostViewModel : ViewModel() {
             haveFile = false
             request.addComment()
             request.addFile()
-            val result = repository.sendComment(id, request.requestHashMap)
+            val result = (repository as DetailRepository).sendComment(id, request.requestHashMap)
 
             if (result is Result.Success) {
                 getComments(id)
@@ -116,21 +122,6 @@ class DetailPostViewModel : ViewModel() {
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
             }
-        }
-    }
-
-    fun clickYally(post: Post): LiveData<Boolean> {
-        return liveData {
-            val isSuccess = withContext(viewModelScope.coroutineContext) {
-                val result = if (post.isYally) {
-                    post.id?.let { repository.cancelYally(it) }
-                } else {
-                    post.id?.let { repository.doYally(it) }
-                }
-
-                result is Result.Success
-            }
-            emit(isSuccess)
         }
     }
 }
