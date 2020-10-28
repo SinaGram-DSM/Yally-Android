@@ -39,25 +39,31 @@ data class PostAdaptConnector(
 
         clickPost = { sound: String?, itemView: View ->
             var isClick = false
-            val seekbar = itemView.post_player_seekBar
+            val seekBar = itemView.post_player_seekBar
             val textView = itemView.post_soundLength_textView
             val imageView = itemView.post_content_imageView
 
-            YallyMediaPlayer(seekbar, textView).run {
+            YallyMediaPlayer.apply {
+                setViews(seekBar, textView)
                 setSeekBarListener()
+                setInvoke {
+                    textView.text = ""
+                    imageView.setColorFilter(Color.parseColor("#4C000000"))
+                    seekBar.visibility = View.GONE
+                }
 
                 itemView.post_content_layout.setOnClickListener {
                     isClick = !isClick
 
-                    seekbar.visibility = if (isClick) {
+                    if (isClick) {
                         sound?.let { initMediaPlayer(sound) }
                         imageView.setColorFilter(Color.parseColor("#98000000"))
-                        View.VISIBLE
+                        seekBar.visibility = View.VISIBLE
                     } else {
                         stopMediaPlayer()
                         textView.text = ""
                         imageView.setColorFilter(Color.parseColor("#4C000000"))
-                        View.GONE
+                        seekBar.visibility = View.GONE
                     }
                 }
             }
@@ -70,6 +76,50 @@ data class PostAdaptConnector(
     ) {
         clickYally = { data: Post, observer: Observer<Boolean> ->
             detailPostViewModel.clickYally(data).observe(lifecycleOwner, observer)
+        }
+
+        getListeningOnPost = { observer: Observer<List<Listening>> ->
+            detailPostViewModel.getListeningList().observe(lifecycleOwner, observer)
+        }
+
+        listeningOnPost =
+            { state: StateOnPostMenu, email: String, observer: Observer<StateOnPostMenu> ->
+                detailPostViewModel.sendListeningToUser(state, email)
+                    .observe(lifecycleOwner, observer)
+            }
+
+        deletePost = { id: String, index: Int -> detailPostViewModel.deletePost(id, index) }
+
+        clickPost = { sound: String?, itemView: View ->
+            var isClick = false
+            val seekBar = itemView.post_player_seekBar
+            val textView = itemView.post_soundLength_textView
+            val imageView = itemView.post_content_imageView
+
+            YallyMediaPlayer.apply {
+                setViews(seekBar, textView)
+                setSeekBarListener()
+                setInvoke {
+                    textView.text = ""
+                    imageView.setColorFilter(Color.parseColor("#4C000000"))
+                    seekBar.visibility = View.GONE
+                }
+
+                itemView.post_content_layout.setOnClickListener {
+                    isClick = !isClick
+
+                    if (isClick) {
+                        sound?.let { initMediaPlayer(sound) }
+                        imageView.setColorFilter(Color.parseColor("#98000000"))
+                        seekBar.visibility = View.VISIBLE
+                    } else {
+                        stopMediaPlayer()
+                        textView.text = ""
+                        imageView.setColorFilter(Color.parseColor("#4C000000"))
+                        seekBar.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 }

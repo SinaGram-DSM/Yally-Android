@@ -17,6 +17,7 @@ import com.sinagram.yallyandroid.Detail.ViewModel.DetailPostViewModel
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Util.YallyMediaPlayer
 import kotlinx.android.synthetic.main.fragment_detail_post.*
 import kotlinx.android.synthetic.main.fragment_detail_post.view.*
 import java.io.File
@@ -119,6 +120,7 @@ class DetailPostFragment : Fragment() {
         })
 
         detailPostViewModel.deleteCommentLiveData.observe(viewLifecycleOwner, {
+            YallyMediaPlayer.stopMediaPlayer()
             commentAdapter.removeAt(it)
             postAdapter.minusComment()
         })
@@ -132,5 +134,14 @@ class DetailPostFragment : Fragment() {
 
             isClickRecorder = !isClickRecorder
         })
+
+        detailPostViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            activity?.finish()
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        detailPostViewModel.stopRecord()
     }
 }

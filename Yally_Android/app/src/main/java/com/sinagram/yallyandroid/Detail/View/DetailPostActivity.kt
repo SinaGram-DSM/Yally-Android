@@ -37,8 +37,8 @@ class DetailPostActivity : AppCompatActivity() {
         onBackPressed()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    override fun onDestroy() {
+        super.onDestroy()
         YallyMediaPlayer.stopMediaPlayer()
     }
 }

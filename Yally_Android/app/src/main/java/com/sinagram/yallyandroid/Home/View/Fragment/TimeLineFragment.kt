@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,7 +34,19 @@ class TimeLineFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            mainTimeLineAdapter.removeAt(it)
+        })
+
+        timeLineViewModel.notPageLiveData.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
         timeLineViewModel.getTimeLineItem(1)
+
         val postAdaptConnector = PostAdaptConnector().apply {
             setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
             moveToComment = { id: String ->
@@ -42,8 +55,6 @@ class TimeLineFragment : Fragment() {
                 startActivity(intent)
             }
         }
-
-        mainTimeLineAdapter = MainTimeLineAdapter(timeLineList, postAdaptConnector)
 
         timeLineViewModel.successLiveData.observe(viewLifecycleOwner, {
             timeLineList.addAll(it)
@@ -54,19 +65,20 @@ class TimeLineFragment : Fragment() {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = mainTimeLineAdapter
 
-                val onScrollListener = CallPostsUp(it, timeLineViewModel)
                 clearOnScrollListeners()
-                addOnScrollListener(onScrollListener)
+                addOnScrollListener(CallPostsUp(it, timeLineViewModel))
             }
-        })
-
-        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
-            mainTimeLineAdapter.removeAt(it)
         })
     }
 
     override fun onPause() {
         super.onPause()
         YallyMediaPlayer.stopMediaPlayer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mainTimeLineAdapter.postsList.clear()
+        mainTimeLineAdapter.notifyDataSetChanged()
     }
 }
