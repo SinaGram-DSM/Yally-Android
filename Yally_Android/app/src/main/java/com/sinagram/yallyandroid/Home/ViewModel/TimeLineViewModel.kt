@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class TimeLineViewModel : BasePostViewModel() {
     override var repository: BasePostRepository = HomeRepository()
-    val notPageLiveData: MutableLiveData<String> = MutableLiveData()
+    val notPageLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val successLiveData: MutableLiveData<List<Post>> = MutableLiveData()
 
     fun getTimeLineItem(page: Int) {
@@ -30,9 +30,12 @@ class TimeLineViewModel : BasePostViewModel() {
 
     private fun timeLineSuccess(result: Result.Success<PostsResponse>) {
         if (result.code == 200) {
-            successLiveData.postValue(result.data?.posts ?: listOf())
-        } else {
-            notPageLiveData.postValue("페이지가 더이상 없습니다.")
+            val data = result.data?.posts
+            if (data?.isNotEmpty() == true) {
+                successLiveData.postValue(result.data.posts)
+            } else {
+                notPageLiveData.postValue(true)
+            }
         }
     }
 }
