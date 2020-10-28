@@ -9,15 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
-import com.sinagram.yallyandroid.Home.Data.*
+import com.sinagram.yallyandroid.Home.Data.CallPostsUp
+import com.sinagram.yallyandroid.Home.Data.Post
+import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Util.YallyMediaPlayer
 import kotlinx.android.synthetic.main.fragment_time_line.*
 
 class TimeLineFragment : Fragment() {
     private val timeLineViewModel: TimeLineViewModel by viewModels()
     private var timeLineList: MutableList<Post> = mutableListOf()
+    private lateinit var mainTimeLineAdapter: MainTimeLineAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,21 +43,30 @@ class TimeLineFragment : Fragment() {
             }
         }
 
-        var mainTimeLineAdapter = MainTimeLineAdapter(timeLineList, postAdaptConnector)
+        mainTimeLineAdapter = MainTimeLineAdapter(timeLineList, postAdaptConnector)
 
         timeLineViewModel.successLiveData.observe(viewLifecycleOwner, {
             timeLineList.addAll(it)
             mainTimeLineAdapter = MainTimeLineAdapter(timeLineList, postAdaptConnector)
 
-            timeLine_recyclerView.apply {
+            timeLine_recyclerView.run {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(activity)
                 adapter = mainTimeLineAdapter
+
+                val onScrollListener = CallPostsUp(it, timeLineViewModel)
+                clearOnScrollListeners()
+                addOnScrollListener(onScrollListener)
             }
         })
 
         timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
             mainTimeLineAdapter.removeAt(it)
         })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        YallyMediaPlayer.stopMediaPlayer()
     }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Util.YallyMediaPlayer
 
 class DetailPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,5 +35,10 @@ class DetailPostActivity : AppCompatActivity() {
 
     fun backPress(view: View) {
         onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        YallyMediaPlayer.stopMediaPlayer()
     }
 }
