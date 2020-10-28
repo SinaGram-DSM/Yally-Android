@@ -1,21 +1,34 @@
 package com.sinagram.yallyandroid.Util
 
 import android.media.MediaPlayer
+import android.text.Layout
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.sinagram.yallyandroid.Network.YallyConnector
 import java.text.SimpleDateFormat
 import java.util.*
 
-class YallyMediaPlayer(
-    private val seekBar: SeekBar,
-    private val endTextView: TextView,
-) {
+object YallyMediaPlayer {
+    var seekBar: SeekBar? = null
+    var endTextView: TextView? = null
     var mediaPlayer: MediaPlayer? = null
     var progressBarThread: ProgressBarThread? = null
+    var func: () -> Unit = {}
+
+    fun setViews(seekBar: SeekBar, textView: TextView) {
+        stopMediaPlayer()
+
+        this.seekBar = seekBar
+        endTextView = textView
+    }
+
+    fun setInvoke(func: () -> Unit) {
+        this.func = func
+    }
 
     fun setSeekBarListener() {
-        seekBar.setOnSeekBarChangeListener(object : SeekBarChangeListenerImpl() {
+        seekBar?.setOnSeekBarChangeListener(object : SeekBarChangeListenerImpl() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 mediaPlayer?.pause()
             }
@@ -27,10 +40,6 @@ class YallyMediaPlayer(
                 startThread()
             }
         })
-    }
-
-    fun setTimeToTextView(textView: TextView?, time: Int) {
-        textView?.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(time)
     }
 
     fun startThread() {
@@ -45,8 +54,8 @@ class YallyMediaPlayer(
 
         mediaPlayer!!.setOnPreparedListener { player ->
             val duration = mediaPlayer!!.duration
-            seekBar.max = duration
-            setTimeToTextView(endTextView, duration)
+            seekBar?.max = duration
+            endTextView?.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(duration)
 
             progressBarThread = ProgressBarThread(seekBar, mediaPlayer!!)
             progressBarThread?.start()
@@ -69,11 +78,13 @@ class YallyMediaPlayer(
     fun stopMediaPlayer() {
         mediaPlayer?.stop()
         mediaPlayer?.release()
-        seekBar.progress = 0
+        mediaPlayer = null
+        seekBar?.progress = 0
         releaseThread()
+        func()
     }
 
-    fun releaseThread() {
+    private fun releaseThread() {
         progressBarThread?.interrupt()
         progressBarThread = null
     }
