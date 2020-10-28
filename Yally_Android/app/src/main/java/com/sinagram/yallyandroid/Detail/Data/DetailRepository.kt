@@ -1,16 +1,12 @@
 package com.sinagram.yallyandroid.Detail.Data
 
-import com.sinagram.yallyandroid.Base.BaseRepository
+import com.sinagram.yallyandroid.Base.BasePostRepository
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Network.YallyConnector
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 
-class DetailRepository : BaseRepository() {
+class DetailRepository : BasePostRepository() {
     suspend fun getDetailPost(id: String): Result<Post> {
         val token = getAccessToken()!!
         return checkHaveToken { YallyConnector.createAPI().getDetailPost(token, id) }
@@ -32,15 +28,5 @@ class DetailRepository : BaseRepository() {
 
         val token = getAccessToken()!!
         return checkHaveToken { YallyConnector.createAPI().postComment(token, id, requestHashMap) }
-    }
-
-    suspend fun doYally(id: String): Result<Void> {
-        val token = getAccessToken()!!
-        return checkHaveToken { YallyConnector.createAPI().doYallyOnPost(token, id) }
-    }
-
-    suspend fun cancelYally(id: String): Result<Void> {
-        val token = getAccessToken()!!
-        return checkHaveToken { YallyConnector.createAPI().cancelYallyOnPost(token, id) }
     }
 }
