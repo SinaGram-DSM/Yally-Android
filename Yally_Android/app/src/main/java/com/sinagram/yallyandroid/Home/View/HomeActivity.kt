@@ -11,6 +11,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.sinagram.yallyandroid.Home.View.Fragment.SearchFragment
@@ -31,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         checkPermission()
         initialization()
         addSetOnNavigationItemSelectedListener()
+        setSearchView()
     }
 
     private fun initialization() {
@@ -46,9 +48,14 @@ class HomeActivity : AppCompatActivity() {
 
     private fun addSetOnNavigationItemSelectedListener() {
         home_bottom_navigationView.setOnNavigationItemSelectedListener { item ->
+            home_toolbar.visibility = View.GONE
+
             val fragment = when (item.itemId) {
                 R.id.menu_home_stack -> TimeLineFragment()
-                R.id.menu_home_search -> SearchFragment()
+                R.id.menu_home_search -> {
+                    home_toolbar.visibility = View.VISIBLE
+                    SearchFragment()
+                }
                 else -> TimeLineFragment()
             }
 
@@ -124,13 +131,50 @@ class HomeActivity : AppCompatActivity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        when (requestCode) {
-            PERMISSION_CODE -> for (i in grantResults.indices) {
+        if (requestCode == PERMISSION_CODE) {
+            for (i in grantResults.indices) {
                 if (grantResults[i] < 0) {
                     Toast.makeText(this, "해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show()
                     return
                 }
             }
+        }
+    }
+
+    private fun setSearchView() {
+        home_search_searchView.setOnSearchClickListener {
+            home_title_textView.visibility = View.GONE
+            home_search_cancel_textView.visibility = View.VISIBLE
+            home_search_searchView.maxWidth = Int.MAX_VALUE
+        }
+
+        home_search_searchView.setOnCloseListener {
+            home_title_textView.visibility = View.VISIBLE
+            home_search_cancel_textView.visibility = View.GONE
+            false
+        }
+
+        home_search_searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+        home_search_cancel_textView.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!home_search_searchView.isIconified) {
+            home_search_searchView.isIconified = true
+        } else {
+            super.onBackPressed()
         }
     }
 }
