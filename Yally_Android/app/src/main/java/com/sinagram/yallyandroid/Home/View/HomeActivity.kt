@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.sinagram.yallyandroid.Home.View.Fragment.FindPostFragment
+import com.sinagram.yallyandroid.Home.View.Fragment.FindUserFragment
 import com.sinagram.yallyandroid.Home.View.Fragment.SearchFragment
 import com.sinagram.yallyandroid.Home.View.Fragment.TimeLineFragment
 import com.sinagram.yallyandroid.R
@@ -156,7 +158,19 @@ class HomeActivity : AppCompatActivity() {
 
         home_search_searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null && query.isNotEmpty()) {
+                    val fragment = when {
+                        query[0] == '#' -> FindPostFragment()
+                        query[0] == '@' -> FindUserFragment()
+                        else -> return false
+                    }
 
+                    replaceFragment(fragment.apply {
+                        arguments = Bundle().apply {
+                            putString("findQuery", query.substring(1))
+                        }
+                    })
+                }
                 return true
             }
 
