@@ -10,6 +10,7 @@
         android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="#FDFDFD"
         app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="24dp"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:paddingEnd="0dp"
+                android:paddingBottom="10dp"
                 app:closeIcon="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/home_search_cancel_textView"
