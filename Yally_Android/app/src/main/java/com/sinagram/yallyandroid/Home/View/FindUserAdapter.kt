@@ -2,9 +2,11 @@ package com.sinagram.yallyandroid.Home.View
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +33,8 @@ class FindUserAdapter<T>(private val userList: List<T>) :
             if (data is Friend) {
                 Glide.with(context).load(data.img).circleCrop().into(user_list_imageView)
                 user_name_textView.text = data.nickname
-                changeListenButtonColor(user_list_imageView, data.isListening)
+                Log.e("FindUserAdapter", "call?")
+                changeListenTextColor(user_listen_button, data.isListening)
             } else if (data is User) {
                 Glide.with(context).load(data.img).circleCrop().into(user_list_imageView)
                 user_name_textView.text = data.nickname
@@ -39,16 +42,18 @@ class FindUserAdapter<T>(private val userList: List<T>) :
                 user_listener_textView.text = data.listener.toString()
                 user_listening_layout.visibility = View.VISIBLE
                 checkUnit(user_listening_textView, data.listening)
-                changeListenButtonColor(user_list_imageView, data.isListening)
+                changeListenTextColor(user_listen_button, data.isListening)
             }
         }
     }
 
-    private fun changeListenButtonColor(imageView: ImageView, isListening: Boolean) {
+    private fun changeListenTextColor(textView: TextView, isListening: Boolean) {
         if (isListening) {
-            imageView.setBackgroundColor(Color.parseColor("#362F99"))
+            textView.setBackgroundColor(Color.parseColor("#362F99"))
+            textView.text = "언리스닝"
         } else {
-            imageView.setBackgroundColor(Color.parseColor("#6960EF"))
+            textView.setBackgroundColor(Color.parseColor("#6960EF"))
+            textView.text = "리스닝"
         }
     }
 

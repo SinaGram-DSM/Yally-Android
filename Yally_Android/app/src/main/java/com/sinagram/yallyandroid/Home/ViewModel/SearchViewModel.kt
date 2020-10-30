@@ -41,6 +41,7 @@ class SearchViewModel : ViewModel() {
 
         if (data != null && list != null) {
             for (i in data.indices) {
+                data[i].isListening = false
                 for (j in list.indices) {
                     if (data[i].nickname == list[j].nickname) {
                         data[i].isListening = true

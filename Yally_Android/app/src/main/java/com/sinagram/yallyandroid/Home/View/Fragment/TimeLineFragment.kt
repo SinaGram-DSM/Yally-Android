@@ -48,9 +48,11 @@ class TimeLineFragment : Fragment() {
         setRecyclerView()
 
         timeLineViewModel.notPageLiveData.observe(viewLifecycleOwner, {
-            timeLine_recyclerView.run {
-                clearOnScrollListeners()
-                layoutManager = LoopingLayoutManager(context, LoopingLayoutManager.VERTICAL, false)
+            if (mainTimeLineAdapter.postsList.isNotEmpty()) {
+                timeLine_recyclerView.run {
+                    clearOnScrollListeners()
+                    layoutManager = LoopingLayoutManager(context, LoopingLayoutManager.VERTICAL, false)
+                }
             }
         })
 
