@@ -44,7 +44,7 @@ abstract class BasePostViewModel: ViewModel() {
         return liveData {
             val isSuccess = withContext(viewModelScope.coroutineContext) {
                 when (val result = repository.getListeningList()) {
-                    is Result.Success -> result.data!!.listeners
+                    is Result.Success -> result.data!!.listenings
                     is Result.Error -> listOf()
                 }
             }

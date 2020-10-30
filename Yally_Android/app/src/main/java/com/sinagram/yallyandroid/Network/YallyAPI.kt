@@ -1,6 +1,7 @@
 package com.sinagram.yallyandroid.Network
 
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
+import com.sinagram.yallyandroid.Home.Data.FriendResponse
 import com.sinagram.yallyandroid.Home.Data.ListeningResponse
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
@@ -50,6 +51,9 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Path("page") page: Int
     ): Response<PostsResponse>
+
+    @GET("/timeline/friend")
+    suspend fun getListOfRecommendedFriends(@Header("Authorization") header: String): Response<FriendResponse>
 
 
     @GET("/post/{id}")

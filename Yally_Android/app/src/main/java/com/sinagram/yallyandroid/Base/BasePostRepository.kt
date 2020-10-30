@@ -41,8 +41,4 @@ abstract class BasePostRepository: BaseRepository() {
         val email = getEmail()
         return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
     }
-
-    private fun getEmail(): String {
-        return sharedPreferences.email
-    }
 }

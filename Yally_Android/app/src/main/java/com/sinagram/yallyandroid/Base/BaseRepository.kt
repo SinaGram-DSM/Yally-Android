@@ -25,4 +25,8 @@ open class BaseRepository {
     fun getAccessToken(): String? {
         return sharedPreferences.accessToken
     }
+
+    fun getEmail(): String {
+        return sharedPreferences.email
+    }
 }
