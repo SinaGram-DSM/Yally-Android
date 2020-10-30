@@ -1,10 +1,7 @@
 package com.sinagram.yallyandroid.Network
 
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
-import com.sinagram.yallyandroid.Home.Data.FriendResponse
-import com.sinagram.yallyandroid.Home.Data.ListeningResponse
-import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.PostsResponse
+import com.sinagram.yallyandroid.Home.Data.*
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
 import okhttp3.RequestBody
@@ -106,4 +103,11 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Path("email") email: String
     ): Response<ListeningResponse>
+
+
+    @GET("/search/user")
+    suspend fun searchUser(
+        @Header("Authorization") header: String,
+        @Query("nickname") str: String
+    ): Response<UserResponse>
 }

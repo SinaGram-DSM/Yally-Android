@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
             }
         })
     }
-    
+
     fun setClickMoreTextView() {
         search_expand_textView.setOnClickListener {
             if (isExpand) {

@@ -20,5 +20,8 @@ data class Post(
 data class User(
     val email: String?,
     val img: String,
-    val nickname: String
+    val nickname: String,
+    val listening: Int = 0,
+    val listener: Int = 0,
+    val isListening: Boolean = false
 )
