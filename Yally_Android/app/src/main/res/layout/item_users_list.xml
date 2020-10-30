@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
-    android:layout_height="138dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:elevation="10dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -23,11 +26,69 @@
         android:textColor="@color/gray"
         android:textSize="12sp" />
 
+    <LinearLayout
+        android:id="@+id/user_listener_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="리스너 : "
+            android:textColor="@color/gray"
+            android:textSize="11sp"
+            tools:ignore="HardcodedText,SmallSp" />
+
+        <TextView
+            android:id="@+id/user_listener_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_light"
+            android:includeFontPadding="false"
+            android:textColor="@color/gray"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_listening_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="리스닝 : "
+            android:textColor="@color/gray"
+            android:textSize="11sp"
+            tools:ignore="HardcodedText,SmallSp" />
+
+        <TextView
+            android:id="@+id/user_listening_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_light"
+            android:includeFontPadding="false"
+            android:textColor="@color/gray"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/user_listen_button"
         android:layout_width="60dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/button_bright_gray"
         android:fontFamily="@font/notosanskr_regular"
         android:includeFontPadding="false"

@@ -1,5 +1,6 @@
 package com.sinagram.yallyandroid.Home.ViewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 class SearchViewModel : ViewModel() {
     private val repository = SearchRepository()
     val recomendListLivedata: MutableLiveData<List<Friend>> = MutableLiveData()
+    val findUserLiveData: MutableLiveData<List<User>> = MutableLiveData()
 
     fun getRecomendedList() {
         viewModelScope.launch {
@@ -48,5 +50,21 @@ class SearchViewModel : ViewModel() {
         }
 
         return data
+    }
+
+    fun getUserListBySearchName(name: String?) {
+        if (name == null) {
+            findUserLiveData.value = listOf()
+        } else {
+            viewModelScope.launch {
+                val result = repository.getUserListBySearchName(name)
+
+                if (result is Result.Success) {
+                    findUserLiveData.postValue(result.data?.users ?: listOf())
+                } else {
+                    Log.e("SearchViewModel", (result as Result.Error).exception)
+                }
+            }
+        }
     }
 }
