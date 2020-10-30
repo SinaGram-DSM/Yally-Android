@@ -1,17 +1,21 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.Manifest
+import android.R.attr.actionBarSize
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.sinagram.yallyandroid.Home.View.Fragment.FindPostFragment
@@ -51,11 +55,18 @@ class HomeActivity : AppCompatActivity() {
     private fun addSetOnNavigationItemSelectedListener() {
         home_bottom_navigationView.setOnNavigationItemSelectedListener { item ->
             home_toolbar.visibility = View.GONE
+            setMarginToRecyclerView(0)
 
             val fragment = when (item.itemId) {
                 R.id.menu_home_stack -> TimeLineFragment()
                 R.id.menu_home_search -> {
                     home_toolbar.visibility = View.VISIBLE
+                    val tv = TypedValue()
+                    if (theme.resolveAttribute(actionBarSize, tv, true)) {
+                        setMarginToRecyclerView(
+                            TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+                        )
+                    }
                     SearchFragment()
                 }
                 else -> TimeLineFragment()
@@ -64,6 +75,12 @@ class HomeActivity : AppCompatActivity() {
             replaceFragment(fragment)
             true
         }
+    }
+
+    private fun setMarginToRecyclerView(height: Int) {
+        val marginParams = MarginLayoutParams(home_fragment.layoutParams)
+        marginParams.setMargins(0, height, 0, 0)
+        home_fragment.layoutParams = CoordinatorLayout.LayoutParams(marginParams)
     }
 
     private fun replaceFragment(fragment: Fragment) {

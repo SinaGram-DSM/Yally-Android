@@ -1,6 +1,7 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,10 +50,10 @@ class FindUserAdapter<T>(private val userList: List<T>) :
 
     private fun changeListenTextColor(textView: TextView, isListening: Boolean) {
         if (isListening) {
-            textView.setBackgroundColor(Color.parseColor("#362F99"))
+            textView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#362F99"))
             textView.text = "언리스닝"
         } else {
-            textView.setBackgroundColor(Color.parseColor("#6960EF"))
+            textView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#6960EF"))
             textView.text = "리스닝"
         }
     }

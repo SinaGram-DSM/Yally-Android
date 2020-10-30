@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.sinagram.yallyandroid.Home.View.FindUserAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.SearchViewModel
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -14,7 +15,12 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class FindUserFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
-    private val query = requireArguments().getString("findQuery")
+    private var query: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        query = arguments?.getString("findQuery")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +44,7 @@ class FindUserFragment : Fragment() {
             search_result_recyclerView.run {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(context, 3)
-                adapter
+                adapter = FindUserAdapter(it)
             }
         })
     }

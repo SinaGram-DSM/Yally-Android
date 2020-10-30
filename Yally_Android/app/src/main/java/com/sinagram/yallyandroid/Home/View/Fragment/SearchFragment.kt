@@ -42,21 +42,21 @@ class SearchFragment : Fragment() {
 
     private fun setClickMoreTextView() {
         search_expand_textView.setOnClickListener {
+            isExpand = !isExpand
+
             if (isExpand) {
                 search_expand_textView.text = getString(R.string.briefly)
                 search_result_recyclerView.run {
                     layoutManager = GridLayoutManager(context, 3)
                 }
             } else {
-                search_expand_textView.text = getString(R.string.briefly)
+                search_expand_textView.text = getString(R.string.more)
                 search_result_recyclerView.run {
                     layoutManager = LinearLayoutManager(context).apply {
                         orientation = LinearLayoutManager.HORIZONTAL
                     }
                 }
             }
-
-            isExpand = !isExpand
         }
     }
 }
