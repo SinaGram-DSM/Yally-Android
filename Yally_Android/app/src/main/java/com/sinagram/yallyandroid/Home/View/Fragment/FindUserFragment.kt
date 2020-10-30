@@ -18,13 +18,6 @@ class FindUserFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private var query: String? = null
     private var findUserAdapter: FindUserAdapter<User>? = null
-    private var aaa = { email: String, isListening: Boolean, observer: Observer<Boolean> ->
-        if (isListening) {
-            searchViewModel.cancelListening(email).observe(viewLifecycleOwner, observer)
-        } else {
-            searchViewModel.doListening(email).observe(viewLifecycleOwner, observer)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

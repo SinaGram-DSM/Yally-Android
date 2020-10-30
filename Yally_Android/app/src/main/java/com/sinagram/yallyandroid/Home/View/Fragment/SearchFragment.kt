@@ -21,12 +21,19 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private var isExpand = false
-    private val clickListen = { email: String, isListening: Boolean, observer: Observer<Boolean> ->
-        if (isListening) {
-            searchViewModel.cancelListening(email)
-                .observe(viewLifecycleOwner, observer)
-        } else {
-            searchViewModel.doListening(email).observe(viewLifecycleOwner, observer)
+    private var findUserAdapter: FindUserAdapter<Friend>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        findUserAdapter = FindUserAdapter(mutableListOf())
+        { email: String, isListening: Boolean, observer: Observer<Boolean> ->
+            if (isListening) {
+                searchViewModel.cancelListening(email)
+                    .observe(viewLifecycleOwner, observer)
+            } else {
+                searchViewModel.doListening(email).observe(viewLifecycleOwner, observer)
+            }
         }
     }
 
@@ -37,19 +44,25 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.search_result_recyclerView.run {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
+            adapter = findUserAdapter
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setClickMoreTextView()
         searchViewModel.getRecomendedList()
         searchViewModel.recomendListLivedata.observe(viewLifecycleOwner, {
-            search_result_recyclerView.run {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context).apply {
-                    orientation = LinearLayoutManager.HORIZONTAL
-                }
-                adapter = FindUserAdapter(it.toMutableList(), clickListen)
-            }
+            findUserAdapter?.userList?.addAll(it)
+            findUserAdapter?.notifyDataSetChanged()
         })
     }
 
