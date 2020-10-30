@@ -1,21 +1,34 @@
 package com.sinagram.yallyandroid.Home.View.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sinagram.yallyandroid.Home.Data.Friend
+import com.sinagram.yallyandroid.Home.Data.User
 import com.sinagram.yallyandroid.Home.View.FindUserAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.SearchViewModel
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private var isExpand = false
+    private val clickListen = { email: String, isListening: Boolean, observer: Observer<Boolean> ->
+        if (isListening) {
+            searchViewModel.cancelListening(email)
+                .observe(viewLifecycleOwner, observer)
+        } else {
+            searchViewModel.doListening(email).observe(viewLifecycleOwner, observer)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +48,7 @@ class SearchFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context).apply {
                     orientation = LinearLayoutManager.HORIZONTAL
                 }
-                adapter = FindUserAdapter(it)
+                adapter = FindUserAdapter(it.toMutableList(), clickListen)
             }
         })
     }

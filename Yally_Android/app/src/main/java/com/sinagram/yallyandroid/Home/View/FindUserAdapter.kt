@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Home.Data.Friend
@@ -17,8 +19,10 @@ import com.sinagram.yallyandroid.Home.Data.User
 import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_users_list.view.*
 
-class FindUserAdapter<T>(private val userList: List<T>) :
-    RecyclerView.Adapter<FindUserAdapter<T>.FriendViewHolder>() {
+class FindUserAdapter<T>(
+    val userList: MutableList<T>,
+    private val clickListen: (String, Boolean, Observer<Boolean>) -> Unit
+) : RecyclerView.Adapter<FindUserAdapter<T>.FriendViewHolder>() {
     inner class FriendViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
@@ -34,8 +38,15 @@ class FindUserAdapter<T>(private val userList: List<T>) :
             if (data is Friend) {
                 Glide.with(context).load(data.img).circleCrop().into(user_list_imageView)
                 user_name_textView.text = data.nickname
-                Log.e("FindUserAdapter", "call?")
                 changeListenTextColor(user_listen_button, data.isListening)
+                user_listen_button.setOnClickListener {
+                    val observer = Observer<Boolean>{
+                        data.isListening = !data.isListening
+                        changeListenTextColor(user_listen_button, data.isListening)
+                    }
+                    clickListen(data.email, data.isListening, observer)
+
+                }
             } else if (data is User) {
                 Glide.with(context).load(data.img).circleCrop().into(user_list_imageView)
                 user_name_textView.text = data.nickname
@@ -44,6 +55,13 @@ class FindUserAdapter<T>(private val userList: List<T>) :
                 user_listening_layout.visibility = View.VISIBLE
                 checkUnit(user_listening_textView, data.listening)
                 changeListenTextColor(user_listen_button, data.isListening)
+                user_listen_button.setOnClickListener {
+                    val observer = Observer<Boolean>{
+                        data.isListening = !data.isListening
+                        changeListenTextColor(user_listen_button, data.isListening)
+                    }
+                    clickListen(data.email, data.isListening, observer)
+                }
             }
         }
     }

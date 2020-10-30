@@ -4,7 +4,7 @@ import com.sinagram.yallyandroid.Home.Data.ListeningResponse
 import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Network.YallyConnector
 
-abstract class BasePostRepository: BaseRepository() {
+abstract class BasePostRepository : BaseRepository() {
     private val token = getAccessToken()!!
 
     suspend fun doYally(id: String): Result<Void> {
@@ -21,20 +21,21 @@ abstract class BasePostRepository: BaseRepository() {
 
     suspend fun doListening(email: String): Result<Void> {
         val hashMap: HashMap<String, String> = HashMap()
-        hashMap["email"] = email
+        hashMap["listeningEmail"] = email
 
         return checkHaveToken { YallyConnector.createAPI().doListening(token, hashMap) }
     }
 
     suspend fun cancelListening(email: String): Result<Void> {
         val hashMap: HashMap<String, String> = HashMap()
-        hashMap["email"] = email
+        hashMap["listeningEmail"] = email
 
         return checkHaveToken { YallyConnector.createAPI().cancelListening(token, hashMap) }
     }
 
     suspend fun getListeningList(): Result<ListeningResponse> {
-        val email = getEmail()
-        return checkHaveToken { YallyConnector.createAPI().getListeningList(token, email) }
+        return checkHaveToken {
+            YallyConnector.createAPI().getListeningList(token.substring(7), getEmail())
+        }
     }
 }

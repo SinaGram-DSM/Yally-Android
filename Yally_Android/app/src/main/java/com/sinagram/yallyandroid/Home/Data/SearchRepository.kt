@@ -1,20 +1,14 @@
 package com.sinagram.yallyandroid.Home.Data
 
-import com.sinagram.yallyandroid.Base.BaseRepository
+import com.sinagram.yallyandroid.Base.BasePostRepository
 import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Network.YallyConnector
 
-class SearchRepository : BaseRepository() {
+class SearchRepository : BasePostRepository() {
     private val token = getAccessToken()!!
 
     suspend fun getFriendList(): Result<FriendResponse> {
         return checkHaveToken { YallyConnector.createAPI().getListOfRecommendedFriends(token) }
-    }
-
-    suspend fun getListeningList(): Result<ListeningResponse> {
-        return checkHaveToken {
-            YallyConnector.createAPI().getListeningList(token.substring(7), getEmail())
-        }
     }
 
     suspend fun getPostsBySearchHashtag(tag: String, page: Int): Result<SearchPostsResponse> {

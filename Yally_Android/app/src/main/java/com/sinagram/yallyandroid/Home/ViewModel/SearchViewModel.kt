@@ -1,9 +1,7 @@
 package com.sinagram.yallyandroid.Home.ViewModel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.sinagram.yallyandroid.Home.Data.*
 import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.joinAll
@@ -66,6 +64,18 @@ class SearchViewModel : ViewModel() {
                     Log.e("SearchViewModel", (result as Result.Error).exception)
                 }
             }
+        }
+    }
+
+    fun doListening(email: String): LiveData<Boolean> {
+        return liveData {
+            emit(repository.doListening(email) is Result.Success)
+        }
+    }
+
+    fun cancelListening(email: String): LiveData<Boolean> {
+        return liveData {
+            emit(repository.cancelListening(email) is Result.Success)
         }
     }
 }
