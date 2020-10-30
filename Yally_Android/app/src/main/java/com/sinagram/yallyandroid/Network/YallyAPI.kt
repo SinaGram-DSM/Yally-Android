@@ -105,9 +105,16 @@ interface YallyAPI {
     ): Response<ListeningResponse>
 
 
+    @GET("/search/post")
+    suspend fun searchHashtag(
+        @Header("Authorization") header: String,
+        @Query("hashtag") hashtag: String,
+        @Query("page") page: Int
+    ): Response<SearchPostsResponse>
+
     @GET("/search/user")
     suspend fun searchUser(
         @Header("Authorization") header: String,
-        @Query("nickname") str: String
+        @Query("nickname") nickname: String
     ): Response<UserResponse>
 }

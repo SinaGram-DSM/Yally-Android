@@ -14,4 +14,14 @@ class SearchRepository: BaseRepository() {
         val token = getAccessToken()!!
         return checkHaveToken { YallyConnector.createAPI().getListeningList(token, getEmail()) }
     }
+
+    suspend fun getPostsBySearchHashtag(tag: String, page: Int): Result<SearchPostsResponse> {
+        val token = getAccessToken()!!
+        return checkHaveToken { YallyConnector.createAPI().searchHashtag(token, tag, page) }
+    }
+
+    suspend fun getUserListBySearchName(name: String): Result<UserResponse> {
+        val token = getAccessToken()!!
+        return checkHaveToken { YallyConnector.createAPI().searchUser(token, name) }
+    }
 }
