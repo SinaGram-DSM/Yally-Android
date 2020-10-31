@@ -8,6 +8,6 @@ data class SearchPost(
     val createdAt: String,
     val isYally: Boolean,
     val nickname: String,
-    val sound: String,
+    val sound: String?,
     val yally: Int
 )

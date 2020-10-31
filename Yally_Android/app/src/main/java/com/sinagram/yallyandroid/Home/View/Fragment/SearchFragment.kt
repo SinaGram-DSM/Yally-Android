@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
-    private var isExpand = false
     private var findUserAdapter: FindUserAdapter<Friend>? = null
+    private var isExpand = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

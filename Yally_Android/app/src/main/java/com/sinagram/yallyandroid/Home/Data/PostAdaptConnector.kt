@@ -37,37 +37,7 @@ data class PostAdaptConnector(
 
         deletePost = { id: String, index: Int -> timeLineViewModel.deletePost(id, index) }
 
-        clickPost = { sound: String?, itemView: View ->
-            var isClick = false
-            val seekBar = itemView.post_player_seekBar
-            val textView = itemView.post_soundLength_textView
-            val imageView = itemView.post_content_imageView
-
-            YallyMediaPlayer.apply {
-                setViews(seekBar, textView)
-                setSeekBarListener()
-                setInvoke {
-                    textView.text = ""
-                    imageView.setColorFilter(Color.parseColor("#4C000000"))
-                    seekBar.visibility = View.GONE
-                }
-
-                itemView.post_content_layout.setOnClickListener {
-                    isClick = !isClick
-
-                    if (isClick) {
-                        sound?.let { initMediaPlayer(sound) }
-                        imageView.setColorFilter(Color.parseColor("#98000000"))
-                        seekBar.visibility = View.VISIBLE
-                    } else {
-                        stopMediaPlayer()
-                        textView.text = ""
-                        imageView.setColorFilter(Color.parseColor("#4C000000"))
-                        seekBar.visibility = View.GONE
-                    }
-                }
-            }
-        }
+        setClickPost()
     }
 
     fun setAttributeFromComment(
@@ -90,6 +60,10 @@ data class PostAdaptConnector(
 
         deletePost = { id: String, index: Int -> detailPostViewModel.deletePost(id, index) }
 
+        setClickPost()
+    }
+
+    private fun setClickPost() {
         clickPost = { sound: String?, itemView: View ->
             var isClick = false
             val seekBar = itemView.post_player_seekBar

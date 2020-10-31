@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class FindUserFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
-    private var query: String? = null
     private var findUserAdapter: FindUserAdapter<User>? = null
+    private var query: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
