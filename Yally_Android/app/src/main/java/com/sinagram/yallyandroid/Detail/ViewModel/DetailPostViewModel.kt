@@ -64,7 +64,7 @@ class DetailPostViewModel : BasePostViewModel() {
         viewModelScope.launch {
             val result = (repository as DetailRepository).deleteComment(id)
 
-            if (result is Result.Success) {
+            if (result is Result.Success && result.code == 204) {
                 deleteCommentLiveData.postValue(index)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
@@ -116,7 +116,7 @@ class DetailPostViewModel : BasePostViewModel() {
             request.addFile()
             val result = (repository as DetailRepository).sendComment(id, request.requestHashMap)
 
-            if (result is Result.Success) {
+            if (result is Result.Success && result.code == 201) {
                 getComments(id)
                 getDetailPost(id)
             } else {

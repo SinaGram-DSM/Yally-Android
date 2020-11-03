@@ -23,7 +23,11 @@ class SearchViewModel : ViewModel() {
 
             joinAll(friendJob, listenJob)
 
-            if (friendList is Result.Success<FriendResponse> && listenList is Result.Success<ListeningResponse>) {
+            if (friendList is Result.Success<FriendResponse>
+                && (friendList as Result.Success<FriendResponse>).code == 200
+                && listenList is Result.Success<ListeningResponse>
+                && (listenList as Result.Success<ListeningResponse>).code == 200) {
+
                 val data = distinguishIsListeningFriend(
                     (friendList as Result.Success<FriendResponse>).data?.friends,
                     (listenList as Result.Success<ListeningResponse>).data?.listenings
@@ -60,7 +64,7 @@ class SearchViewModel : ViewModel() {
             viewModelScope.launch {
                 val result = repository.getUserListBySearchName(name)
 
-                if (result is Result.Success) {
+                if (result is Result.Success && result.code == 200) {
                     findUserLiveData.postValue(result.data?.users ?: listOf())
                 } else {
                     Log.e("SearchViewModel", (result as Result.Error).exception)
@@ -88,13 +92,15 @@ class SearchViewModel : ViewModel() {
 
     fun doListening(email: String): LiveData<Boolean> {
         return liveData {
-            emit(repository.doListening(email) is Result.Success)
+            val result = repository.doListening(email)
+            emit(result is Result.Success && result.code == 200)
         }
     }
 
     fun cancelListening(email: String): LiveData<Boolean> {
         return liveData {
-            emit(repository.cancelListening(email) is Result.Success)
+            val result = repository.cancelListening(email)
+            emit(result is Result.Success && result.code == 200)
         }
     }
 }
