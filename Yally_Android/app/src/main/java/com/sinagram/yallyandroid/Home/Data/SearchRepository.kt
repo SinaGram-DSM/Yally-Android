@@ -11,7 +11,7 @@ class SearchRepository : BasePostRepository() {
         return checkHaveToken { YallyConnector.createAPI().getListOfRecommendedFriends(token) }
     }
 
-    suspend fun getPostsBySearchHashtag(tag: String, page: Int): Result<SearchPostsResponse> {
+    suspend fun getPostsBySearchHashtag(tag: String, page: Int): Result<PostsResponse> {
         return checkHaveToken { YallyConnector.createAPI().searchHashtag(token, tag, page) }
     }
 

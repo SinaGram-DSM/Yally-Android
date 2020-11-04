@@ -11,7 +11,7 @@ class SearchViewModel : ViewModel() {
     private val repository = SearchRepository()
     val recomendListLivedata: MutableLiveData<List<Friend>> = MutableLiveData()
     val findUserLiveData: MutableLiveData<List<User>> = MutableLiveData()
-    val findPostLiveData: MutableLiveData<List<SearchPost>> = MutableLiveData()
+    val findPostLiveData: MutableLiveData<List<Post>> = MutableLiveData()
     val notPageLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getRecomendedList() {
@@ -81,10 +81,13 @@ class SearchViewModel : ViewModel() {
                 val result = repository.getPostsBySearchHashtag(tag, page)
 
                 if (result is Result.Success && result.code == 200) {
-                    findPostLiveData.postValue(result.data?.posts ?: listOf())
+                    if (!result.data?.posts.isNullOrEmpty()) {
+                        findPostLiveData.postValue(result.data!!.posts)
+                    } else {
+                        notPageLiveData.postValue(true)
+                    }
                 } else {
                     Log.e("SearchViewModel", (result as Result.Error).exception)
-                    notPageLiveData.postValue(true)
                 }
             }
         }

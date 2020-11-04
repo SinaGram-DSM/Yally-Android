@@ -1,5 +1,6 @@
 package com.sinagram.yallyandroid.Home.View.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bekawestberg.loopinglayout.library.LoopingLayoutManager
-import com.sinagram.yallyandroid.Home.View.SearchPostAdapter
+import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
+import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
+import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.SearchViewModel
+import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Util.YallyMediaPlayer
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -18,14 +22,14 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class FindPostFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
-    private var searchPostAdapter: SearchPostAdapter? = null
+    private val timeLineViewModel: TimeLineViewModel by viewModels()
+    private var searchPostAdapter: MainTimeLineAdapter? = null
     private var query: String? = null
     private var pageId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         query = arguments?.getString("findQuery")
-        searchPostAdapter = SearchPostAdapter(mutableListOf())
     }
 
     override fun onCreateView(
@@ -37,6 +41,16 @@ class FindPostFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val postAdaptConnector = PostAdaptConnector().apply {
+            setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
+            moveToComment = { id: String ->
+                val intent = Intent(context, DetailPostActivity::class.java)
+                intent.putExtra("postData", id)
+                startActivity(intent)
+            }
+        }
+        searchPostAdapter = MainTimeLineAdapter(mutableListOf(), postAdaptConnector)
 
         view.search_result_textView.text = getString(R.string.search_result)
         view.search_expand_textView.visibility = View.GONE
@@ -53,12 +67,13 @@ class FindPostFragment : Fragment() {
         searchViewModel.getPostListBySearchTag(query, pageId)
         setRecyclerView()
 
+        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            searchPostAdapter?.removeAt(it)
+        })
+
         searchViewModel.notPageLiveData.observe(viewLifecycleOwner, {
-            if (searchPostAdapter!!.postsList.isNotEmpty()) {
-                search_result_recyclerView.run {
-                    clearOnScrollListeners()
-                    layoutManager = LoopingLayoutManager(context, LoopingLayoutManager.VERTICAL, false)
-                }
+            search_result_recyclerView.run {
+                clearOnScrollListeners()
             }
         })
 
