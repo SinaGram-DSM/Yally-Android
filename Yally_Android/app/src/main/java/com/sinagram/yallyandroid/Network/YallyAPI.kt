@@ -108,9 +108,9 @@ interface YallyAPI {
     @GET("/search/post")
     suspend fun searchHashtag(
         @Header("Authorization") header: String,
-        @Query("hashtag") hashtag: String,
+        @Query("hashtag", encoded = true) hashtag: String,
         @Query("page") page: Int
-    ): Response<SearchPostsResponse>
+    ): Response<PostsResponse>
 
     @GET("/search/user")
     suspend fun searchUser(
