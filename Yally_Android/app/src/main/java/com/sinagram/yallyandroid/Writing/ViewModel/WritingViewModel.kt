@@ -1,12 +1,16 @@
 package com.sinagram.yallyandroid.Writing.ViewModel
 
 import android.media.MediaRecorder
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sinagram.yallyandroid.Writing.Data.WritingRepository
 import com.sinagram.yallyandroid.Writing.Data.WritingRequest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import java.io.File
 import java.lang.Exception
-
 
 class WritingViewModel : ViewModel() {
     private val repository = WritingRepository()
@@ -21,25 +25,35 @@ class WritingViewModel : ViewModel() {
         }
     }
 
-    suspend fun startRecording(filePath: String) {
+    fun startRecording(filepath: String) {
         try {
-            mediaRecorder = MediaRecorder()
-            mediaRecorder?.let {
-                it.setAudioSource(android.media.MediaRecorder.AudioSource.MIC)
-                it.setOutputFormat(android.media.MediaRecorder.OutputFormat.MPEG_4)
-                it.setAudioEncoder(android.media.MediaRecorder.AudioEncoder.DEFAULT)
-                it.setOutputFile(filePath)
-                it.prepare()
-                it.start()
+            viewModelScope.launch {
+                val recordingTask = launch {
+                    withTimeout(10000) {
+                        mediaRecorder = MediaRecorder()
+                        mediaRecorder?.let {
+                            it.setAudioSource(android.media.MediaRecorder.AudioSource.MIC)
+                            it.setOutputFormat(android.media.MediaRecorder.OutputFormat.MPEG_4)
+                            it.setAudioEncoder(android.media.MediaRecorder.AudioEncoder.DEFAULT)
+                            it.setOutputFile(filepath)
+                            it.prepare()
+                            it.start()
+                        }
+                    }
+                }
+                if (!havefile && recordingTask.isCancelled) {
+                    stopRecording()
+                }
             }
-        }catch(e:Exception){
+
+        } catch (e: Exception) {
             println(e.message)
         }
 
     }
 
-    suspend fun stopRecording(){
-        mediaRecorder?.let{
+    fun stopRecording() {
+        mediaRecorder?.let {
             it.stop()
             it.release()
             havefile = true
@@ -47,7 +61,7 @@ class WritingViewModel : ViewModel() {
         mediaRecorder = null
     }
 
-    suspend fun hashtags(text: String) {
+    fun hashtags(text: String): ArrayList<String> {
         var copy = text
         var result = ArrayList<String>()
         var count = 0
@@ -62,16 +76,18 @@ class WritingViewModel : ViewModel() {
             for (j in text) startIndex = text.indexOf('#') + 1
 
             try {
-                result.add(copy.substring(startIndex, (copy.substring(startIndex).indexOf(" ") + startIndex)))
+                result.add(
+                    copy.substring(
+                        startIndex,
+                        (copy.substring(startIndex).indexOf(" ") + startIndex)
+                    )
+                )
                 copy = copy.substring((copy.substring(startIndex).indexOf(" ") + startIndex) + 1)
             } catch (e: Exception) {
                 println(e.message)
             }
         }
-    }
-
-    private fun sendData(writing: String){
-
+        return result
     }
 
 }
