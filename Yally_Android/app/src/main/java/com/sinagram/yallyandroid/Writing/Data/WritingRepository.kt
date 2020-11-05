@@ -12,4 +12,5 @@ class WritingRepository : BaseRepository() {
             YallyConnector.createAPI().writing(part)
         }
     }
+
 }
