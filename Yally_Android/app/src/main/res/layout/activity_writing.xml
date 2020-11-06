@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/ground_color"
     android:orientation="vertical"
-    tools:context=".Writing.WritingActivity">
+    tools:context=".Writing.Ui.WritingActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/writing_toolbar"
