@@ -17,12 +17,8 @@ class WritingViewModel : ViewModel() {
     var mediaRecorder: MediaRecorder? = null
     private var havefile = false
 
-    suspend fun writing(part: WritingRequest) {
-        if (part != null) {
-            repository.writing(part)
-        } else {
-            Log.d("writingViewModel", "part null")
-        }
+    fun writing() {
+
     }
 
     fun startRecording(filepath: String) {
@@ -61,30 +57,30 @@ class WritingViewModel : ViewModel() {
         mediaRecorder = null
     }
 
-    fun hashtags(text: String): ArrayList<String> {
-        var copy = text
-        var result = ArrayList<String>()
-        var count = 0
-        var startIndex = 0
+    fun hashtags(text: String): MutableList<String> {
+        val str = text
+        var isCharacter = false
+        var index = 0
+        val res = mutableListOf<Char>()
 
-        for (element in copy) {
-            if (element == '#')
-                count++
+        while (str.length >= index + 1) {
+            if (str[index] == '#') isCharacter = true
+            if (str[index] == ' ') isCharacter = false
+            if (isCharacter) res.add(str[index])
+
+            index++
         }
 
-        for (i in 0 until count) {
-            for (j in text) startIndex = text.indexOf('#') + 1
-
-            try {
-                result.add(
-                    copy.substring(
-                        startIndex,
-                        (copy.substring(startIndex).indexOf(" ") + startIndex)
-                    )
-                )
-                copy = copy.substring((copy.substring(startIndex).indexOf(" ") + startIndex) + 1)
-            } catch (e: Exception) {
-                println(e.message)
+        val result = mutableListOf<String>()
+        var count = -1
+        if ('#' in res) {
+            for (i in res) {
+                if (i == '#') {
+                    count++
+                    result.add("")
+                } else {
+                    result[count] += i.toString()
+                }
             }
         }
         return result
