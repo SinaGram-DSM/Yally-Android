@@ -176,20 +176,27 @@ class HomeActivity : AppCompatActivity() {
         home_search_searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null && query.isNotEmpty()) {
-                    var searchWord = "$query "
-                    searchWord = searchWord.substring(1, searchWord.indexOf(" "))
-
                     val fragment = when {
-                        query[0] == '#' -> FindPostFragment()
-                        query[0] == '@' -> FindUserFragment()
-                        else -> return false
+                        query[0] == '@' -> {
+                            var searchWord = "$query "
+                            searchWord = searchWord.substring(1, searchWord.indexOf(" "))
+
+                            FindUserFragment().apply {
+                                arguments = Bundle().apply {
+                                    putString("findQuery", searchWord)
+                                }
+                            }
+                        }
+                        else -> {
+                            FindPostFragment().apply {
+                                arguments = Bundle().apply {
+                                    putString("findQuery", query)
+                                }
+                            }
+                        }
                     }
 
-                    replaceFragment(fragment.apply {
-                        arguments = Bundle().apply {
-                            putString("findQuery", searchWord)
-                        }
-                    })
+                    replaceFragment(fragment)
                 }
                 return true
             }
