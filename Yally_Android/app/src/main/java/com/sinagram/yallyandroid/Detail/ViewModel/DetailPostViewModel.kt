@@ -141,7 +141,7 @@ class DetailPostViewModel : BasePostViewModel() {
             }.requestHashMap
 
             if (!hashMap.isNullOrEmpty()) {
-                (repository as HomeRepository).editPost(id, hashMap)
+                (repository as DetailRepository).editPost(id, hashMap)
             }
         }
     }

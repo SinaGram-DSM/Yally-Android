@@ -22,4 +22,8 @@ class DetailRepository : BasePostRepository() {
     suspend fun sendComment(id: String, requestHashMap: HashMap<String, RequestBody>): Result<Void> {
         return checkHaveToken { YallyConnector.createAPI().postComment(token, id, requestHashMap) }
     }
+
+    suspend fun editPost(id: String, requestHashMap: HashMap<String, RequestBody>): Result<Void> {
+        return checkHaveToken { YallyConnector.createAPI().updatePost(token, id, requestHashMap) }
+    }
 }
