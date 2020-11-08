@@ -117,4 +117,12 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Query("nickname") nickname: String
     ): Response<UserResponse>
+
+    @Multipart
+    @PUT("/post/{id}")
+    suspend fun updatePost(
+        @Header("Authorization") header: String,
+        @Path("id") id: String,
+        @PartMap partMap: HashMap<String, RequestBody>
+    ): Response<Void>
 }

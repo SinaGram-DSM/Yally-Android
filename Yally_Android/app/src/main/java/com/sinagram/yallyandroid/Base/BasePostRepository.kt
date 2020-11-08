@@ -5,7 +5,7 @@ import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Network.YallyConnector
 
 abstract class BasePostRepository : BaseRepository() {
-    private val token = getAccessToken()!!
+    val token = getAccessToken()!!
 
     suspend fun doYally(id: String): Result<Void> {
         return checkHaveToken { YallyConnector.createAPI().doYallyOnPost(token, id) }

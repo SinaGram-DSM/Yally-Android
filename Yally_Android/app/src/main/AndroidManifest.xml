@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Detail.View.EditPostActivity"></activity>
         <activity
             android:name=".Detail.View.DetailPostActivity"
             android:windowSoftInputMode="adjustUnspecified|adjustPan" />
@@ -32,4 +33,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
