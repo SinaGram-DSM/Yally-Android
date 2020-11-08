@@ -14,7 +14,7 @@ data class PostAdaptConnector(
     var getListeningOnPost: (Observer<List<Listening>>) -> Unit = { _ -> },
     var listeningOnPost: (StateOnPostMenu, String, Observer<StateOnPostMenu>) -> Unit = { _, _, _ -> },
     var deletePost: (String, Int) -> Unit = { _, _ -> },
-    var moveToComment: (String) -> Unit = { _ -> },
+    var moveToComment: (Post) -> Unit = { _ -> },
     var clickPost: (String?, View) -> Unit = { _, _ -> }
 ) {
     fun setAttributeFromTimeLine(

@@ -9,7 +9,12 @@ import com.sinagram.yallyandroid.Util.YallyMediaPlayer
 import kotlinx.android.synthetic.main.activity_detail_post.*
 
 class DetailPostActivity : AppCompatActivity() {
-    private val detailPostFragment = createDetailPostFragment()
+    private val detailPostFragment by lazy {
+        createDetailPostFragment()
+    }
+    private val isMine by lazy {
+        getIsMine()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +43,16 @@ class DetailPostActivity : AppCompatActivity() {
         }
     }
 
+    private fun getIsMine(): Boolean {
+        return intent.getBooleanExtra("isMine", false)
+    }
+
     private fun setEditText() {
-        detail_edit_textView.setOnClickListener {
-            val data = detailPostFragment.postData
-            if (data != null) {
+        if (isMine) {
+            detail_edit_textView.visibility = View.VISIBLE
+            detail_edit_textView.setOnClickListener {
                 val intent = Intent(this, EditPostActivity::class.java)
-                intent.putExtra("editPost", data)
+                intent.putExtra("editPost", detailPostFragment.postData)
                 startActivity(intent)
             }
         }

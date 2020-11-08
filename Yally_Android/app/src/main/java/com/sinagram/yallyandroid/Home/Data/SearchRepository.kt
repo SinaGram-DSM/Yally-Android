@@ -5,8 +5,6 @@ import com.sinagram.yallyandroid.Network.Result
 import com.sinagram.yallyandroid.Network.YallyConnector
 
 class SearchRepository : BasePostRepository() {
-    private val token = getAccessToken()!!
-
     suspend fun getFriendList(): Result<FriendResponse> {
         return checkHaveToken { YallyConnector.createAPI().getListOfRecommendedFriends(token) }
     }

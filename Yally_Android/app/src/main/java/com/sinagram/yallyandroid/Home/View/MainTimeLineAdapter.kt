@@ -83,11 +83,11 @@ class MainTimeLineAdapter(
             }
 
             itemView.post_comments_layout.setOnClickListener {
-                postData.id?.let { postAdaptConnector.moveToComment(it) }
+                postData.id?.let { postAdaptConnector.moveToComment(postData) }
             }
 
             itemView.post_comments_count_textView.setOnClickListener {
-                postData.id?.let { postAdaptConnector.moveToComment(it) }
+                postData.id?.let { postAdaptConnector.moveToComment(postData) }
             }
         }
     }

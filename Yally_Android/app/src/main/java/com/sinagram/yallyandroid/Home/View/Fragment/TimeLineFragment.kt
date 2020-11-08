@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bekawestberg.loopinglayout.library.LoopingLayoutManager
 import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
+import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
@@ -37,9 +38,10 @@ class TimeLineFragment : Fragment() {
 
         val postAdaptConnector = PostAdaptConnector().apply {
             setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
-            moveToComment = { id: String ->
+            moveToComment = { post: Post ->
                 val intent = Intent(context, DetailPostActivity::class.java)
-                intent.putExtra("postData", id)
+                intent.putExtra("postData", post.id)
+                intent.putExtra("isMine", post.isMine)
                 startActivity(intent)
             }
         }
