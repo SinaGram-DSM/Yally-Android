@@ -60,7 +60,7 @@ class DetailPostFragment : Fragment() {
 
             try {
                 if (!isClickRecorder) {
-                    detailPostViewModel.startRecord(commentRequest.file!!.absolutePath)
+                    detailPostViewModel.startRecord(commentRequest.file!!.absolutePath, 10000)
                     view.detail_post_input_textView.isEnabled = false
                 } else {
                     detailPostViewModel.stopRecord()

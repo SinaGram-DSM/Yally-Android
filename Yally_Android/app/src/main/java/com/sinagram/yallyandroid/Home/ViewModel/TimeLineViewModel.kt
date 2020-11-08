@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sinagram.yallyandroid.Base.BasePostRepository
 import com.sinagram.yallyandroid.Base.BasePostViewModel
-import com.sinagram.yallyandroid.Home.Data.EditPostRequest
 import com.sinagram.yallyandroid.Home.Data.HomeRepository
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostsResponse
@@ -36,21 +35,6 @@ class TimeLineViewModel : BasePostViewModel() {
                 successLiveData.postValue(result.data.posts)
             } else {
                 notPageLiveData.postValue(true)
-            }
-        }
-    }
-
-    fun toEditPost(id: String, editPostRequest: EditPostRequest) {
-        viewModelScope.launch {
-            val hashMap = editPostRequest.apply {
-                addCondtent()
-                addSound()
-                addImage()
-                addHashTags()
-            }.requestHashMap
-
-            if (!hashMap.isNullOrEmpty()) {
-                (repository as HomeRepository).editPost(id, hashMap)
             }
         }
     }

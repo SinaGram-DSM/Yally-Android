@@ -10,6 +10,8 @@ import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
 import com.sinagram.yallyandroid.Detail.Data.DetailRepository
+import com.sinagram.yallyandroid.Home.Data.EditPostRequest
+import com.sinagram.yallyandroid.Home.Data.HomeRepository
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.launch
@@ -72,19 +74,12 @@ class DetailPostViewModel : BasePostViewModel() {
         }
     }
 
-    fun startRecord(filePath: String) {
+    fun startRecord(filePath: String, duration: Long) {
         try {
             viewModelScope.launch {
                 val recordTask = launch {
-                    withTimeout(10000) {
-                        mediaRecorder = MediaRecorder()
-                        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-                        mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-                        mediaRecorder!!.setOutputFile(filePath)
-                        mediaRecorder!!.prepare()
-                        mediaRecorder!!.start()
-                        recorderLiveData.postValue(true)
+                    withTimeout(duration) {
+                        setRecorder(filePath)
                     }
                 }
 
@@ -95,6 +90,17 @@ class DetailPostViewModel : BasePostViewModel() {
         } catch (e: Exception) {
             Log.e("DetailPostViewModel", e.message.toString())
         }
+    }
+
+    private fun setRecorder(filePath: String) {
+        mediaRecorder = MediaRecorder()
+        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+        mediaRecorder!!.setOutputFile(filePath)
+        mediaRecorder!!.prepare()
+        mediaRecorder!!.start()
+        recorderLiveData.postValue(true)
     }
 
     fun stopRecord() {
@@ -121,6 +127,21 @@ class DetailPostViewModel : BasePostViewModel() {
                 getDetailPost(id)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
+            }
+        }
+    }
+
+    fun toEditPost(id: String, editPostRequest: EditPostRequest) {
+        viewModelScope.launch {
+            val hashMap = editPostRequest.apply {
+                addCondtent()
+                addSound()
+                addImage()
+                addHashTags()
+            }.requestHashMap
+
+            if (!hashMap.isNullOrEmpty()) {
+                (repository as HomeRepository).editPost(id, hashMap)
             }
         }
     }
