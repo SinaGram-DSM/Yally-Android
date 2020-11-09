@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/toolbar_back_item"
-        android:title="@string/back"
         android:icon="@drawable/icon_back"
-        app:showAsAction="always"/>
+        android:title="@string/back"
+        app:showAsAction="always" />
 
     <item
         android:title="@string/writing"
         app:showAsAction="always" />
 
-
     <item
         android:id="@+id/toolbar_upload_item"
         android:title="@string/upload"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>
