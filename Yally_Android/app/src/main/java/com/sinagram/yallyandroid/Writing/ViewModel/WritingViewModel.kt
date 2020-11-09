@@ -1,15 +1,14 @@
 package com.sinagram.yallyandroid.Writing.ViewModel
 
 import android.media.MediaRecorder
-import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sinagram.yallyandroid.Writing.Data.WritingRepository
-import com.sinagram.yallyandroid.Writing.Data.WritingRequest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
-import java.io.File
+import okhttp3.RequestBody
+import com.sinagram.yallyandroid.Network.Result
 import java.lang.Exception
 
 class WritingViewModel : ViewModel() {
@@ -17,9 +16,21 @@ class WritingViewModel : ViewModel() {
     var mediaRecorder: MediaRecorder? = null
     private var havefile = false
 
-    fun writing() {
+    fun writing(hashMap:HashMap<String, RequestBody>) {
+        viewModelScope.launch {
+            Log.e("WritingViewModel",hashMap.toString())
+
+            val result = (repository as WritingRepository).writing(hashMap)
+
+            if (result is Result.Success) {
+                Log.e("WritingViewModel", "writing Success")
+            } else {
+                Log.e("WritingViewModel", (result as Result.Error).exception)
+            }
+        }
 
     }
+
 
     fun startRecording(filepath: String) {
         try {
