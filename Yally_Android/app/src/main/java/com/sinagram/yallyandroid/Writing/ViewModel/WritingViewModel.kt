@@ -17,12 +17,12 @@ class WritingViewModel : ViewModel() {
     var mediaRecorder: MediaRecorder? = null
     private var havefile = false
 
-    fun writing(hashMap:HashMap<String, RequestBody>, imgPartBody: MultipartBody.Part,soundPartBody: MultipartBody.Part) {
+    fun writing(hashMap:HashMap<String, RequestBody>, contentPart: MultipartBody.Part, imgPartBody: MultipartBody.Part,soundPartBody: MultipartBody.Part) {
         viewModelScope.launch {
             Log.e("WritingViewModel",hashMap.toString())
 
 
-            val result = repository.writing(hashMap, imgPartBody, soundPartBody)
+            val result = repository.writing(hashMap, contentPart, imgPartBody, soundPartBody)
 
             if (result is Result.Success) {
                 Log.e("WritingViewModel", "writing Success")

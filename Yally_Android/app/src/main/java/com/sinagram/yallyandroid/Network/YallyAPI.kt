@@ -12,6 +12,7 @@ interface YallyAPI {
     @POST("/post")
     suspend fun writing (
             @PartMap part: HashMap<String, RequestBody>,
+            @Part content: MultipartBody.Part,
             @Part img: MultipartBody.Part,
             @Part sound: MultipartBody.Part
     ): Response<Void>

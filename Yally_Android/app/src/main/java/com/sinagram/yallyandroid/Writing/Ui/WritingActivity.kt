@@ -101,7 +101,7 @@ class WritingActivity : AppCompatActivity() {
     }
 
     private fun postWriting() {
-        var content = writing_writing_edit.toString()
+        var content = writing_writing_edit.text.toString()
         var hashtags: MutableList<String> = viewModel.hashtags(content)
         var requestHashMap: HashMap<String, RequestBody> = hashMapOf()
         var soundPart: MultipartBody.Part
@@ -110,25 +110,34 @@ class WritingActivity : AppCompatActivity() {
         Log.e("WritingActivity",file.toString())
 
         if (getImageFile != null && content != null) {
-            /*when (sound) {
-                true -> requestHashMap["sound"] = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                false -> requestHashMap["sound"] = getAudioFile!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            when (sound) {
+                true -> {
+                    soundPart = MultipartBody.Part.createFormData(
+                            "sound",
+                            file.name,
+                            getImageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    )
+                }
+                false -> {
+                    soundPart = MultipartBody.Part.createFormData(
+                            "sound",
+                            file.name,
+                            getImageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    )
+                }
                 else -> {
                     Toast.makeText(this, "오디오 파일이 필요합니다", Toast.LENGTH_LONG).show()
                     return
                 }
-            }*/
+            }
 
-            soundPart = MultipartBody.Part.createFormData(
-                    "sound",
-                    file.name,
-                    getImageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            var contentPart = MultipartBody.Part.createFormData(
+                    "content",
+                    content
             )
 
-            requestHashMap["content"] =
-                    content.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-//            var requestFile = getImageFile.asRequestBody("yally.png".toMediaTypeOrNull())
+            /*requestHashMap["content"] =
+                    content.toRequestBody("multipart/form-data".toMediaTypeOrNull())*/
 
             var imagePart = MultipartBody.Part.createFormData(
                     "img",
@@ -139,9 +148,9 @@ class WritingActivity : AppCompatActivity() {
             for (i in hashtags.indices) requestHashMap["hashtag[$i]"] =
                     hashtags[i].toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-            viewModel.writing(requestHashMap, imagePart, soundPart)
+            viewModel.writing(requestHashMap,contentPart, imagePart, soundPart)
         }
-//        changeView()
+        changeView()
     }
 
     private fun getVoice() {
