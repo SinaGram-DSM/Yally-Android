@@ -3,7 +3,7 @@ package com.sinagram.yallyandroid.Util
 import android.app.Application
 import android.content.Context
 
-class YallyApplication: Application() {
+class YallyApplication : Application() {
     override fun onCreate() {
         context = applicationContext
         super.onCreate()
