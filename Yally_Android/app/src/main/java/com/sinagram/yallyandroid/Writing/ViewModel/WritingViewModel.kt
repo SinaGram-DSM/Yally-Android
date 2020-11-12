@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import okhttp3.RequestBody
 import com.sinagram.yallyandroid.Network.Result
+import okhttp3.MultipartBody
 import java.lang.Exception
 
 class WritingViewModel : ViewModel() {
@@ -16,11 +17,12 @@ class WritingViewModel : ViewModel() {
     var mediaRecorder: MediaRecorder? = null
     private var havefile = false
 
-    fun writing(hashMap:HashMap<String, RequestBody>) {
+    fun writing(hashMap:HashMap<String, RequestBody>, imgPartBody: MultipartBody.Part,soundPartBody: MultipartBody.Part) {
         viewModelScope.launch {
             Log.e("WritingViewModel",hashMap.toString())
 
-            val result = (repository as WritingRepository).writing(hashMap)
+
+            val result = repository.writing(hashMap, imgPartBody, soundPartBody)
 
             if (result is Result.Success) {
                 Log.e("WritingViewModel", "writing Success")
@@ -28,9 +30,7 @@ class WritingViewModel : ViewModel() {
                 Log.e("WritingViewModel", (result as Result.Error).exception)
             }
         }
-
     }
-
 
     fun startRecording(filepath: String) {
         try {
