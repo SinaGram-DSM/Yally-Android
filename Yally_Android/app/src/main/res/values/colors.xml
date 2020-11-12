@@ -15,4 +15,8 @@
     <color name="gradient_start">#4776E6</color>
     <color name="gradient_end">#8E54E9</color>
     <color name="confirmBox">#1AAF86EF</color>
+
+    <color name="profile_gray">#707070</color>
+    <color name="modify_red">#FF2D00</color>
+    <color name="unlistening">#333393</color>
 </resources>
