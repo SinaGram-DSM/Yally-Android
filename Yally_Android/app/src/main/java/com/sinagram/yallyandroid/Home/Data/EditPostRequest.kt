@@ -1,6 +1,7 @@
 package com.sinagram.yallyandroid.Home.Data
 
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -8,26 +9,30 @@ import java.io.File
 
 data class EditPostRequest(
     var content: String = "",
-    var sound : File? = null,
+    var sound: File? = null,
     var img: File? = null,
+    var soundPart: MultipartBody.Part? = null,
+    var imgPart: MultipartBody.Part? = null,
     var requestHashMap: HashMap<String, RequestBody> = HashMap()
 ) {
     fun addCondtent() {
-        if (content != "") {
-            requestHashMap["content"] = content.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        }
+        requestHashMap["content"] = content.toRequestBody("multipart/form-data".toMediaTypeOrNull())
     }
 
     fun addSound() {
-        sound?.let {
-            requestHashMap["sound"] = sound!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-        }
+        soundPart = MultipartBody.Part.createFormData(
+            "sound",
+            sound!!.name,
+            sound!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        )
     }
 
     fun addImage() {
-        img?.let {
-            requestHashMap["img"] = img!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-        }
+        imgPart = MultipartBody.Part.createFormData(
+            "img",
+            img!!.name,
+            img!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        )
     }
 
     fun addHashTags() {
@@ -56,7 +61,8 @@ data class EditPostRequest(
             }
 
             for (i in result.indices) {
-                requestHashMap["hashtags[$i]"] = result[i].toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                requestHashMap["hashtags[$i]"] =
+                    result[i].toRequestBody("multipart/form-data".toMediaTypeOrNull())
             }
         }
     }

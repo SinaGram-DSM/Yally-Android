@@ -4,9 +4,11 @@ import com.sinagram.yallyandroid.Detail.Data.CommentResponse
 import com.sinagram.yallyandroid.Home.Data.*
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
 
 interface YallyAPI {
     @POST("/user/auth")
@@ -123,6 +125,8 @@ interface YallyAPI {
     suspend fun updatePost(
         @Header("Authorization") header: String,
         @Path("id") id: String,
+        @Part img: MultipartBody.Part,
+        @Part sound: MultipartBody.Part,
         @PartMap partMap: HashMap<String, RequestBody>
     ): Response<Void>
 }

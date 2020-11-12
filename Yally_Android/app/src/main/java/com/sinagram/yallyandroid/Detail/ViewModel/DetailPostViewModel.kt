@@ -23,6 +23,7 @@ class DetailPostViewModel : BasePostViewModel() {
     val successLiveData: MutableLiveData<List<Comment>> = MutableLiveData()
     val deleteCommentLiveData: MutableLiveData<Int> = MutableLiveData()
     val recorderLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val editPostLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var mediaRecorder: MediaRecorder? = null
     private var haveFile = false
 
@@ -133,15 +134,20 @@ class DetailPostViewModel : BasePostViewModel() {
 
     fun toEditPost(id: String, editPostRequest: EditPostRequest) {
         viewModelScope.launch {
-            val hashMap = editPostRequest.apply {
+            editPostRequest.apply {
                 addCondtent()
                 addSound()
                 addImage()
                 addHashTags()
-            }.requestHashMap
+            }
 
-            if (!hashMap.isNullOrEmpty()) {
-                (repository as DetailRepository).editPost(id, hashMap)
+            if (!editPostRequest.requestHashMap.isNullOrEmpty()) {
+                val result = (repository as DetailRepository).editPost(id, editPostRequest)
+                if (result is Result.Success && result.code == 201) {
+                    editPostLiveData.postValue(true)
+                } else {
+                    editPostLiveData.postValue(false)
+                }
             }
         }
     }
