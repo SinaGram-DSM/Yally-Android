@@ -24,12 +24,15 @@
             android:windowSoftInputMode="adjustUnspecified|adjustPan" />
         <activity android:name=".Home.View.HomeActivity" />
         <activity android:name=".Sign.SignActivity" />
-        <activity android:name=".Splash.SplashActivity">
+        <activity android:name=".Profile.Ui.ModifyProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Splash.SplashActivity">
+
         </activity>
     </application>
 </manifest>
