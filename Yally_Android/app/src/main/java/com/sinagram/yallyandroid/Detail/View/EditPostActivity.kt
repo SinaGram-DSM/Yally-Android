@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -17,7 +18,10 @@ import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Util.TextWatcherImpl
 import kotlinx.android.synthetic.main.activity_edit_post.*
-import java.io.File
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.*
 
 class EditPostActivity : AppCompatActivity() {
     private val postData: Post by lazy {
@@ -34,13 +38,64 @@ class EditPostActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_post)
 
         setViews()
+        setButtons()
         edit_post_complete_textView.setOnClickListener {
             val content = edit_post_content_editText.text.toString()
             if (content.isNotEmpty()) {
                 detailPostViewModel.toEditPost(postData.id!!, editPostRequest)
-                finish()
+                detailPostViewModel.editPostLiveData.observe(this, {
+                    finish()
+                })
             }
         }
+        setEditRequest()
+    }
+
+    private fun setEditRequest() {
+        editPostRequest.content = postData.content
+        CoroutineScope(Dispatchers.IO).launch {
+            loadFile()
+        }
+    }
+
+    private fun loadFile() {
+        try {
+            val sound: File = Glide.with(this).downloadOnly().load(YallyConnector.s3 + postData.img!!).submit().get()
+            editPostRequest.sound = saveFile(sound, postData.img!!)
+            val img: File = Glide.with(this).downloadOnly().load(YallyConnector.s3 + postData.img!!).submit().get()
+            editPostRequest.img = saveFile(img, postData.img!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun saveFile(file: File?, name: String): File {
+        var localFile = File(Environment.getExternalStoragePublicDirectory("Yally").path)
+        if (!localFile.exists()) localFile.mkdirs()
+
+        val filepath = Environment.getExternalStoragePublicDirectory("Yally").path + name
+        localFile = File(filepath)
+
+        try {
+            val inputStream: InputStream = FileInputStream(file)
+            val bufferedInputStream = BufferedInputStream(inputStream)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            var current: Int
+
+            while (bufferedInputStream.read().also { current = it } != -1) {
+                byteArrayOutputStream.write(current)
+            }
+
+            val fos = FileOutputStream(localFile)
+            fos.write(byteArrayOutputStream.toByteArray())
+            fos.flush()
+            fos.close()
+            inputStream.close()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+
+        return localFile
     }
 
     private fun setViews() {
@@ -55,6 +110,14 @@ class EditPostActivity : AppCompatActivity() {
             }
         })
 
+        detailPostViewModel.recorderLiveData.observe(this, {
+            val message = if (it) "녹음이 시작되었습니다." else "녹음이 종료되었습니다."
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            isClickRecorder = !isClickRecorder
+        })
+    }
+
+    private fun setButtons() {
         edit_voiceFile_button.setOnClickListener {
             openAudio()
         }
@@ -73,12 +136,6 @@ class EditPostActivity : AppCompatActivity() {
                 edit_post_complete_textView.isEnabled = true
             }
         }
-
-        detailPostViewModel.recorderLiveData.observe(this, {
-            val message = if (it) "녹음이 시작되었습니다." else "녹음이 종료되었습니다."
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-            isClickRecorder = !isClickRecorder
-        })
     }
 
     private fun openGallery() {
@@ -99,7 +156,7 @@ class EditPostActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK && data != null) {
-            when(requestCode) {
+            when (requestCode) {
                 REQUEST_GALLERY -> {
                     try {
                         editPostRequest.img = data.data!!.toFile()
