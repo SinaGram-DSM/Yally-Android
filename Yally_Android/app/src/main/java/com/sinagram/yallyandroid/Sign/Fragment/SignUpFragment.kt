@@ -69,8 +69,7 @@ class SignUpFragment : Fragment() {
         })
 
         signUpViewModel.signUpSuccessLiveData.observe(viewLifecycleOwner, {
-            signActivity.moveToMain()
-            signActivity.finish()
+            signActivity.replaceFragment(LoginFragment())
         })
     }
 

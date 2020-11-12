@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinagram.yallyandroid.Detail.Data.CommentAdaptConnector
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.ViewModel.DetailPostViewModel
+import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.R
@@ -30,6 +31,7 @@ class DetailPostFragment : Fragment() {
     private var commentRequest: CommentRequest = CommentRequest()
     private lateinit var commentAdapter: CommentAdapter
     private lateinit var postAdapter: MainTimeLineAdapter
+    var postData: Post? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,7 @@ class DetailPostFragment : Fragment() {
 
             try {
                 if (!isClickRecorder) {
-                    detailPostViewModel.startRecord(commentRequest.file!!.absolutePath)
+                    detailPostViewModel.startRecord(commentRequest.file!!.absolutePath, 10000)
                     view.detail_post_input_textView.isEnabled = false
                 } else {
                     detailPostViewModel.stopRecord()
@@ -98,10 +100,10 @@ class DetailPostFragment : Fragment() {
         }
 
         detailPostViewModel.postLiveData.observe(viewLifecycleOwner, {
-            val data = it
-            postAdapter = if (data != null) {
-                data.id = detailPostDataId
-                MainTimeLineAdapter(mutableListOf(data), postAdaptConnector)
+            postData = it
+            postAdapter = if (postData != null) {
+                postData!!.id = detailPostDataId
+                MainTimeLineAdapter(mutableListOf(postData!!), postAdaptConnector)
             } else {
                 MainTimeLineAdapter(mutableListOf(), postAdaptConnector)
             }

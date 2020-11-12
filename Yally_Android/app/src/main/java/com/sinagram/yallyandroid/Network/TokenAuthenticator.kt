@@ -26,6 +26,7 @@ class TokenAuthenticator : Interceptor {
                 }
                 val intent = Intent(YallyApplication.context, SignActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("splash", "splash_login")
                 YallyApplication.context!!.startActivity(intent)
             }
             403 -> {

@@ -14,27 +14,34 @@ import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Home.Data.PostAdaptConnector
 import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
+import com.sinagram.yallyandroid.Home.ViewModel.SearchViewModel
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Util.YallyMediaPlayer
-import kotlinx.android.synthetic.main.fragment_time_line.*
+import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 
-class TimeLineFragment : Fragment() {
+class FindPostFragment : Fragment() {
+    private val searchViewModel: SearchViewModel by viewModels()
     private val timeLineViewModel: TimeLineViewModel by viewModels()
-    private lateinit var mainTimeLineAdapter: MainTimeLineAdapter
+    private var searchPostAdapter: MainTimeLineAdapter? = null
+    private var query: String? = null
     private var pageId = 1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        query = arguments?.getString("findQuery")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_time_line, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        timeLineViewModel.getTimeLineItem(pageId)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val postAdaptConnector = PostAdaptConnector().apply {
             setAttributeFromTimeLine(timeLineViewModel, viewLifecycleOwner)
@@ -45,35 +52,45 @@ class TimeLineFragment : Fragment() {
                 startActivity(intent)
             }
         }
+        searchPostAdapter = MainTimeLineAdapter(mutableListOf(), postAdaptConnector)
 
-        mainTimeLineAdapter = MainTimeLineAdapter(mutableListOf(), postAdaptConnector)
+        view.search_result_textView.text = getString(R.string.search_result)
+        view.search_expand_textView.visibility = View.GONE
+        view.search_result_recyclerView.run {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = searchPostAdapter
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        searchViewModel.getPostListBySearchTag(query, pageId)
         setRecyclerView()
 
-        timeLineViewModel.notPageLiveData.observe(viewLifecycleOwner, {
-            if (mainTimeLineAdapter.postsList.isNotEmpty()) {
-                timeLine_recyclerView.run {
-                    clearOnScrollListeners()
-                    layoutManager = LoopingLayoutManager(context, LoopingLayoutManager.VERTICAL, false)
-                }
+        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            searchPostAdapter?.removeAt(it)
+        })
+
+        searchViewModel.notPageLiveData.observe(viewLifecycleOwner, {
+            search_result_recyclerView.run {
+                clearOnScrollListeners()
             }
         })
 
-        timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
-            mainTimeLineAdapter.removeAt(it)
-        })
-
-        timeLineViewModel.successLiveData.observe(viewLifecycleOwner, {
-            mainTimeLineAdapter.postsList.addAll(it)
-            mainTimeLineAdapter.notifyDataSetChanged()
+        searchViewModel.findPostLiveData.observe(viewLifecycleOwner, {
+            searchPostAdapter?.postsList?.addAll(it)
+            searchPostAdapter?.notifyDataSetChanged()
             pageId++
         })
     }
 
     private fun setRecyclerView() {
-        timeLine_recyclerView.run {
+        search_result_recyclerView.run {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = mainTimeLineAdapter
+            adapter = searchPostAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -83,7 +100,7 @@ class TimeLineFragment : Fragment() {
                     val lastVisible = manager.findLastCompletelyVisibleItemPosition()
 
                     if (lastVisible >= totalItemCount - 1) {
-                        timeLineViewModel.getTimeLineItem(pageId)
+                        searchViewModel.getPostListBySearchTag(query, pageId)
                     }
                 }
             })

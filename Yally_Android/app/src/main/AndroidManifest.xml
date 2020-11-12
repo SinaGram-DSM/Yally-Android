@@ -15,16 +15,25 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Detail.View.DetailPostActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|adjustPan" />
-        <activity android:name=".Home.View.HomeActivity" />
-        <activity android:name=".Sign.SignActivity" />
-        <activity android:name=".Splash.SplashActivity">
+        <activity
+            android:name=".Detail.View.EditPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Home.View.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Sign.SignActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

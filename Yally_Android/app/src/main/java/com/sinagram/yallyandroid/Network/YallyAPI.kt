@@ -1,14 +1,14 @@
 package com.sinagram.yallyandroid.Network
 
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
-import com.sinagram.yallyandroid.Home.Data.ListeningResponse
-import com.sinagram.yallyandroid.Home.Data.Post
-import com.sinagram.yallyandroid.Home.Data.PostsResponse
+import com.sinagram.yallyandroid.Home.Data.*
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
 
 interface YallyAPI {
     @POST("/user/auth")
@@ -50,6 +50,9 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Path("page") page: Int
     ): Response<PostsResponse>
+
+    @GET("/timeline/friend")
+    suspend fun getListOfRecommendedFriends(@Header("Authorization") header: String): Response<FriendResponse>
 
 
     @GET("/post/{id}")
@@ -102,4 +105,28 @@ interface YallyAPI {
         @Header("Authorization") header: String,
         @Path("email") email: String
     ): Response<ListeningResponse>
+
+
+    @GET("/search/post")
+    suspend fun searchHashtag(
+        @Header("Authorization") header: String,
+        @Query("hashtag", encoded = true) hashtag: String,
+        @Query("page") page: Int
+    ): Response<PostsResponse>
+
+    @GET("/search/user")
+    suspend fun searchUser(
+        @Header("Authorization") header: String,
+        @Query("nickname") nickname: String
+    ): Response<UserResponse>
+
+    @Multipart
+    @PUT("/post/{id}")
+    suspend fun updatePost(
+        @Header("Authorization") header: String,
+        @Path("id") id: String,
+        @Part img: MultipartBody.Part,
+        @Part sound: MultipartBody.Part,
+        @PartMap partMap: HashMap<String, RequestBody>
+    ): Response<Void>
 }
