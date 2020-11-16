@@ -60,8 +60,8 @@ class EditPostActivity : AppCompatActivity() {
 
     private fun loadFile() {
         try {
-            val sound: File = Glide.with(this).downloadOnly().load(YallyConnector.s3 + postData.img!!).submit().get()
-            editPostRequest.sound = saveFile(sound, postData.img!!)
+            val sound: File = Glide.with(this).downloadOnly().load(YallyConnector.s3 + postData.sound!!).submit().get()
+            editPostRequest.sound = saveFile(sound, postData.sound!!)
             val img: File = Glide.with(this).downloadOnly().load(YallyConnector.s3 + postData.img!!).submit().get()
             editPostRequest.img = saveFile(img, postData.img!!)
         } catch (e: Exception) {

@@ -59,6 +59,10 @@ class TimeLineFragment : Fragment() {
         })
 
         timeLineViewModel.successDeleteLiveData.observe(viewLifecycleOwner, {
+            if (mainTimeLineAdapter.postsList.size - 1 == 0) {
+                timeLine_recyclerView.layoutManager = LinearLayoutManager(context)
+                timeLine_recyclerView.clearOnScrollListeners()
+            }
             mainTimeLineAdapter.removeAt(it)
         })
 
@@ -72,7 +76,7 @@ class TimeLineFragment : Fragment() {
     private fun setRecyclerView() {
         timeLine_recyclerView.run {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = LinearLayoutManager(context)
             adapter = mainTimeLineAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
