@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Yally Android</string>
+    <string name="app_name">Yally</string>
 
     <string name="welcome_yally">yally에 오신 것을 환영합니다</string>
     <string name="slash_writing">로그인을 통해 더 넓은 세상을 들으세요.\n아름다운 길거리 공연, 페스티벌, 기타 연주,\n대화, 심지어 동물소리까지! 상상 그 이상의\n것을 담아 전 세계에 공유하세요.</string>
