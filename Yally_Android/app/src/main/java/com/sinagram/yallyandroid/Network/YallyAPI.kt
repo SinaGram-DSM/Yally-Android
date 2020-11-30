@@ -32,16 +32,16 @@ interface YallyAPI {
     @POST("/user/auth/refresh")
     suspend fun refreshToken(@Header("Authorization") header: String): Response<String>
 
-    @POST("/user/listening")
+    @POST("/user/listening/{email}")
     suspend fun doListening(
         @Header("Authorization") header: String,
-        @Body body: HashMap<String, String>
+        @Path("email") email: String
     ): Response<Void>
 
-    @DELETE("/user/listening")
+    @DELETE("/user/listening/{email}")
     suspend fun cancelListening(
         @Header("Authorization") header: String,
-        @Body body: HashMap<String, String>
+        @Path("email") email: String
     ): Response<Void>
 
 
