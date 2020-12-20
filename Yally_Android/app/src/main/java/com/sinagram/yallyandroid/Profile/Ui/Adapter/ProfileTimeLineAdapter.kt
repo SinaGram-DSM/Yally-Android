@@ -1,44 +1,30 @@
 package com.sinagram.yallyandroid.Profile.Ui.Adapter
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Profile.Data.Post
+import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.item_post_cardview.view.*
 
-class ProfileTimeLineAdapter(private val postList: ArrayList<Post>) : RecyclerView.Adapter<ProfileTimeLineAdapter.ViewHolder>() {
+class ProfileTimeLineAdapter(private val postList: List<Post>) : RecyclerView.Adapter<ProfileTimeLineViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun setAudio() {
-
-        }
-
-        fun setDetail() {
-
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileTimeLineViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post_cardview, parent, false)
+        return ProfileTimeLineViewHolder(view)
     }
 
     override fun getItemCount(): Int = postList.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val view = holder.itemView
-        val item: Post = postList[position]
+    override fun onBindViewHolder(holder: ProfileTimeLineViewHolder, position: Int) {
+        val postData = postList[position]
 
-        view.apply {
-            Glide.with(context).load(item.user.img).into(post_user_image_imageView)
-            Glide.with(context).load(item.content).into(post_content_imageView)
-            post_uploaded_time_textView.text = item.createdAt
-            post_user_name_textView.text = item.user.nickname
-            post_content_textView.text = item.content
+        holder.apply {
+            init(postData)
+            checkClickedYally(postData.isYally)
+            setClickPost(postData)
+
         }
-
     }
 
-
 }
-
