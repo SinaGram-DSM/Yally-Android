@@ -14,9 +14,7 @@ import com.sinagram.yallyandroid.R
 import kotlinx.android.synthetic.main.activity_modify_profile.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
@@ -55,7 +53,8 @@ class ModifyProfileActivity : AppCompatActivity() {
                 return true
             }
             R.id.toolbar_back_button -> {
-
+                val intent = Intent(this,ProfileFragment::class.java)
+                startActivity(intent)
                 return true
             }
             else -> {
@@ -64,7 +63,7 @@ class ModifyProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun getImage() {
+    private fun getImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = MediaStore.Images.Media.CONTENT_TYPE
         startActivityForResult(intent, OPEN_GALLERY)
@@ -88,8 +87,8 @@ class ModifyProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun sendData() {
-        var nickname = modify_changeNickname_editText.toString()
+    private fun sendData() {
+        var nickname = modify_changeNickname_editText.text.toString()
 
         if (nickname != null && getImageFile != null) {
             var nicknamePart = MultipartBody.Part.createFormData(
@@ -102,6 +101,7 @@ class ModifyProfileActivity : AppCompatActivity() {
                     getImageFile!!.name,
                     getImageFile!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             )
+
             viewModel.modifyProfile(nicknamePart,imagePart)
         }
     }
