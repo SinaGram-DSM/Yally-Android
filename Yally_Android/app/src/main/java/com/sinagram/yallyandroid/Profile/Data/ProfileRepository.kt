@@ -9,25 +9,8 @@ import okhttp3.MultipartBody
 
 class ProfileRepository: BaseRepository() {
     val testToken:String = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8"
-    val testEmail:String = "admin123@gmail.com"
-
-    suspend fun setProfile(): Result<User> {
-        val token = getAccessToken()
-        val email = sharedPreferences.email
-
-        return mappingToResult {
-            YallyConnector.createAPI().setProfile(testToken, testEmail)
-        }
-    }
-
-    suspend fun modifyProfile(nickname: MultipartBody.Part, imagePart: MultipartBody.Part): Result<Void> {
-        return mappingToResult {
-            Log.e("profileRepository", nickname.toString())
-            Log.e("profileRepository",imagePart.toString())
-
-            YallyConnector.createAPI().modifyProfile(testToken, nickname,imagePart)
-        }
-    }
+    val testEmail:String = "admin@gmail.com"
+    var test: String = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8"
 
     suspend fun getListening(): Result<ListenList> {
         val token = getAccessToken()
@@ -45,12 +28,31 @@ class ProfileRepository: BaseRepository() {
         }
     }
 
-    suspend fun getMyPost(): Result<ArrayList<Post>> {
+    suspend fun setProfile(): Result<User> {
+        val token = getAccessToken()
+        val email = sharedPreferences.email
+
+        return mappingToResult {
+            YallyConnector.createAPI().setProfile(testToken, testEmail)
+        }
+    }
+
+    suspend fun setMyTimeLine(): Result<Posts> {
         val token = getAccessToken()
         val email = sharedPreferences.email
         return mappingToResult {
-            YallyConnector.createAPI().getMyPost(testToken, testEmail)
+            YallyConnector.createAPI().setMyTimeLine(test, testEmail,5)
         }
     }
+
+    suspend fun modifyProfile(nickname: MultipartBody.Part, imagePart: MultipartBody.Part): Result<Void> {
+        return mappingToResult {
+            Log.e("profileRepository", nickname.toString())
+            Log.e("profileRepository",imagePart.toString())
+
+            YallyConnector.createAPI().modifyProfile(testToken, nickname,imagePart)
+        }
+    }
+
 
 }
