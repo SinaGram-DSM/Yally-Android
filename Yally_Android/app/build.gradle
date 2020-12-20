@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.sinagram.yallyandroid"
-        minSdkVersion 23
+        minSdkVersion 25
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -34,6 +35,10 @@ android {
 
     androidExtensions {
         experimental = true
+    }
+
+    dataBinding{
+        enabled = true
     }
 }
 
@@ -65,4 +70,5 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01'
     implementation 'com.github.beksomega:loopinglayout:0.3.2'
+
 }

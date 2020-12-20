@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Profile.Ui.ListenActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/listening_toolbar"
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Profile.Ui.ListenActivity">
 
-    <TextView
-        android:id="@+id/listening_title_textView"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:text="mark 님이 8명의 이야기를 듣고 있습니다."
-        android:textSize="17sp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/listen_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listening_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/listen_title_textView"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:textSize="17sp" />
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/listen_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>

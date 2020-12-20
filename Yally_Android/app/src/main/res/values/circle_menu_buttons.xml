@@ -2,7 +2,6 @@
 <resources>
     <array name="bottom_bar_icons">
         <item>@drawable/ic_edit_mark</item>
-        <item>@drawable/ic_baseline_person_24</item>
     </array>
 
     <array name="bottom_bar_colors">

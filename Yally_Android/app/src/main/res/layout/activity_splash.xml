@@ -7,11 +7,10 @@
     android:orientation="vertical"
     tools:context=".Splash.SplashActivity">
 
-
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="420dp"
+        android:layout_height="500dp"
         android:background="@drawable/splash_imageview"
         android:contentDescription="@string/ImageDescription"
         android:scaleType="centerCrop"
@@ -74,6 +73,7 @@
             android:layout_marginTop="11dp"
             android:background="@android:color/transparent"
             android:gravity="center"
+            android:layout_marginBottom="30dp"
             android:text="@string/slash_signUp"
             android:textColor="@color/gray"
             android:textSize="12sp" />
