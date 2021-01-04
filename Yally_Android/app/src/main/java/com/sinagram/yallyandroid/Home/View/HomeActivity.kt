@@ -4,6 +4,7 @@ import android.Manifest
 import android.R.attr.actionBarSize
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -12,11 +13,11 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.sinagram.yallyandroid.Home.View.Fragment.FindPostFragment
 import com.sinagram.yallyandroid.Home.View.Fragment.FindUserFragment
@@ -64,7 +65,10 @@ class HomeActivity : AppCompatActivity() {
                     val tv = TypedValue()
                     if (theme.resolveAttribute(actionBarSize, tv, true)) {
                         setMarginToRecyclerView(
-                            TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+                            TypedValue.complexToDimensionPixelSize(
+                                tv.data,
+                                resources.displayMetrics
+                            )
                         )
                     }
                     SearchFragment()
@@ -115,24 +119,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun checkPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) || ActivityCompat.shouldShowRequestPermissionRationale(
-                this, Manifest.permission.RECORD_AUDIO
-            )
-        ) {
-            AlertDialog.Builder(this)
-                .setTitle("알림")
-                .setMessage("권한이 거부되었습니다.\n사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
-                .setNeutralButton("설정") { _, _ ->
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = Uri.parse("package:$packageName")
-                    startActivity(intent)
-                }.setPositiveButton("확인") { _, _ -> finish() }
-                .setCancelable(false)
-                .create()
-                .show()
-        } else {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
@@ -151,12 +139,20 @@ class HomeActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == PERMISSION_CODE) {
-            for (i in grantResults.indices) {
-                if (grantResults[i] < 0) {
-                    Toast.makeText(this, "해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show()
-                    return
-                }
+            if (grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder(this)
+                    .setTitle("알림")
+                    .setMessage("권한이 거부되었습니다.\n사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
+                    .setNeutralButton("설정") { _, _ ->
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        intent.data = Uri.parse("package:$packageName")
+                        startActivity(intent)
+                    }.setPositiveButton("확인") { _, _ -> finish() }
+                    .setCancelable(false)
+                    .create()
+                    .show()
             }
+            return
         }
     }
 
