@@ -83,7 +83,14 @@ data class PostAdaptConnector(
                     isClick = !isClick
 
                     if (isClick) {
-                        sound?.let { initMediaPlayer(sound) }
+                        sound?.let {
+                            if (sound.contains('.')) {
+                                initMediaPlayer(sound)
+                            } else {
+                                initMediaPlayer("$sound.mp3")
+                            }
+
+                        }
                         imageView.setColorFilter(Color.parseColor("#98000000"))
                         seekBar.visibility = View.VISIBLE
                     } else {
