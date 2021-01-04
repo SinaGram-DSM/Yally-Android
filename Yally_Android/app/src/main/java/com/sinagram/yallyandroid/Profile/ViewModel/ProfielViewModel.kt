@@ -14,6 +14,8 @@ class ProfileViewModel : ViewModel() {
     val listenLiveData: MutableLiveData<ListenList> = MutableLiveData<ListenList>()
     val setLiveData: MutableLiveData<User> = MutableLiveData()
     val timeLineData: MutableLiveData<List<Post>> = MutableLiveData()
+    val notPageLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val successLiveData: MutableLiveData<List<Post>> = MutableLiveData()
 
     fun setProfile() {
         viewModelScope.launch {
@@ -104,4 +106,26 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
+    fun getTimeLineItem(page: Int) {
+        viewModelScope.launch {
+            val result = repository.setMyTimeLine()
+
+            if (result is Result.Success) {
+                timeLineSuccess(result)
+            } else {
+                Log.e("TimeLineViewModel", (result as Result.Error).exception)
+            }
+        }
+    }
+
+    private fun timeLineSuccess(result: Result.Success<Posts>) {
+        if (result.code == 200) {
+            val data = result.data?.posts
+            if (data?.isNotEmpty() == true) {
+                successLiveData.postValue(result.data.posts)
+            } else {
+                notPageLiveData.postValue(true)
+            }
+        }
+    }
 }
