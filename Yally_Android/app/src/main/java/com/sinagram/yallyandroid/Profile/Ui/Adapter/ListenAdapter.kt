@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.Profile.Data.ListenUser
 import com.sinagram.yallyandroid.R
 
@@ -19,7 +20,7 @@ class ListenAdapter(private val listenList:List<ListenUser>): RecyclerView.Adapt
         val listenBtn = itemView.findViewById<Button>(R.id.listenItem_listening_button)
 
         fun bind(listenUser: ListenUser){
-            Glide.with(itemView).load(listenUser.image).into(profileImg)
+            Glide.with(itemView).load(YallyConnector.s3+listenUser.image).into(profileImg)
             nicknameTxt.text=listenUser.nickname
 
             when(listenUser.isListening){
