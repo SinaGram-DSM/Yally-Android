@@ -5,15 +5,15 @@ data class Posts(
 )
 
 data class Post(
-	val id: String?,
-	val user: profileUser,
-	val content: String,
-	val sound: String?,
-	val img: String?,
-	val comment: Int,
-	val yally: Int,
-	val isYally: Boolean,
-	val createdAt: String
+    val id: String?,
+    val user: profileUser,
+    val content: String,
+    val sound: String?,
+    val img: String?,
+    var comment: Int,
+    var yally: Int,
+    var isYally: Boolean,
+    val createdAt: String
 )
 
 data class profileUser(
