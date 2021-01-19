@@ -7,10 +7,12 @@
     android:orientation="vertical"
     tools:context=".Home.View.HomeActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/profile_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="편집"
+        android:layout_gravity="right" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,8 +26,7 @@
             android:layout_height="100dp"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            android:layout_marginBottom="16dp" />
 
 
         <LinearLayout
@@ -40,8 +41,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:lineSpacingExtra="5sp"
-                android:textColor="@color/profile_gray"
                 android:text="mark"
+                android:textColor="@color/profile_gray"
                 android:textSize="24sp" />
 
             <TextView
@@ -51,10 +52,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:lineSpacingExtra="5sp"
+                android:text="mark0802@gmail.com"
                 android:textColor="@color/profile_gray"
                 android:textSize="10sp"
-                android:visibility="invisible"
-                android:text="mark0802@gmail.com" />
+                android:visibility="invisible" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,9 +68,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="53dp"
                     android:background="@android:color/transparent"
+                    android:text="@string/listening"
                     android:textColor="@color/profile_gray"
-                    android:textSize="16sp"
-                    android:text="@string/listening" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/profile_listeningCount_textView"
@@ -77,9 +78,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="9dp"
                     android:maxEms="3"
+                    android:text="127"
                     android:textColor="@color/profile_gray"
-                    android:textSize="16sp"
-                    android:text="127" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/profile_listener_button"
@@ -87,9 +88,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="32dp"
                     android:background="@android:color/transparent"
+                    android:text="@string/listener"
                     android:textColor="@color/profile_gray"
-                    android:textSize="16sp"
-                    android:text="@string/listener" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/profile_listenerCount_textView"
@@ -97,9 +98,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="9dp"
                     android:maxEms="3"
+                    android:text="3"
                     android:textColor="@color/profile_gray"
-                    android:textSize="16sp"
-                    android:text="3" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
