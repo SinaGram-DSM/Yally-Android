@@ -2,9 +2,7 @@ package com.sinagram.yallyandroid.Profile.Ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bekawestberg.loopinglayout.library.LoopingLayoutManager
 import com.bumptech.glide.Glide
 import com.sinagram.yallyandroid.Detail.View.DetailPostActivity
-import com.sinagram.yallyandroid.Home.View.MainTimeLineAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.TimeLineViewModel
 import com.sinagram.yallyandroid.Network.YallyConnector
 import com.sinagram.yallyandroid.Profile.Data.MyPostAdapterConnector
@@ -30,15 +27,36 @@ class ProfileFragment : Fragment() {
     private var pageId = 1
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        setHasOptionsMenu(true)
 
         recyclerView = view.findViewById(R.id.profile_timeLine_recycler)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
 
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.profile_toolbar,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.toolbar_edit_button -> {
+                val intent = Intent(activity, ModifyProfileActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,7 +65,7 @@ class ProfileFragment : Fragment() {
         setProfile()
 
         button.setOnClickListener {
-            val intent = Intent(context,ModifyProfileActivity::class.java)
+            val intent = Intent(context, ModifyProfileActivity::class.java)
             startActivity(intent)
         }
 
@@ -121,7 +139,7 @@ class ProfileFragment : Fragment() {
             proflie_nickname_textView.text = it.nickname
             profile_listeningCount_textView.text = it.listener.toString()
             profile_listenerCount_textView.text = it.listening.toString()
-            Glide.with(this).load(YallyConnector.s3+ it.image).into(profile_profile_ImageView)
+            Glide.with(this).load(YallyConnector.s3 + it.image).into(profile_profile_ImageView)
 
             if (it.isMine) {
                 profile_mail_textView.visibility = View.VISIBLE

@@ -36,8 +36,6 @@ class ModifyProfileActivity : AppCompatActivity() {
 
     private fun setInit() {
         getImageFile = File(Environment.getExternalStorageDirectory(), "yally.png")
-        setSupportActionBar(toolbar)
-
         modify_changeProfile_imagebutton.bringToFront()
     }
 
@@ -57,9 +55,7 @@ class ModifyProfileActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 

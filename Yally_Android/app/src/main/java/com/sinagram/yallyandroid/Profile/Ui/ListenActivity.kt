@@ -1,9 +1,12 @@
 package com.sinagram.yallyandroid.Profile.Ui
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +15,7 @@ import com.sinagram.yallyandroid.Profile.Data.ListenUser
 import com.sinagram.yallyandroid.Profile.Ui.Adapter.ListenAdapter
 import com.sinagram.yallyandroid.Profile.ViewModel.ProfileViewModel
 import com.sinagram.yallyandroid.R
+import com.sinagram.yallyandroid.Util.YallyApplication.Companion.context
 import kotlinx.android.synthetic.main.activity_listen.*
 
 class ListenActivity : AppCompatActivity() {
@@ -33,6 +37,18 @@ class ListenActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.listen_back_button -> {
+                val intent = Intent(context, ProfileFragment::class.java)
+                startActivity(intent)
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setRecyclerView() {
         recyclerView = findViewById<RecyclerView>(R.id.listen_recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
@@ -46,6 +62,9 @@ class ListenActivity : AppCompatActivity() {
                 viewModel.getListener()
 
                 viewModel.listenLiveData.observe(this, {
+
+                    Log.e("listenActivity",it.target.listener.toString())
+                    Log.e("listenActivity",it.listeners.toString())
 
                     var listener = it.target.listener
                     var nickname = it.target.nickname
