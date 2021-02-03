@@ -42,7 +42,7 @@
                 android:layout_marginTop="20dp"
                 android:lineSpacingExtra="5sp"
                 android:text="mark"
-                android:textColor="@color/profile_gray"
+                android:textColor="@color/gray"
                 android:textSize="24sp" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_marginTop="5dp"
                 android:lineSpacingExtra="5sp"
                 android:text="mark0802@gmail.com"
-                android:textColor="@color/profile_gray"
+                android:textColor="@color/gray"
                 android:textSize="10sp"
                 android:visibility="invisible" />
 
@@ -69,7 +69,7 @@
                     android:layout_marginLeft="53dp"
                     android:background="@android:color/transparent"
                     android:text="@string/listening"
-                    android:textColor="@color/profile_gray"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
 
                 <TextView
@@ -79,7 +79,7 @@
                     android:layout_marginLeft="9dp"
                     android:maxEms="3"
                     android:text="127"
-                    android:textColor="@color/profile_gray"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
 
                 <Button
@@ -89,7 +89,7 @@
                     android:layout_marginLeft="32dp"
                     android:background="@android:color/transparent"
                     android:text="@string/listener"
-                    android:textColor="@color/profile_gray"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
 
                 <TextView
@@ -99,7 +99,7 @@
                     android:layout_marginLeft="9dp"
                     android:maxEms="3"
                     android:text="3"
-                    android:textColor="@color/profile_gray"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
