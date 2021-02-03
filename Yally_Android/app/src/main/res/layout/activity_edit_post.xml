@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Detail.View.EditPostActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/edit_post_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/edit_post_back_imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/ImageDescription"
+                android:onClick="backPress"
+                android:src="@drawable/ic_arrow_back_blue_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/edit_post_cancel_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:onClick="backPress"
+                android:text="@string/cancel"
+                android:textColor="@color/back_key_color"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/edit_post_back_imageButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/edit_post_title_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfprotext_semibold"
+                android:text="@string/modify"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/edit_post_complete_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:paddingStart="0dp"
+                android:paddingEnd="28dp"
+                android:text="@string/complete"
+                android:textColor="@color/back_key_color"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/brightGray" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/edit_post_user_imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/edit_post_content_editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:fontFamily="@font/notosanskr_light"
+            android:importantForAutofill="no"
+            android:includeFontPadding="false"
+            android:inputType="textPersonName"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edit_post_user_imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="26dp"
+            android:background="#e5e5e5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_post_user_imageView" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <Button
+                android:id="@+id/edit_recording_button"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_bright_gray"
+                android:backgroundTint="@color/button_gray"
+                android:drawableStart="@drawable/icon_mic"
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:text="@string/record"
+                android:textColor="@color/gray"
+                android:textSize="11sp"
+                tools:ignore="ButtonStyle,RtlSymmetry,SmallSp" />
+
+            <Button
+                android:id="@+id/edit_voiceFile_button"
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button_bright_gray"
+                android:backgroundTint="@color/button_gray"
+                android:drawableStart="@drawable/icon_sound"
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:text="@string/voice_file"
+                android:textColor="@color/gray"
+                android:textSize="11sp"
+                tools:ignore="ButtonStyle,RtlSymmetry,SmallSp" />
+
+            <Button
+                android:id="@+id/edit_voiceCover_button"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button_bright_gray"
+                android:backgroundTint="@color/button_gray"
+                android:drawableStart="@drawable/icon_picture"
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:text="@string/voice_cover"
+                android:textColor="@color/gray"
+                android:textSize="11sp"
+                tools:ignore="ButtonStyle,RtlSymmetry,SmallSp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

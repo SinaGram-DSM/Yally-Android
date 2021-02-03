@@ -61,7 +61,7 @@ class MainTimeLineAdapter(
                         postData.id?.let { postAdaptConnector.deletePost(it, position) }
                     }
                 } else {
-                    postData.user.email?.let { email ->
+                    postData.user.email.let { email ->
                         postAdaptConnector.listeningOnPost(stateOfPostMenu, email) {
                             when (it) {
                                 StateOnPostMenu.LISTENING -> {
@@ -83,11 +83,11 @@ class MainTimeLineAdapter(
             }
 
             itemView.post_comments_layout.setOnClickListener {
-                postData.id?.let { postAdaptConnector.moveToComment(it) }
+                postData.id?.let { postAdaptConnector.moveToComment(postData) }
             }
 
             itemView.post_comments_count_textView.setOnClickListener {
-                postData.id?.let { postAdaptConnector.moveToComment(it) }
+                postData.id?.let { postAdaptConnector.moveToComment(postData) }
             }
         }
     }

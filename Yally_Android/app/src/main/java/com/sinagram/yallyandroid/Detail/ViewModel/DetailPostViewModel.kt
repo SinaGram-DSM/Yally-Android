@@ -10,6 +10,8 @@ import com.sinagram.yallyandroid.Detail.Data.Comment
 import com.sinagram.yallyandroid.Detail.Data.CommentRequest
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
 import com.sinagram.yallyandroid.Detail.Data.DetailRepository
+import com.sinagram.yallyandroid.Home.Data.EditPostRequest
+import com.sinagram.yallyandroid.Home.Data.HomeRepository
 import com.sinagram.yallyandroid.Home.Data.Post
 import com.sinagram.yallyandroid.Network.Result
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ class DetailPostViewModel : BasePostViewModel() {
     val successLiveData: MutableLiveData<List<Comment>> = MutableLiveData()
     val deleteCommentLiveData: MutableLiveData<Int> = MutableLiveData()
     val recorderLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val editPostLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var mediaRecorder: MediaRecorder? = null
     private var haveFile = false
 
@@ -64,7 +67,7 @@ class DetailPostViewModel : BasePostViewModel() {
         viewModelScope.launch {
             val result = (repository as DetailRepository).deleteComment(id)
 
-            if (result is Result.Success) {
+            if (result is Result.Success && result.code == 204) {
                 deleteCommentLiveData.postValue(index)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
@@ -72,19 +75,12 @@ class DetailPostViewModel : BasePostViewModel() {
         }
     }
 
-    fun startRecord(filePath: String) {
+    fun startRecord(filePath: String, duration: Long) {
         try {
             viewModelScope.launch {
                 val recordTask = launch {
-                    withTimeout(10000) {
-                        mediaRecorder = MediaRecorder()
-                        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-                        mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-                        mediaRecorder!!.setOutputFile(filePath)
-                        mediaRecorder!!.prepare()
-                        mediaRecorder!!.start()
-                        recorderLiveData.postValue(true)
+                    withTimeout(duration) {
+                        setRecorder(filePath)
                     }
                 }
 
@@ -95,6 +91,17 @@ class DetailPostViewModel : BasePostViewModel() {
         } catch (e: Exception) {
             Log.e("DetailPostViewModel", e.message.toString())
         }
+    }
+
+    private fun setRecorder(filePath: String) {
+        mediaRecorder = MediaRecorder()
+        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+        mediaRecorder!!.setOutputFile(filePath)
+        mediaRecorder!!.prepare()
+        mediaRecorder!!.start()
+        recorderLiveData.postValue(true)
     }
 
     fun stopRecord() {
@@ -116,11 +123,31 @@ class DetailPostViewModel : BasePostViewModel() {
             request.addFile()
             val result = (repository as DetailRepository).sendComment(id, request.requestHashMap)
 
-            if (result is Result.Success) {
+            if (result is Result.Success && result.code == 201) {
                 getComments(id)
                 getDetailPost(id)
             } else {
                 Log.e("DetailPostViewModel", (result as Result.Error).exception)
+            }
+        }
+    }
+
+    fun toEditPost(id: String, editPostRequest: EditPostRequest) {
+        viewModelScope.launch {
+            editPostRequest.apply {
+                addCondtent()
+                addSound()
+                addImage()
+                addHashTags()
+            }
+
+            if (!editPostRequest.requestHashMap.isNullOrEmpty()) {
+                val result = (repository as DetailRepository).editPost(id, editPostRequest)
+                if (result is Result.Success && result.code == 201) {
+                    editPostLiveData.postValue(true)
+                } else {
+                    editPostLiveData.postValue(false)
+                }
             }
         }
     }

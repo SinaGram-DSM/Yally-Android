@@ -19,4 +19,7 @@
     <color name="profile_gray">#707070</color>
     <color name="modify_red">#FF2D00</color>
     <color name="unlistening">#333393</color>
+
+    <color name="button_gray">#efefef</color>
+
 </resources>

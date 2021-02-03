@@ -1,18 +1,26 @@
 package com.sinagram.yallyandroid.Home.View
 
 import android.Manifest
+import android.R.attr.actionBarSize
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.sinagram.yallyandroid.Home.View.Fragment.FindPostFragment
+import com.sinagram.yallyandroid.Home.View.Fragment.FindUserFragment
 import com.sinagram.yallyandroid.Home.View.Fragment.SearchFragment
 import com.sinagram.yallyandroid.Home.View.Fragment.TimeLineFragment
 import com.sinagram.yallyandroid.R
@@ -31,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
         checkPermission()
         initialization()
         addSetOnNavigationItemSelectedListener()
+        setSearchView()
     }
 
     private fun initialization() {
@@ -46,15 +55,36 @@ class HomeActivity : AppCompatActivity() {
 
     private fun addSetOnNavigationItemSelectedListener() {
         home_bottom_navigationView.setOnNavigationItemSelectedListener { item ->
+            home_toolbar.visibility = View.GONE
+            setMarginToRecyclerView(0)
+
             val fragment = when (item.itemId) {
                 R.id.menu_home_stack -> TimeLineFragment()
-                R.id.menu_home_search -> SearchFragment()
+                R.id.menu_home_search -> {
+                    home_toolbar.visibility = View.VISIBLE
+                    val tv = TypedValue()
+                    if (theme.resolveAttribute(actionBarSize, tv, true)) {
+                        setMarginToRecyclerView(
+                            TypedValue.complexToDimensionPixelSize(
+                                tv.data,
+                                resources.displayMetrics
+                            )
+                        )
+                    }
+                    SearchFragment()
+                }
                 else -> TimeLineFragment()
             }
 
             replaceFragment(fragment)
             true
         }
+    }
+
+    private fun setMarginToRecyclerView(height: Int) {
+        val marginParams = MarginLayoutParams(home_fragment.layoutParams)
+        marginParams.setMargins(0, height, 0, 0)
+        home_fragment.layoutParams = CoordinatorLayout.LayoutParams(marginParams)
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -89,24 +119,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun checkPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) || ActivityCompat.shouldShowRequestPermissionRationale(
-                this, Manifest.permission.RECORD_AUDIO
-            )
-        ) {
-            AlertDialog.Builder(this)
-                .setTitle("알림")
-                .setMessage("권한이 거부되었습니다.\n사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
-                .setNeutralButton("설정") { _, _ ->
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = Uri.parse("package:$packageName")
-                    startActivity(intent)
-                }.setPositiveButton("확인") { _, _ -> finish() }
-                .setCancelable(false)
-                .create()
-                .show()
-        } else {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
@@ -124,13 +138,80 @@ class HomeActivity : AppCompatActivity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        when (requestCode) {
-            PERMISSION_CODE -> for (i in grantResults.indices) {
-                if (grantResults[i] < 0) {
-                    Toast.makeText(this, "해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show()
-                    return
-                }
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder(this)
+                    .setTitle("알림")
+                    .setMessage("권한이 거부되었습니다.\n사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
+                    .setNeutralButton("설정") { _, _ ->
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        intent.data = Uri.parse("package:$packageName")
+                        startActivity(intent)
+                    }.setPositiveButton("확인") { _, _ -> finish() }
+                    .setCancelable(false)
+                    .create()
+                    .show()
             }
+            return
+        }
+    }
+
+    private fun setSearchView() {
+        home_search_searchView.setOnSearchClickListener {
+            home_title_textView.visibility = View.GONE
+            home_search_cancel_textView.visibility = View.VISIBLE
+            home_search_searchView.maxWidth = Int.MAX_VALUE
+        }
+
+        home_search_searchView.setOnCloseListener {
+            home_title_textView.visibility = View.VISIBLE
+            home_search_cancel_textView.visibility = View.GONE
+            false
+        }
+
+        home_search_searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null && query.isNotEmpty()) {
+                    val fragment = when {
+                        query[0] == '@' -> {
+                            var searchWord = "$query "
+                            searchWord = searchWord.substring(1, searchWord.indexOf(" "))
+
+                            FindUserFragment().apply {
+                                arguments = Bundle().apply {
+                                    putString("findQuery", searchWord)
+                                }
+                            }
+                        }
+                        else -> {
+                            FindPostFragment().apply {
+                                arguments = Bundle().apply {
+                                    putString("findQuery", query)
+                                }
+                            }
+                        }
+                    }
+
+                    replaceFragment(fragment)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+        home_search_cancel_textView.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!home_search_searchView.isIconified) {
+            home_search_searchView.isIconified = true
+        } else {
+            super.onBackPressed()
         }
     }
 }

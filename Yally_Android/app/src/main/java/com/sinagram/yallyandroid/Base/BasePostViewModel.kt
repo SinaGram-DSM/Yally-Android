@@ -37,8 +37,9 @@ abstract class BasePostViewModel: ViewModel() {
                     post.id?.let { repository.doYally(it) }
                 }
 
-                result is Result.Success
+                result is Result.Success && result.code in 200..204
             }
+
             emit(isSuccess)
         }
     }
@@ -47,7 +48,7 @@ abstract class BasePostViewModel: ViewModel() {
         viewModelScope.launch {
             val result = repository.deletePost(id)
 
-            if (result is Result.Success) {
+            if (result is Result.Success && result.code == 204) {
                 successDeleteLiveData.postValue(index)
             } else {
                 Log.d("BasePostViewModel", (result as Result.Error).exception)
@@ -59,7 +60,7 @@ abstract class BasePostViewModel: ViewModel() {
         return liveData {
             val isSuccess = withContext(viewModelScope.coroutineContext) {
                 when (val result = repository.getListeningList()) {
-                    is Result.Success -> result.data!!.listeners
+                    is Result.Success -> result.data!!.listenings
                     is Result.Error -> listOf()
                 }
             }
@@ -77,7 +78,7 @@ abstract class BasePostViewModel: ViewModel() {
                     repository.doListening(email)
                 }
 
-                if (result is Result.Success) {
+                if (result is Result.Success && result.code == 200 ) {
                     if (state == StateOnPostMenu.LISTENING) {
                         StateOnPostMenu.UNLISTENING
                     } else {

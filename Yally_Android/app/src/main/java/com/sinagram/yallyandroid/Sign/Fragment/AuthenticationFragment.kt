@@ -69,10 +69,6 @@ class AuthenticationFragment : Fragment() {
             when (it) {
                 SignProcess.GetCode -> {
                     changeCodePage()
-                    signUpFragment.arguments = Bundle().apply {
-                        putString("Email", signUpRequest.email)
-                    }
-                    signUpRequest.email = ""
                 }
                 SignProcess.CheckCode -> {
                     signActivity.replaceFragment(signUpFragment)
