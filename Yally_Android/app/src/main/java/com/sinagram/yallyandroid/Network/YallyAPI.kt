@@ -1,6 +1,9 @@
 package com.sinagram.yallyandroid.Network
 
 import com.sinagram.yallyandroid.Detail.Data.CommentResponse
+import com.sinagram.yallyandroid.Profile.Data.ListenList
+import com.sinagram.yallyandroid.Profile.Data.User
+import com.sinagram.yallyandroid.Profile.Data.Posts
 import com.sinagram.yallyandroid.Home.Data.*
 import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
@@ -106,6 +109,38 @@ interface YallyAPI {
         @Path("email") email: String
     ): Response<ListeningResponse>
 
+    @GET("/profile/{email}")
+    suspend fun setProfile(
+            @Header("Authorization") header: String,
+            @Path("email") email: String
+    ): Response<User>
+
+    @Multipart
+    @PUT("/post")
+    suspend fun modifyProfile (
+            @Header("Authorization") header: String,
+            @Part nickname: MultipartBody.Part,
+            @Part image: MultipartBody.Part
+    ): Response<Void>
+
+    @GET("/profile/{email}/listening")
+    suspend fun getListening(
+            @Header("Authorization") header: String,
+            @Path("email") email: String
+    ): Response<ListenList>
+
+    @GET("/profile/{email}/listener")
+    suspend fun getListener(
+            @Header("Authorization") header: String,
+            @Path("email") email: String
+    ): Response<ListenList>
+
+    @GET("/mypage/timeline/{email}/{page}")
+    suspend fun setMyTimeLine(
+            @Header("Authorization") header: String,
+            @Path("email") email: String,
+            @Path("page") page: Int
+    ): Response<Posts>
 
     @GET("/search/post")
     suspend fun searchHashtag(
@@ -129,4 +164,5 @@ interface YallyAPI {
         @Part sound: MultipartBody.Part,
         @PartMap partMap: HashMap<String, RequestBody>
     ): Response<Void>
+
 }

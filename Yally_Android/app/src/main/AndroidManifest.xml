@@ -40,5 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Profile.Ui.ListenActivity" />
+        <activity android:name=".Profile.Ui.ModifyProfileActivity" />
     </application>
 </manifest>

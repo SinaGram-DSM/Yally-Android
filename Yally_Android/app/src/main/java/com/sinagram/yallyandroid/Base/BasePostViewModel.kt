@@ -13,6 +13,21 @@ abstract class BasePostViewModel: ViewModel() {
     val successDeleteLiveData: MutableLiveData<Int> = MutableLiveData()
     abstract var repository: BasePostRepository
 
+    fun clickYally(post: com.sinagram.yallyandroid.Profile.Data.Post): LiveData<Boolean> {
+        return liveData {
+            val isSuccess = withContext(viewModelScope.coroutineContext) {
+                val result = if (post.isYally) {
+                    post.id?.let { repository.cancelYally(it) }
+                } else {
+                    post.id?.let { repository.doYally(it) }
+                }
+
+                result is Result.Success
+            }
+            emit(isSuccess)
+        }
+    }
+
     fun clickYally(post: Post): LiveData<Boolean> {
         return liveData {
             val isSuccess = withContext(viewModelScope.coroutineContext) {
