@@ -136,9 +136,6 @@ class WritingActivity : AppCompatActivity() {
                     content
             )
 
-            /*requestHashMap["content"] =
-                    content.toRequestBody("multipart/form-data".toMediaTypeOrNull())*/
-
             var imagePart = MultipartBody.Part.createFormData(
                     "img",
                     getImageFile.name,
@@ -150,6 +147,7 @@ class WritingActivity : AppCompatActivity() {
 
             viewModel.writing(requestHashMap,contentPart, imagePart, soundPart)
         }
+
         changeView()
     }
 
