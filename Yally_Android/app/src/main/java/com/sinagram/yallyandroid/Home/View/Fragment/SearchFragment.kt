@@ -1,7 +1,6 @@
 package com.sinagram.yallyandroid.Home.View.Fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinagram.yallyandroid.Home.Data.Friend
-import com.sinagram.yallyandroid.Home.Data.User
 import com.sinagram.yallyandroid.Home.View.FindUserAdapter
 import com.sinagram.yallyandroid.Home.ViewModel.SearchViewModel
 import com.sinagram.yallyandroid.R
