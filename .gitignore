@@ -87,3 +87,4 @@ lint/tmp/
 Yally_Android/.idea/
 
 Yally_Android/app/src/test/java/com/sinagram/yallyandroid/ExampleUnitTest.kt
+.DS_Store
