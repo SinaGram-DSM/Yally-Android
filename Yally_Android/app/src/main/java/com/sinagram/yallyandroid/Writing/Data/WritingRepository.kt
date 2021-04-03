@@ -9,9 +9,9 @@ import okhttp3.RequestBody
 class WritingRepository : BaseRepository() {
 
 
-    suspend fun writing(hashMap: HashMap<String, RequestBody>, contentPartBody: MultipartBody.Part, imgPartBody: MultipartBody.Part,soundPartBody: MultipartBody.Part): Result<Void> {
+    suspend fun writing(hashtag: HashMap<String, RequestBody>, content: MultipartBody.Part, image: MultipartBody.Part, sound: MultipartBody.Part): Result<Void> {
         return mappingToResult {
-            YallyConnector.createAPI().writing(hashMap, contentPartBody,imgPartBody,soundPartBody)
+            YallyConnector.createAPI().writing(hashtag, content, image, sound)
         }
     }
 
