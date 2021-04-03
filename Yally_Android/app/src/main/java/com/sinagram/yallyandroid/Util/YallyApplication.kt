@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 
 class YallyApplication: Application() {
+
     override fun onCreate() {
         context = applicationContext
         super.onCreate()

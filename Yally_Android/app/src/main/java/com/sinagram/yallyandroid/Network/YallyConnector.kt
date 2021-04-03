@@ -17,6 +17,7 @@ object YallyConnector {
 
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(TokenAuthenticator())
             .build()
 
         retrofit = Retrofit.Builder()
