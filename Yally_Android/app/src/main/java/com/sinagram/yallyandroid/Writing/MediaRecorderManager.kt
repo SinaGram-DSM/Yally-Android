@@ -16,6 +16,7 @@ class MediaRecorder {
 
             try{
                 prepare()
+                start()
             }catch (e: IOException){
                 Log.e("MediaRecorder","prepare() failed")
             }
