@@ -12,8 +12,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.sinagram.yallyandroid.Home.View.Fragment.TimeLineFragment
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Writing.ViewModel.WritingViewModel
 import kotlinx.android.synthetic.main.activity_writing.*
@@ -83,7 +83,7 @@ class WritingActivity : AppCompatActivity() {
 
     private fun changeView() {
         val transaction = supportFragmentManager.beginTransaction().let {
-            it.replace(R.id.fragment_time_line, newFragment)
+            it.replace(R.id.home_fragment, TimeLineFragment())
             it.addToBackStack(null)
             it.commit()
         }
