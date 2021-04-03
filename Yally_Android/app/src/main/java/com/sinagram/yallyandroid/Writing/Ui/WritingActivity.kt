@@ -29,7 +29,6 @@ class WritingActivity : AppCompatActivity() {
     private lateinit var imageFile: File
     private lateinit var soundFile: File
     private lateinit var getSoundFile: File
-    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
     private val viewModel: WritingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,9 +83,9 @@ class WritingActivity : AppCompatActivity() {
 
     private fun changeView() {
         val transaction = supportFragmentManager.beginTransaction().let {
-            /*it.replace(R.id.fragment_time_line, newFragment)
+            it.replace(R.id.fragment_time_line, newFragment)
             it.addToBackStack(null)
-            it.commit()*/
+            it.commit()
         }
     }
 
@@ -115,12 +114,6 @@ class WritingActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = MediaStore.Images.Media.CONTENT_TYPE
             startActivityForResult(intent, REQUEST_OPEN_GALLERY)
-        } else {
-            ActivityCompat.requestPermissions(
-                    this@WritingActivity,
-                    permissions,
-                    REQUEST_OPEN_GALLERY
-            )
         }
     }
 
