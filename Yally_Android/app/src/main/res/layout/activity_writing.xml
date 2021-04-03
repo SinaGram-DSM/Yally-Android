@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/ground_color"
+    android:orientation="vertical"
+    tools:context=".Writing.Ui.WritingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ground_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/writing_profile_imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <EditText
+            android:id="@+id/writing_writing_edit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint = "당신의 이야기를 들려주세요!"
+            android:textColor="@color/writing_text_gray"
+            android:background="@android:color/transparent"
+            android:maxLength="100"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="#e5e5e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp">
+
+        <Button
+            android:id="@+id/writing_recording_button"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/writing_button"
+            android:drawableLeft="@drawable/icon_mic"
+            android:paddingLeft="8dp"
+            android:textColor="@color/writing_text_gray"
+            android:text="@string/record"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/writing_voiceFile_button"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/writing_text_gray"
+            android:background="@drawable/writing_button"
+            android:drawableLeft="@drawable/icon_sound"
+            android:paddingLeft="8dp"
+            android:text="@string/voice_file"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/writing_voiceCover_button"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/writing_text_gray"
+            android:background="@drawable/writing_button"
+            android:drawableLeft="@drawable/icon_picture"
+            android:paddingLeft="8dp"
+            android:text="@string/voice_cover"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:id="@+id/writing_voice_imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"/>
+
+        <ImageButton
+            android:id="@+id/writing_deleteVoice_button"
+            android:layout_width="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_height="6dp"
+            android:backgroundTint="#707070"
+            android:src="@drawable/icon_delete"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/writing_voiceCover_imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"/>
+
+        <ImageButton
+            android:id="@+id/writing_deleteCover_button"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="6dp"
+            android:backgroundTint="#707070"
+            android:src="@drawable/icon_delete"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/writing_recording_imageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/recording_button"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/writing_recording_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="3dp"
+            android:text="00:00"
+            android:textColor="@color/writing_red"
+            android:textSize="11sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/writing_text_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/writing_button"
+            android:textColor="@color/writing_red"
+            android:textSize="11sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#e5e5e5" />
+
+</LinearLayout>
