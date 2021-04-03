@@ -4,16 +4,14 @@ import android.app.Application
 import android.content.Context
 
 class YallyApplication: Application() {
+
     override fun onCreate() {
-        instance = this
+        context = applicationContext
         super.onCreate()
     }
 
     companion object {
-        var instance: YallyApplication? = null
+        var context: Context? = null
             private set
-
-        val context: Context?
-            get() = instance
     }
 }

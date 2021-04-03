@@ -26,14 +26,15 @@ class TokenAuthenticator : Interceptor {
                 }
                 val intent = Intent(YallyApplication.context, SignActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("splash", "splash_login")
                 YallyApplication.context!!.startActivity(intent)
             }
             403 -> {
                 sharedPreferencesManager.isLogin = false
                 CoroutineScope(Dispatchers.Main).launch {
-                    val accessToken = SharedPreferencesManager.getInstance().accessToken
-                    if (accessToken != null) {
-                        getAccessToken(accessToken)
+                    val refreshToken = SharedPreferencesManager.getInstance().refreshToken
+                    if (refreshToken != null) {
+                        getAccessToken(refreshToken)
                     }
                 }
             }
@@ -41,19 +42,19 @@ class TokenAuthenticator : Interceptor {
         return mainResponse
     }
 
-    private suspend fun getAccessToken(accessToken: String) {
+    private suspend fun getAccessToken(refreshToken: String) {
         val token = withContext(Dispatchers.IO) {
-            YallyConnector.createAPI().refreshToken(accessToken)
+            YallyConnector.createAPI().refreshToken(refreshToken)
         }
 
         if (token.isSuccessful) {
             if (token.code() == 200) {
-                sharedPreferencesManager.accessToken = token.body()
+                sharedPreferencesManager.accessToken = "Bearer " + token.body()
             } else {
                 Log.e("TokenAuthenticator", "알 수 없는 오류")
             }
         } else {
-            Log.e("TokenAuthenticator", token.errorBody().toString())
+            Log.e("TokenAuthenticator", token.message())
         }
     }
 }

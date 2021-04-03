@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="bottom_bar_icons">
+        <item>@drawable/ic_edit_mark</item>
+    </array>
+
+    <array name="bottom_bar_colors">
+        <item>@color/white</item>
+        <item>@color/white</item>
+    </array>
+</resources>

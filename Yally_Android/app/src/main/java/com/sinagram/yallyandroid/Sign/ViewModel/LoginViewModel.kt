@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sinagram.yallyandroid.Network.Result
+import com.sinagram.yallyandroid.Sign.Data.LoginRequest
 import com.sinagram.yallyandroid.Sign.Data.PasswordProcess
 import com.sinagram.yallyandroid.Sign.Data.SignRepository
 import com.sinagram.yallyandroid.Sign.Data.TokenResponse
@@ -15,10 +16,10 @@ class LoginViewModel : ViewModel() {
     val errorSignLiveData: MutableLiveData<PasswordProcess> = MutableLiveData()
     val loginSuccessLiveData: MutableLiveData<PasswordProcess> = MutableLiveData()
 
-    fun mappingLoginInfo(email: String, password: String) {
+    fun mappingLoginInfo(loginRequest: LoginRequest) {
         val hashMap = HashMap<String, String>()
-        hashMap["email"] = email
-        hashMap["password"] = password
+        hashMap["email"] = loginRequest.email
+        hashMap["password"] = loginRequest.password
         sendLoginInfo(hashMap)
     }
 
@@ -26,7 +27,7 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             when (val result = repository.doLogin(body)) {
                 is Result.Success -> {
-                    loginSuccess(result)
+                    loginSuccess(result, body["email"]!!)
                 }
                 is Result.Error -> {
                     errorSignLiveData.postValue(PasswordProcess.Login)
@@ -36,11 +37,12 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun loginSuccess(result: Result.Success<TokenResponse>) {
+    private fun loginSuccess(result: Result.Success<TokenResponse>, email: String) {
         if (result.code == 200) {
             loginSuccessLiveData.postValue(PasswordProcess.Login)
-            repository.putToken(result.data)
+            repository.putToken(result.data!!)
             repository.putLoginInfo(true)
+            repository.putUserEmail(email)
         } else {
             errorSignLiveData.postValue(PasswordProcess.Login)
         }

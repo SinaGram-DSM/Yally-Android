@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Yally Android</string>
-  
+    <string name="app_name">Yally</string>
+
     <string name="welcome_yally">yally에 오신 것을 환영합니다</string>
     <string name="slash_writing">로그인을 통해 더 넓은 세상을 들으세요.\n아름다운 길거리 공연, 페스티벌, 기타 연주,\n대화, 심지어 동물소리까지! 상상 그 이상의\n것을 담아 전 세계에 공유하세요.</string>
     <string name="slash_signUp">아직 계정이 없으신가요?</string>
@@ -37,4 +37,38 @@
     <string name="email_format_not_correct">이메일 형식이 올바르지 않습니다</string>
     <string name="auth_code_not_correct">인증번호가 올바르지 않습니다</string>
     <string name="nickname_was_exist">이미 존재하는 닉네임입니다</string>
+
+    <string name="dot">•</string>
+    <string name="do_yally">얄리하기</string>
+    <string name="do_comment">댓글달기</string>
+    <string name="yally_count">얄리 %d개</string>
+    <string name="comment_count">댓글 %d개</string>
+    <string name="cancel">취소</string>
+    <string name="delete_dialog_description">게시글을 삭제하면 다시 되돌릴 수 없습니다.</string>
+    <string name="delete_dialog_title">게시글 삭제</string>
+    <string name="post">게시물</string>
+    <string name="enter_comment">댓글을 입력하세요</string>
+    <string name="input">입력</string>
+    <string name="delete">삭제</string>
+  
+    <string name="listening">리스닝</string>
+    <string name="listener">리스너</string>
+    <string name="save">저장</string>
+    <string name="logout">로그아웃</string>
+    <string name="profile">프로필</string>
+
+    <string name="recomended_friend">추천친구</string>
+    <string name="search_result">검색결과</string>
+    <string name="more">더보기</string>
+    <string name="briefly">적게보기</string>
+    <string name="complete">완료</string>
+    <string name="modify">수정</string>
+    <string name="record">녹음</string>
+    <string name="voice_file">음성 파일</string>
+    <string name="voice_cover">음성커버</string>
+
+    <string name="writing">글쓰기</string>
+    <string name="writing_button">버튼을 누르면 녹음이 종료됩니다.</string>
+    <string name="upload"> 업로드</string>
+
 </resources>

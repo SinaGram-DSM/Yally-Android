@@ -2,7 +2,6 @@ package com.sinagram.yallyandroid.Sign.Fragment
 
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.sinagram.yallyandroid.R
 import com.sinagram.yallyandroid.Sign.Data.SignProcess
+import com.sinagram.yallyandroid.Sign.Data.SignUpRequest
 import com.sinagram.yallyandroid.Sign.SignActivity
 import com.sinagram.yallyandroid.Sign.ViewModel.SignUpViewModel
+import com.sinagram.yallyandroid.Util.TextWatcherImpl
 import kotlinx.android.synthetic.main.signinup_layout.*
 import kotlinx.android.synthetic.main.signinup_layout.view.*
-import java.util.regex.Pattern
 
 class AuthenticationFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel by viewModels()
-    private val emailPattern =
-        Pattern.compile("^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\\.([a-zA-Z])+([a-zA-Z])+")
-    private var email = ""
     private var pinCode = ""
     private var signUpFragment = SignUpFragment()
+    private val signUpRequest = SignUpRequest()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,25 +37,17 @@ class AuthenticationFragment : Fragment() {
 
         view.apply {
             changeEmailPage()
-            signinup_email_editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            signinup_email_editText.addTextChangedListener(object : TextWatcherImpl() {
+                override fun afterTextChanged(s: Editable?) {
                     signinup_email_inputLayout.error = null
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    email = p0.toString()
+                    signUpRequest.email = s.toString()
                     activeButton(signinup_doSign_button)
                 }
             })
-            signinup_authCode_pinView.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            signinup_authCode_pinView.addTextChangedListener(object : TextWatcherImpl() {
+                override fun afterTextChanged(s: Editable?) {
                     signinup_pinError_textView.text = null
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    pinCode = p0.toString()
+                    pinCode = s.toString()
                     activeButton(signinup_doSign_button)
                 }
             })
@@ -79,10 +69,6 @@ class AuthenticationFragment : Fragment() {
             when (it) {
                 SignProcess.GetCode -> {
                     changeCodePage()
-                    signUpFragment.arguments = Bundle().apply {
-                        putString("Email", email)
-                    }
-                    email = ""
                 }
                 SignProcess.CheckCode -> {
                     signActivity.replaceFragment(signUpFragment)
@@ -113,22 +99,21 @@ class AuthenticationFragment : Fragment() {
         }
 
         signUpFragment.arguments = Bundle().apply {
-            putString("Email", email)
+            putString("Email", signUpRequest.email)
         }
-        email = ""
+        signUpRequest.email = ""
     }
 
     private fun activeButton(button: Button) {
         button.apply {
+            setBackgroundResource(R.drawable.button_gradient)
             when {
-                email.length <= 30 && emailPattern.matcher(email).matches() -> {
-                    setBackgroundResource(R.drawable.button_gradient)
+                signUpRequest.scanEnteredEmail() -> {
                     setOnClickListener {
-                        signUpViewModel.getAuthCode(email)
+                        signUpViewModel.getAuthCode(signUpRequest.email)
                     }
                 }
-                pinCode.length == 6 -> {
-                    setBackgroundResource(R.drawable.button_gradient)
+                signUpRequest.scanEnteredPinCode(pinCode) -> {
                     setOnClickListener {
                         signUpViewModel.checkAuthCode(pinCode)
                     }
