@@ -1,6 +1,5 @@
 package com.sinagram.yallyandroid.Writing.ViewModel
 
-import android.media.MediaRecorder
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,20 +8,27 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import okhttp3.RequestBody
 import com.sinagram.yallyandroid.Network.Result
+import com.sinagram.yallyandroid.Writing.MediaRecorderManager
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import java.lang.Exception
 
 class WritingViewModel : ViewModel() {
     private val repository = WritingRepository()
-    var mediaRecorder: MediaRecorder? = null
     private var havefile = false
+    private val recorderManager = MediaRecorderManager()
 
-    fun writing(hashMap:HashMap<String, RequestBody>, contentPart: MultipartBody.Part, imgPartBody: MultipartBody.Part,soundPartBody: MultipartBody.Part) {
+    fun writing(soundFile: File, imageFile: File, getContent: String) {
+        val sound = changeSound(soundFile)
+        val image = changeImage(imageFile)
+        val content = changeContent(getContent)
+        val hashtag = changeHashtag(getContent)
+
         viewModelScope.launch {
-            Log.e("WritingViewModel",hashMap.toString())
-
-
-            val result = repository.writing(hashMap, contentPart, imgPartBody, soundPartBody)
+            val result = repository.writing(hashtag, content, image, sound)
 
             if (result is Result.Success) {
                 Log.e("WritingViewModel", "writing Success")
@@ -37,42 +43,43 @@ class WritingViewModel : ViewModel() {
             viewModelScope.launch {
                 val recordingTask = launch {
                     withTimeout(10000) {
-                        mediaRecorder = MediaRecorder()
-                        mediaRecorder?.let {
-                            it.setAudioSource(android.media.MediaRecorder.AudioSource.MIC)
-                            it.setOutputFormat(android.media.MediaRecorder.OutputFormat.MPEG_4)
-                            it.setAudioEncoder(android.media.MediaRecorder.AudioEncoder.DEFAULT)
-                            it.setOutputFile(filepath)
-                            it.prepare()
-                            it.start()
-                        }
+                        recorderManager.startRecorder(filepath)
                     }
                 }
                 if (!havefile && recordingTask.isCancelled) {
                     stopRecording()
                 }
             }
-
         } catch (e: Exception) {
-            println(e.message)
+            e.printStackTrace()
         }
-
     }
 
     fun stopRecording() {
-        mediaRecorder?.let {
-            it.stop()
-            it.release()
-            havefile = true
-        }
-        mediaRecorder = null
+        recorderManager.stopRecorder()
     }
 
-    fun hashtags(text: String): MutableList<String> {
+    private fun changeSound(soundFile: File): MultipartBody.Part {
+        return MultipartBody.Part.createFormData("sound", soundFile.name,
+                soundFile.asRequestBody("multipart/form-data".toMediaTypeOrNull()))
+
+    }
+
+    private fun changeImage(imageFile: File): MultipartBody.Part {
+        return MultipartBody.Part.createFormData("img", imageFile.name,
+                imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull()))
+    }
+
+    private fun changeContent(content: String): MultipartBody.Part {
+        return MultipartBody.Part.createFormData("content", content)
+    }
+
+    private fun changeHashtag(text: String): HashMap<String, RequestBody> {
         val str = text
         var isCharacter = false
         var index = 0
         val res = mutableListOf<Char>()
+        var requestHashMap: HashMap<String, RequestBody> = hashMapOf()
 
         while (str.length >= index + 1) {
             if (str[index] == '#') isCharacter = true
@@ -94,7 +101,11 @@ class WritingViewModel : ViewModel() {
                 }
             }
         }
-        return result
-    }
 
+        for(i in result.indices) {
+            requestHashMap["hashtag[$i]"] =
+                    result[i].toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        return requestHashMap
+    }
 }
