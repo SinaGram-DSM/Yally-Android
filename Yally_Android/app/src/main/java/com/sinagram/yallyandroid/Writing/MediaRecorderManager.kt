@@ -4,7 +4,7 @@ import android.media.MediaRecorder
 import android.util.Log
 import java.io.IOException
 
-class MediaRecorder {
+class MediaRecorderManager {
     var recorder: MediaRecorder? = null
 
     fun startRecorder(filepath: String){
