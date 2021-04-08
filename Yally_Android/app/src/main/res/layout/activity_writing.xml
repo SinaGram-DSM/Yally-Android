@@ -65,7 +65,7 @@
             android:drawableLeft="@drawable/icon_mic"
             android:paddingLeft="8dp"
             android:textColor="@color/gray"
-            android:text="@string/re"
+            android:text="@string/record"
             android:textSize="11sp" />
 
         <Button
