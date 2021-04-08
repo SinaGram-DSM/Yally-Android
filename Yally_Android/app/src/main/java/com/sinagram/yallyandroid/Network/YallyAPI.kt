@@ -13,19 +13,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface YallyAPI {
-
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8")
-    @Multipart
-    @POST("/post")
-    suspend fun writing (
-            @PartMap part: HashMap<String, RequestBody>,
-            @Part content: MultipartBody.Part,
-            @Part img: MultipartBody.Part,
-            @Part sound: MultipartBody.Part
-
-import java.io.File
-
-interface YallyAPI {
     @POST("/user/auth")
     suspend fun doLogin(@Body body: HashMap<String, String>): Response<TokenResponse>
 
@@ -177,4 +164,13 @@ interface YallyAPI {
         @PartMap partMap: HashMap<String, RequestBody>
     ): Response<Void>
 
+    @Multipart
+    @POST("/post")
+    suspend fun writing (
+        @Header("Authorization") header: String,
+        @PartMap part: HashMap<String, RequestBody>,
+        @Part content: MultipartBody.Part,
+        @Part img: MultipartBody.Part,
+        @Part sound: MultipartBody.Part
+    ): Response<Unit>
 }
