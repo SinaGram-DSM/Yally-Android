@@ -8,10 +8,11 @@ import okhttp3.RequestBody
 
 class WritingRepository : BaseRepository() {
 
+    suspend fun writing(hashtag: HashMap<String, RequestBody>, content: MultipartBody.Part, image: MultipartBody.Part, sound: MultipartBody.Part): Result<Unit> {
+        val token = getAccessToken()
 
-    suspend fun writing(hashtag: HashMap<String, RequestBody>, content: MultipartBody.Part, image: MultipartBody.Part, sound: MultipartBody.Part): Result<Void> {
         return mappingToResult {
-            YallyConnector.createAPI().writing(hashtag, content, image, sound)
+            YallyConnector.createAPI().writing(token!!, hashtag, content, image, sound)
         }
     }
 
