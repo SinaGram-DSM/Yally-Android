@@ -39,7 +39,7 @@ class WritingActivity : AppCompatActivity() {
 
         writing_recording_button.setOnClickListener {
             count++
-            recording(count)
+            recording()
         }
 
         writing_voiceCover_button.setOnClickListener {
@@ -147,7 +147,7 @@ class WritingActivity : AppCompatActivity() {
         }
     }
 
-    private fun recording(count: Int) {
+    private fun recording() {
         soundIs = true
         when (count % 2) {
             0 -> {
