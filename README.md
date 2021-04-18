@@ -8,7 +8,7 @@
 - 정유빈
     - 회원가입&로그인
     - 메인화면
-    - 검새
+    - 검색
 
 ## Technologies Used
 - Kotlin
